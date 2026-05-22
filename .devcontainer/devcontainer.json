@@ -1,0 +1,8 @@
+
+{
+  "name": "Texas Knife Barn",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "tkb-dev",
+  "workspaceFolder": "/workspace"
+}
+

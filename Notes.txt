@@ -1,0 +1,63 @@
+
+docker compose down --remove-orphans
+docker compose build --no-cache
+docker compose up -d
+docker ps
+docker exec -it tkb-dev bash
+#
+# current workflow recommended
+#
+
+
+docker compose build --no-cache
+docker compose up -d
+
+# Enter workspace
+docker exec -it tkb-dev bash
+
+# Install Deps manually
+pnpm install
+
+# Start apps manually
+pnpm dev
+
+# From inside the container to disable Turbo Telemetry
+pnpm dlx turbo telemetry status
+
+
+#
+/workspace
+  docker-compose.yml
+  package.json
+  pnpm-workspace.yaml
+  turbo.json
+
+  apps/
+    admin/
+    knifestore/
+
+  packages/
+    ui/
+    auth/
+    db/
+
+
+/workspace
+  package.json
+  pnpm-workspace.yaml
+  pnpm-lock.yaml
+  turbo.json
+
+  apps/
+    admin/
+      package.json
+      next.config.ts
+
+    knifestore/
+      package.json
+      next.config.ts
+
+  packages/
+    ui/
+    auth/
+    db/
