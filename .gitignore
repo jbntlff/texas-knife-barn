@@ -23,9 +23,11 @@ pnpm-debug.log*
 
 # macOS
 .DS_Store
+*.log
 
 # turbo
 .turbo
+.vercel
 
 # docker
 docker-data
@@ -38,6 +40,8 @@ coverage
 
 # supabase
 .supabase
+supabase/.temp
+supabase/.branches
 
 .pnpm-store
 
