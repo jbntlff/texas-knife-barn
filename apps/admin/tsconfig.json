@@ -13,13 +13,16 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "types":["node"],
+    "types":["react","react-dom","node"],
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
+      "@tkb/auth/*": [ 
+        "../../packages/auth/*" 
+      ],
       "@/*": ["./*"]
     }
   },

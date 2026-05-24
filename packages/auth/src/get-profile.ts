@@ -20,5 +20,10 @@ export async function getProfile() {
       .single()
 
 
+
+  if (error) {
+    console.log('GET_PROFILE: got error back from select ', error)
+
+  } 
   return profile
 }

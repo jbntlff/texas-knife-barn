@@ -37,12 +37,14 @@ export default function LoginPage() {
     }
     console.log("logging into supabase with: %s", email)
 
-    router.push("/dashboard")
-    // router.refresh()
+    if (!error) {
+      router.push("/dashboard")
+      router.refresh()
+    }
   }
 
   return (
-    <div style={{ padding: 40 }}>
+    <div style={{ padding: 40 }} >
       <h1>Admin Login</h1>
 
       <form onSubmit={handleLogin}>
