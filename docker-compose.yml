@@ -45,6 +45,7 @@ services:
       - ./:/workspace
       - pnpm_store:/pnpm/store
       - pnpm_home:/pnpm
+      - ~/.gitconfig:/home/node/.gitconfig:ro
 
     tty: true
     stdin_open: true
