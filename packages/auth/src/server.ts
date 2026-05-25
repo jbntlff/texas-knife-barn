@@ -2,6 +2,13 @@ import { cookies } from "next/headers"
 
 import { createServerClient } from "@supabase/ssr"
 
+export { requireAdmin } from "./require-admin"
+export { updateSession } from "./proxy"
+
+export { requireUser } from "./require-user"
+export { isAdmin } from "./is-admin"
+
+
 export async function createServerSupabaseClient() {
   const cookieStore = await cookies()
 

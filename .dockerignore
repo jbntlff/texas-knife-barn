@@ -1,7 +1,19 @@
 
 node_modules
+.pnpm-store
 .next
-.git
+turbo
 dist
+build
 coverage
+.git
+.gitignore
 
+apps/*/.next
+apps/*/node_modules
+
+packages/*/node_modules
+
+.env
+.env.local
+.env.production

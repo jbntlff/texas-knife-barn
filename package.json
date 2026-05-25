@@ -1,9 +1,26 @@
 {
   "name": "texas-knife-barn",
   "private": true,
+  "packageManager": "pnpm@11.2.2",
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "16.2.6",
+    "turbo": "^2.9.14",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.4"
+  }
 }
-

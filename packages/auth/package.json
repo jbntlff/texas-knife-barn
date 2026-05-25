@@ -2,9 +2,13 @@
   "name": "@tkb/auth",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
+  "scripts": {
+  	"typecheck": "tsc --noEmit"
+  },
   "exports": {
-    ".": "./index.ts",
-    "./server": "./server/index.ts"
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

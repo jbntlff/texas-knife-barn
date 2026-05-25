@@ -12,44 +12,44 @@ services:
     restart: unless-stopped
 
     extra_hosts:
+      - "host.docker.internal:host-gateway"
       - "tkb.local:host-gateway"
 
     ports:
       - "3000:3000"
       - "3001:3001"
 
+    user: "1000:1000"
+
     environment:
       NODE_ENV: development
+
       NEXT_TELEMETRY_DISABLE: "1"
       TURBO_TELEMETRY_DISABLED: "1"
 
-      PNPM_HOME: /pnpm
-
-
-      # Database
-      DATABASE_URL: postgres://postgres:postgres@host.docker.internal:5432/knifestore
-
-      # Supabase
-      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
-      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
-
-      SUPABASE_URL: ${SUPABASE_URL}
-
-      # Auth
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-
-      # macOS Docker hot reload fixes
       CHOKIDAR_USEPOLLING: "true"
       WATCHPACK_POLLING: "true"
 
+      PNPM_HOME: /pnpm
+
+      DATABASE_URL: postgres://postgres:postgres@host.docker.internal:5432/knifestore
+
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      SUPABASE_URL: ${SUPABASE_URL}
+
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+
     volumes:
       - ./:/workspace
-      - node_modules:/workspace/node_modules
       - pnpm_store:/pnpm/store
       - pnpm_home:/pnpm
 
+    tty: true
+    stdin_open: true
+
 volumes:
-  node_modules:
   pnpm_store:
   pnpm_home:
+

@@ -21,7 +21,7 @@ export async function updateSession(
   })
 
   const supabase = createServerClient(
-    process.env.SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
@@ -61,11 +61,6 @@ export async function updateSession(
     data: { user },
     error,
   } = await supabase.auth.getUser()
-
-  console.log(
-    "SUPABASE GET USER ERROR",
-    error
-  )
 
   return {
     user,
