@@ -13,6 +13,12 @@ Tasks:
 5. Brands
 
 
+To restart or continue provide the contents of the following files:
+
+cat Notes/NEX_STEPS.md
+cat Notes/CURRENT_SPRINT.md
+
+
 When we stop working: 
 
 Last completed:
@@ -24,8 +30,5 @@ Next:
 - Create /products/[slug] page
 
 
-To restart or continue provide the contents of the following files:
 
-cat Notes/NEX_STEPS.md
-cat Notes/CURRENT_SPRINT.md
 

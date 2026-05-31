@@ -41,15 +41,13 @@ services:
 
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
 
-      SSH_AUTH_SOCK: /ssh-agent
-
     volumes:
       - ./:/workspace
       - pnpm_store:/pnpm/store
       - pnpm_home:/pnpm
       - ~/.gitconfig:/home/node/.gitconfig:ro
-      - ${SSH_AUTH_SOCK}:/ssh-agent
       - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.ssh:/root/.ssh:ro
 
 
     tty: true
