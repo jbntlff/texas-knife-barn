@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     openssl \
     vim \
+    tree \
     && rm -rf /var/lib/apt/lists/*
 
 # install modern docker cli
