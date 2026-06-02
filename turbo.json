@@ -1,6 +1,6 @@
 
 {
-  "$schema": "https://turbo.build/schema.json",
+  "$schema": "https://v2-9-16.turborepo.dev/schema.json",
 
   "tasks": {
     "build": {
