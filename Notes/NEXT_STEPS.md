@@ -30,5 +30,17 @@ Next:
 - Create /products/[slug] page
 
 
+06/02/2026 Next:
+NEXT:
+ProductCard component
+
+AFTER:
+Product image gallery
+
+THEN:
+Variant selector
+
+THEN:
+Search
 
 
