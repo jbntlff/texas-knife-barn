@@ -11,11 +11,18 @@ export async function getProducts() {
       brands (*),
       categories (*),
       product_images(*),
-      product_variants(*)
+      product_variants(
+        *,
+        variant_options(*)
+      )
     `)
     .eq("status", "active");
 
   if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
     throw error;
   }
 
@@ -31,13 +38,20 @@ export async function getProductBySlug(slug: string) {
       *,
       brands (*),
       categories (*),
-      product_variants (*),
+      product_variants (
+      *,
+      variant_options(*)
+      ),
       product_images (*)
     `)
     .eq("slug", slug)
     .single();
 
   if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
     throw error;
   }
 
@@ -63,12 +77,19 @@ export async function getProductsByBrandSlug(slug: string) {
       slug
       ),
       product_images (*),
-      product_variants (*)
+      product_variants (
+       *,
+        variant_options(*)
+      )
     `)
     .eq("status", "active")
     .eq("brands.slug", slug);
 
   if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
     throw error;
   }
 
@@ -102,12 +123,19 @@ export async function getProductsByBrandId(brandId: string) {
       brands (*),
       categories (*),
       product_images (*),
-      product_variants (*)
+      product_variants (
+        *,
+        variant_options(*)
+      )
     `)
     .eq("status", "active")
     .eq("brand_id", brandId);
 
   if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
     throw error;
   }
 
@@ -141,12 +169,20 @@ export async function getProductsByCategoryId(categoryId: string) {
       brands (*),
       categories (*),
       product_images (*),
-      product_variants (*)
+      product_variants (
+        *,
+        variant_options(*)
+      )
     `)
     .eq("status", "active")
     .eq("category_id", categoryId);
 
   if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
+
     throw error;
   }
 

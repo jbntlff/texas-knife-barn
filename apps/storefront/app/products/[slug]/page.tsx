@@ -1,10 +1,9 @@
 // Product Detail Page.
 //
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-
 import { getProductBySlug } from "@tkb/database";
+import { ProductGallery } from "@/components/product-gallery";
 
 type PageProps = {
   params: Promise<{
@@ -17,35 +16,20 @@ export default async function ProductPage({ params }: PageProps) {
 
   const product = await getProductBySlug(slug);
 
-  console.log(JSON.stringify(product, null, 2));
-
   if (!product) {
     notFound();
   }
 
-  const image = product.product_images?.[0];
   const variant = product.product_variants?.[0];
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">
       <div className="grid gap-10 md:grid-cols-2">
         <div>
-          {image ? (
-            <div className="overflow-hidden rounded-lg border">
-              <Image
-                src={image.image_url}
-                alt={image.alt_text ?? product.name}
-                width={800}
-                height={800}
-                className="h-auto w-full object-cover"
-                priority
-              />
-            </div>
-          ) : (
-            <div className="flex aspect-square items-center justify-center rounded-lg border bg-muted">
-              No Image Available
-            </div>
-          )}
+          <ProductGallery
+            images={product.product_images ?? []}
+            productName={product.name}
+          />
         </div>
 
         <div>

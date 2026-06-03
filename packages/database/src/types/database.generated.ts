@@ -238,6 +238,38 @@ export type Database = {
           },
         ]
       }
+      variant_options: {
+        Row: {
+          created_at: string
+          id: string
+          option_name: string
+          option_value: string
+          variant_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          option_name: string
+          option_value: string
+          variant_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          option_name?: string
+          option_value?: string
+          variant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "variant_options_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

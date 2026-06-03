@@ -1,0 +1,1 @@
+select name, slug from products order by name;

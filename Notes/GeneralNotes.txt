@@ -1,3 +1,17 @@
+
+
+#
+#I would add this to your project notes because you'll use it every time you add:
+#
+#tables
+#columns
+#foreign keys
+#views
+
+supabase gen types typescript \
+  --db-url "postgresql://postgres:postgres@host.docker.internal:54322/postgres" \
+  > packages/database/src/types/database.generated.ts
+
 # Startup workflow
 #
 # Host:
