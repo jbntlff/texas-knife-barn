@@ -1,5 +1,6 @@
 "use client";
 
+import { Specifications } from "./specifications";
 import { useMemo, useState } from "react";
 import { VariantSelector } from "./variant-selector";
 
@@ -19,10 +20,20 @@ type ProductVariant = {
   variant_options: VariantOption[];
 };
 
+type ProductAttribute = {
+  id: string;
+  attribute_name: string;
+  attribute_value: string;
+  sort_order: number;
+};
+
 type ProductDetailProps = {
   product: {
     short_description?: string | null;
     description?: string | null;
+
+    product_attributes: ProductAttribute[];
+
     product_variants: ProductVariant[];
   };
 };
@@ -51,7 +62,7 @@ export function ProductDetail({
           variant.variant_options.every(
             (option) =>
               selectedOptions[
-                option.option_name
+              option.option_name
               ] === option.option_value
           )
       ) ?? firstVariant
@@ -122,6 +133,9 @@ export function ProductDetail({
           </p>
         </div>
       )}
+      <Specifications
+        attributes={product.product_attributes ?? []}
+      />
     </>
   );
 }

@@ -3,4 +3,4 @@ select
   attribute_value
 from public.product_attributes
 where product_id = '55555555-5555-5555-5555-555555555557'
-order by sort_order;select count(*) from products;
+order by sort_order;

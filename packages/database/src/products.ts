@@ -10,6 +10,7 @@ export async function getProducts() {
       *,
       brands (*),
       categories (*),
+      product_attributes(*),
       product_images(*),
       product_variants(
         *,
@@ -38,6 +39,7 @@ export async function getProductBySlug(slug: string) {
       *,
       brands (*),
       categories (*),
+      product_attributes(*),
       product_variants (
       *,
       variant_options(*)
@@ -76,6 +78,7 @@ export async function getProductsByBrandSlug(slug: string) {
       name,
       slug
       ),
+      product_attributes(*),
       product_images (*),
       product_variants (
        *,
@@ -122,6 +125,7 @@ export async function getProductsByBrandId(brandId: string) {
       *,
       brands (*),
       categories (*),
+      product_attributes(*),
       product_images (*),
       product_variants (
         *,
@@ -168,6 +172,7 @@ export async function getProductsByCategoryId(categoryId: string) {
       *,
       brands (*),
       categories (*),
+      product_attributes(*),
       product_images (*),
       product_variants (
         *,
