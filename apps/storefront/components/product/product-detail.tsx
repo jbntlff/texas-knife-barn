@@ -3,6 +3,8 @@
 import { Specifications } from "./specifications";
 import { useMemo, useState } from "react";
 import { VariantSelector } from "./variant-selector";
+import { AddToCartButton } from "../cart/add-to-cart-button";
+import { formatPrice } from "@/lib/format-price";
 
 type VariantOption = {
   id: string;
@@ -29,6 +31,8 @@ type ProductAttribute = {
 
 type ProductDetailProps = {
   product: {
+    id: string;
+    name: string;
     short_description?: string | null;
     description?: string | null;
 
@@ -84,15 +88,12 @@ export function ProductDetail({
       <div className="mt-6">
         <div className="flex items-center gap-3">
           <span className="text-3xl font-bold">
-            ${Number(selectedVariant.price).toFixed(2)}
+              {formatPrice( selectedVariant.price)}
           </span>
 
           {selectedVariant.compare_at_price && (
             <span className="text-lg text-muted-foreground line-through">
-              $
-              {Number(
-                selectedVariant.compare_at_price
-              ).toFixed(2)}
+              {formatPrice( selectedVariant.compare_at_price)}
             </span>
           )}
         </div>
@@ -119,6 +120,17 @@ export function ProductDetail({
               [optionName]: optionValue,
             }))
           }
+        />
+      </div>
+
+      <div className="mt-6">
+        <AddToCartButton
+          productId={product.id}
+          variantId={selectedVariant.id}
+          productName={product.name}
+          variantTitle={selectedVariant.title}
+          sku={selectedVariant.sku}
+          price={selectedVariant.price}
         />
       </div>
 

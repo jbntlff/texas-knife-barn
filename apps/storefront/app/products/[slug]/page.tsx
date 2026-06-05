@@ -19,11 +19,6 @@ export default async function ProductPage({
 
   const product = await getProductBySlug(slug);
 
-  console.log('dumping product_attributes:', product);
-  console.dir(product.product_attributes, {
-    depth: null,
-  });
-
   if (!product) {
     notFound();
   }

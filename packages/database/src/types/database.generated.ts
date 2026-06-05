@@ -105,6 +105,103 @@ export type Database = {
           },
         ]
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          sku: string
+          unit_price: number
+          variant_id: string
+          variant_title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          sku: string
+          unit_price: number
+          variant_id: string
+          variant_title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          sku?: string
+          unit_price?: number
+          variant_id?: string
+          variant_title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          customer_email: string
+          grand_total: number
+          id: string
+          order_number: string
+          shipping_total: number
+          status: string
+          subtotal: number
+          tax_total: number
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          grand_total: number
+          id?: string
+          order_number: string
+          shipping_total?: number
+          status?: string
+          subtotal: number
+          tax_total?: number
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          grand_total?: number
+          id?: string
+          order_number?: string
+          shipping_total?: number
+          status?: string
+          subtotal?: number
+          tax_total?: number
+        }
+        Relationships: []
+      }
       product_attributes: {
         Row: {
           attribute_name: string

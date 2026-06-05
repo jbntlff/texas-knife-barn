@@ -1,1 +1,1 @@
-select * from products where id='55555555-5555-5555-5555-555555555560'
+select * from products
