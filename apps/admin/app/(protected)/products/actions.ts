@@ -24,13 +24,6 @@ export async function createProduct(
   const slug =
     formData.get("slug") as string
 
-  const price = Number(
-    formData.get("price")
-  )
-
-  const inventoryCount = Number(
-    formData.get("inventory_count")
-  )
 
   const { error } =
     await supabase
@@ -38,9 +31,6 @@ export async function createProduct(
       .insert({
         name,
         slug,
-        price,
-        inventory_count:
-          inventoryCount,
       })
 
   if (error) {

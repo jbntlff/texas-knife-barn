@@ -40,22 +40,27 @@ export default function RootLayout({
               Texas Knife Barn
             </Link>
 
-            <nav className="flex items-center gap-6">
-              <Link
-                href="/"
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Home
-              </Link>
+            <div className="flex items-center gap-6">
+              <form action="/search" className="hidden md:block" >
+                <input
+                  type="search"
+                  name="q"
+                  placeholder="Search knives..."
+                  className=" w-64 rounded-md border px-3 py-2 text-sm "
+                />
+              </form>
 
-              <Link
-                href="/cart"
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                Cart
-              </Link>
-            </nav>
-          </div>
+              <nav className="flex items-center gap-6">
+                <Link href="/" className="text-sm text-muted-foreground hover:text-foreground" >
+                  Home
+                </Link>
+
+                <Link href="/cart" className="text-sm text-muted-foreground hover:text-foreground" >
+                  Cart
+                </Link>
+              </nav>
+              </div>
+            </div>
         </header>
 
         <div className="flex-1">

@@ -310,7 +310,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      search_products: {
+        Args: { search_query: string }
+        Returns: {
+          id: string
+          name: string
+          slug: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
