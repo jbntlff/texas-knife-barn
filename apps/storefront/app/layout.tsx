@@ -41,13 +41,23 @@ export default function RootLayout({
             </Link>
 
             <div className="flex items-center gap-6">
-              <form action="/search" className="hidden md:block" >
+              <form
+                action="/search"
+                className="hidden md:flex items-center gap-2"
+              >
                 <input
                   type="search"
                   name="q"
                   placeholder="Search knives..."
-                  className=" w-64 rounded-md border px-3 py-2 text-sm "
+                  className="w-64 rounded-md border px-3 py-2 text-sm"
                 />
+
+                <button
+                  type="submit"
+                  className="rounded-md border px-3 py-2 text-sm hover:bg-muted"
+                >
+                  Search
+                </button>
               </form>
 
               <nav className="flex items-center gap-6">
@@ -59,8 +69,8 @@ export default function RootLayout({
                   Cart
                 </Link>
               </nav>
-              </div>
             </div>
+          </div>
         </header>
 
         <div className="flex-1">
