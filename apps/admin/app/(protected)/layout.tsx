@@ -1,54 +1,32 @@
 import Sidebar
-  from "../components/sidebar"
+  from "../components/sidebar";
 
 import LogoutButton
-  from "../components/logout-button"
+  from "../components/logout-button";
 
 import {
   requireAdmin,
-} from "@tkb/auth/server"
+} from "@tkb/auth/server";
 
 export default async function ProtectedLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   const profile =
-    await requireAdmin()
+    await requireAdmin();
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-      }}
-    >
-      <Sidebar />
+    <div className="flex min-h-screen bg-background">
+      <Sidebar email={profile.email}>
+        <LogoutButton />
+      </Sidebar>
 
-      <div
-        style={{
-          flex: 1,
-          padding: "2rem",
-        }}
-      >
-        <header>
-          <h1>
-            Texas Knife Barn Admin
-          </h1>
-
-          <p>
-            Signed in as:
-            {" "}
-            {profile.email}
-          </p>
-
-          <LogoutButton />
-        </header>
-
-        <main>
+      <div className="flex flex-1 flex-col">
+        <main className="flex-1 p-8">
           {children}
         </main>
       </div>
     </div>
-  )
+  );
 }

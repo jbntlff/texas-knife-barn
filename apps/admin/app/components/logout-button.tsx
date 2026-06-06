@@ -16,9 +16,11 @@ export default function LogoutButton() {
     router.push("/login")
     router.refresh()
   }
-
   return (
-    <button onClick={handleLogout}>
+    <button
+      onClick={handleLogout}
+      className=" rounded-lg border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted "
+    >
       Logout
     </button>
   )

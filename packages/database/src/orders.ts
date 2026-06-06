@@ -129,11 +129,88 @@ export async function getOrder(
         order_items(*)
       `)
       .eq("id", orderId)
-      .single();
+      .maybeSingle();
 
   if (error) {
     throw error;
   }
 
   return data;
+}
+
+export async function getOrders() {
+  const supabase =
+    createAdminClient();
+
+  const { data, error } =
+    await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", {
+        ascending: false,
+      });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function updateOrderStatus(
+  orderId: string,
+  status: string,
+) {
+  const supabase =
+    createAdminClient();
+
+  const { error } =
+    await supabase
+      .from("orders")
+      .update({
+        status,
+      })
+      .eq("id", orderId);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function getOrderMetrics() {
+  const orders =
+    await getOrders();
+
+  const totalOrders =
+    orders.length;
+
+  const pendingOrders =
+    orders.filter(
+      (order) =>
+        order.status ===
+        "pending",
+    ).length;
+
+  const revenue =
+    orders.reduce(
+      (sum, order) =>
+        sum +
+        Number(
+          order.grand_total,
+        ),
+      0,
+    );
+
+  const averageOrderValue =
+    totalOrders === 0
+      ? 0
+      : revenue /
+        totalOrders;
+
+  return {
+    totalOrders,
+    pendingOrders,
+    revenue,
+    averageOrderValue,
+  };
 }
