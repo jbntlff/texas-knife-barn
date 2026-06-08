@@ -20,7 +20,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/(protected)/products/actions.ts.b"  ],
 
   "exclude": [
     "node_modules"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCart } from "./cart-provider";
-import { formatPrice } from "@/lib/format-price"
+import { formatPrice } from "@tkb/ui"
 
 import type { CartItem as CartItemType }
   from "@/lib/cart";

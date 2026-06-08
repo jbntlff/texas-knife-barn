@@ -278,6 +278,7 @@ export type Database = {
           compare_at_price: number | null
           created_at: string
           id: string
+          inventory_quantity: number
           price: number
           product_id: string
           sku: string
@@ -288,6 +289,7 @@ export type Database = {
           compare_at_price?: number | null
           created_at?: string
           id?: string
+          inventory_quantity?: number
           price: number
           product_id: string
           sku: string
@@ -298,6 +300,7 @@ export type Database = {
           compare_at_price?: number | null
           created_at?: string
           id?: string
+          inventory_quantity?: number
           price?: number
           product_id?: string
           sku?: string
@@ -369,6 +372,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          role?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          role?: string
+        }
+        Relationships: []
       }
       variant_options: {
         Row: {

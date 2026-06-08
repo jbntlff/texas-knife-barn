@@ -1,13 +1,8 @@
-import { notFound }
-  from "next/navigation";
+import { notFound } from "next/navigation";
 
-import {
-  getOrder,
-} from "@tkb/database";
+import { getOrder, } from "@tkb/database";
 
-import {
-  formatPrice,
-} from "@/lib/format-price";
+import { formatPrice, } from "@tkb/ui";
 
 type PageProps = {
   params: Promise<{

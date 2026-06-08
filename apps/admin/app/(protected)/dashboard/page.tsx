@@ -1,19 +1,31 @@
 import Link from "next/link";
 
 import {
+  getInventoryMetrics,
   getOrderMetrics,
   getOrders,
 } from "@tkb/database";
+import { formatPrice } from "@tkb/ui";
+
 
 function StatCard({
   title,
   value,
+  href,
 }: {
   title: string;
   value: string | number;
+  href?: string;
 }) {
-  return (
-    <div className="rounded-xl border p-6">
+  const content = (
+    <div
+      className={[
+        "rounded-xl border p-6",
+        href
+          ? "cursor-pointer transition-colors hover:bg-muted/50"
+          : "",
+      ].join(" ")}
+    >
       <p className="text-sm text-muted-foreground">
         {title}
       </p>
@@ -23,17 +35,24 @@ function StatCard({
       </p>
     </div>
   );
+
+  if (!href) {
+    return content;
+  }
+
+  return (
+    <Link href={href}>
+      {content}
+    </Link>
+  );
 }
 
 export default async function DashboardPage() {
-  const metrics =
-    await getOrderMetrics();
 
-  const orders =
-    await getOrders();
-
-  const recentOrders =
-    orders.slice(0, 10);
+  const metrics = await getOrderMetrics();
+  const orders = await getOrders();
+  const inventoryMetrics = await getInventoryMetrics();
+  const recentOrders = orders.slice(0, 10);
 
   return (
     <div className="space-y-8">
@@ -47,31 +66,83 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          title="Total Orders"
-          value={metrics.totalOrders}
-        />
+      <div className="space-y-8">
+        <div>
+          <h2 className="mb-4 text-xl font-semibold">
+            Orders
+          </h2>
 
-        <StatCard
-          title="Pending Orders"
-          value={metrics.pendingOrders}
-        />
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <StatCard
+              title="Total Orders"
+              value={metrics.totalOrders}
+            />
 
-        <StatCard
-          title="Revenue"
-          value={`$${metrics.revenue.toFixed(
-            2,
-          )}`}
-        />
+            <StatCard
+              title="Pending Orders"
+              value={metrics.pendingOrders}
+            />
 
-        <StatCard
-          title="Average Order Value"
-          value={`$${metrics.averageOrderValue.toFixed(
-            2,
-          )}`}
-        />
+            <StatCard
+              title="Revenue"
+              value={formatPrice(metrics.revenue)}
+            />
+
+            <StatCard
+              title="Average Order Value"
+              value={formatPrice(metrics.averageOrderValue)}
+            />
+          </div>
+        </div>
+
+        <div>
+          <h2 className="mb-4 text-xl font-semibold">
+            Inventory
+          </h2>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+            <StatCard
+              title="Products"
+              value={
+                inventoryMetrics.productCount
+              }
+              href="/products"
+            />
+
+            <StatCard
+              title="Variants"
+              value={
+                inventoryMetrics.variantCount
+              }
+              href="/inventory"
+            />
+
+            <StatCard
+              title="Inventory Units"
+              value={
+                inventoryMetrics.totalUnits
+              }
+              href="/inventory"
+            />
+
+            <StatCard
+              title="Low Stock"
+              value={
+                inventoryMetrics.lowStockCount
+              }
+              href="/inventory"
+            />
+            <StatCard
+              title="Out of Stock"
+              value={
+                inventoryMetrics.outOfStockCount
+              }
+              href="/inventory"
+            />
+          </div>
+        </div>
       </div>
+
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -114,16 +185,15 @@ export default async function DashboardPage() {
                 (order) => (
                   <tr
                     key={order.id}
-                    className="border-b"
+                    className="border-b transition-colors hover:bg-muted/50"
                   >
+
                     <td className="p-4">
                       <Link
                         href={`/orders/${order.id}`}
-                        className="font-medium hover:underline"
+                        className="block font-medium hover:underline"
                       >
-                        {
-                          order.order_number
-                        }
+                        { order.order_number }
                       </Link>
                     </td>
 
@@ -140,10 +210,7 @@ export default async function DashboardPage() {
                     </td>
 
                     <td className="p-4 text-right">
-                      $
-                      {Number(
-                        order.grand_total,
-                      ).toFixed(2)}
+                      {formatPrice(order.grand_total)}
                     </td>
                   </tr>
                 ),

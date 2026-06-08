@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { CartItem } from "./cart-item";
 import { useCart } from "./cart-provider";
-import { formatPrice } from "@/lib/format-price"
+import { formatPrice } from "@tkb/ui"
 
 const continueShoppingHref = "/";
 

@@ -6,8 +6,4 @@ export async function submitOrder(
   const email =
     formData.get("email");
 
-  console.log(
-    "checkout submitted",
-    email,
-  );
 }

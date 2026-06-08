@@ -4,7 +4,7 @@ import { Specifications } from "./specifications";
 import { useMemo, useState } from "react";
 import { VariantSelector } from "./variant-selector";
 import { AddToCartButton } from "../cart/add-to-cart-button";
-import { formatPrice } from "@/lib/format-price";
+import { formatPrice } from "@tkb/ui";
 
 type VariantOption = {
   id: string;

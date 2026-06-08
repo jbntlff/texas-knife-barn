@@ -20,22 +20,17 @@ export default function LoginPage() {
     setError("")
 
     const supabase = createClient()
-
-    console.log('handleLogin: logging in with', email)
-
     const { error } =
       await supabase.auth.signInWithPassword({
         email,
         password,
       })
 
-    console.log("LOGIN RESULT", error)
 
     if (error) {
       setError(error.message)
       return
     }
-    console.log("logging into supabase with: %s", email)
 
     if (!error) {
       router.push("/dashboard")

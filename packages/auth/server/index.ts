@@ -67,11 +67,6 @@ export async function updateSession(
     error,
   } = await supabase.auth.getUser()
 
-  console.log(
-    "SUPABASE GET USER ERROR",
-    error
-  )
-
   return {
     user,
     response,

@@ -1,51 +1,113 @@
-import { createProduct }
-  from "./actions"
+import Link from "next/link";
+import { ChevronRight } from "lucide-react"
 
-export default function ProductsPage() {
+import { getProducts, } from "@tkb/database";
+
+export default async function ProductsPage() {
+  const products =
+    await getProducts();
+
   return (
-    <div>
-      <h2>Products</h2>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold">
+          Products
+        </h1>
 
-      <form action={createProduct}>
-        <div>
-          <input
-            name="name"
-            placeholder="Product Name"
-            required
-          />
-        </div>
+        <p className="text-muted-foreground">
+          Manage catalog inventory.
+        </p>
+      </div>
 
-        <div>
-          <input
-            name="slug"
-            placeholder="Slug"
-            required
-          />
-        </div>
+      <div className="rounded-xl border">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b">
+              <th className="p-4 text-left">
+                Product
+              </th>
 
-        <div>
-          <input
-            type="number"
-            step="0.01"
-            name="price"
-            placeholder="Price"
-            required
-          />
-        </div>
+              <th className="p-4 text-left">
+                Brand
+              </th>
 
-        <div>
-          <input
-            type="number"
-            name="inventory_count"
-            placeholder="Inventory"
-            required
-          />
-        </div>
+              <th className="p-4 text-left">
+                Category
+              </th>
 
-        <button type="submit">
-          Create Product
-        </button>
-      </form>
+              <th className="p-4 text-left">
+                Status
+              </th>
+              <th className="p-4 text-right">
+                Inventory
+              </th>
+              <th className="p-4 text-right">
+                Variants
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {products.map((product) => {
+
+              const inventory =
+                product.product_variants?.reduce(
+                  (total, variant) =>
+                    total +
+                    (variant.inventory?.quantity ?? 0),
+                  0,
+                ) ?? 0;
+
+              return (
+                <tr
+                  key={product.id}
+                  className="border-b"
+                >
+                  <td className="p-4">
+                    <Link href={`/products/${product.id}`}
+                      className="hover:underline'"
+                    >
+
+                      <div className="font-medium">
+                        {product.name}
+                      </div>
+
+                      <div className="text-sm text-muted-foreground">
+                        {product.slug}
+                      </div>
+                    </Link>
+                  </td>
+
+                  <td className="p-4">
+                    {product.brands?.name}
+                  </td>
+
+                  <td className="p-4">
+                    {product.categories?.name}
+                  </td>
+
+                  <td className="p-4">
+                    {product.status}
+                  </td>
+                  <td className="p-4 text-right">
+                    {inventory}
+                  </td>
+
+                  <td className="p-4 text-right">
+                    {
+                      product
+                        .product_variants
+                        ?.length
+                    }
+                  </td>
+                </tr>
+              )
+            })
+            }
+
+          </tbody>
+        </table>
+      </div>
     </div>
-  )
+  );
 }

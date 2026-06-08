@@ -19,9 +19,6 @@ export async function proxy(request: NextRequest) {
   const { user, response } =
     await updateSession(request)
 
-  console.log("proxy pathname:", pathname)
-  console.log("proxy user:", user?.email)
-
   if (!user) {
     return NextResponse.redirect(
       new URL("/login", request.url)

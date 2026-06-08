@@ -4,7 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  ShoppingBag,
   Package,
+  Receipt,
   ClipboardList,
   Users,
   Settings,
@@ -20,13 +22,18 @@ const navigation = [
   {
     name: "Products",
     href: "/products",
-    icon: Package,
+    icon: ShoppingBag,
 
+  },
+  {
+    name: "Inventory",
+    href: "/inventory",
+    icon: Package,
   },
   {
     name: "Orders",
     href: "/orders",
-    icon: ClipboardList,
+    icon: Receipt,
 
   },
   {
