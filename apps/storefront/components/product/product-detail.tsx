@@ -46,24 +46,29 @@ export function ProductDetail({
   product,
 }: ProductDetailProps) {
   const firstVariant = product.product_variants[0];
+  if (!firstVariant) {
+    return null
+  }
 
   const [selectedOptions, setSelectedOptions] =
-    useState<Record<string, string>>(
-      Object.fromEntries(
-        firstVariant.variant_options.map(
-          (option) => [
-            option.option_name,
-            option.option_value,
-          ]
-        )
-      )
-    );
+  useState<Record<string, string>>(
+    Object.fromEntries(
+      (firstVariant.variant_options ?? []).map(
+        (option) => [
+          option.option_name,
+          option.option_value,
+        ],
+      ),
+    ),
+  );
+
+    
 
   const selectedVariant = useMemo(() => {
     return (
       product.product_variants.find(
         (variant) =>
-          variant.variant_options.every(
+          (variant.variant_options ?? []).every(
             (option) =>
               selectedOptions[
               option.option_name

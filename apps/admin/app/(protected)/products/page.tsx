@@ -9,14 +9,24 @@ export default async function ProductsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">
-          Products
-        </h1>
 
-        <p className="text-muted-foreground">
-          Manage catalog inventory.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">
+            Products
+          </h1>
+
+          <p className="text-muted-foreground">
+            Manage catalog inventory.
+          </p>
+        </div>
+
+        <Link
+          href="/products/new"
+          className=" rounded-lg border px-4 py-2 text-sm font-medium hover:bg-muted "
+        >
+          New Product
+        </Link>
       </div>
 
       <div className="rounded-xl border">

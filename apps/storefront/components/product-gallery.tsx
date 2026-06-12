@@ -35,6 +35,7 @@ export function ProductGallery({
       <div className="overflow-hidden rounded-lg border">
         <Image
           src={selectedImage.image_url}
+          unoptimized
           alt={selectedImage.alt_text ?? productName}
           width={800}
           height={800}
@@ -58,6 +59,7 @@ export function ProductGallery({
             >
               <Image
                 src={image.image_url}
+                unoptimized
                 alt={image.alt_text ?? productName}
                 width={150}
                 height={150}

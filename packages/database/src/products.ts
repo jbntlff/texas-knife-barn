@@ -27,7 +27,6 @@ export async function getProducts() {
     );
     throw error;
   }
-
   return data;
 }
 
@@ -81,7 +80,7 @@ export async function getProductBySlug(slug: string) {
       product_images (*)
     `)
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(

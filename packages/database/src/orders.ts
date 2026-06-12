@@ -30,22 +30,12 @@ export type CreateOrderInput = {
 export async function createOrder(
   input: CreateOrderInput,
 ) {
-  const supabase =
-    createAdminClient();
+  const supabase = createAdminClient();
 
-  const taxTotal =
-    input.taxTotal ?? 0;
-
-  const shippingTotal =
-    input.shippingTotal ?? 0;
-
-  const grandTotal =
-    input.subtotal +
-    taxTotal +
-    shippingTotal;
-
-  const orderNumber =
-    `TKB-${Date.now()}`;
+  const taxTotal = input.taxTotal ?? 0;
+  const shippingTotal = input.shippingTotal ?? 0;
+  const grandTotal = input.subtotal + taxTotal + shippingTotal;
+  const orderNumber = `TKB-${Date.now()}`;
 
   const {
     data: order,
@@ -54,21 +44,11 @@ export async function createOrder(
     .from("orders")
     .insert({
       order_number: orderNumber,
-
-      customer_email:
-        input.customerEmail,
-
-      subtotal:
-        input.subtotal,
-
-      tax_total:
-        taxTotal,
-
-      shipping_total:
-        shippingTotal,
-
-      grand_total:
-        grandTotal,
+      customer_email: input.customerEmail,
+      subtotal: input.subtotal,
+      tax_total: taxTotal,
+      shipping_total: shippingTotal,
+      grand_total: grandTotal,
     })
     .select()
     .single();
@@ -80,26 +60,13 @@ export async function createOrder(
   const orderItems =
     input.items.map((item) => ({
       order_id: order.id,
-
-      product_id:
-        item.productId,
-
-      variant_id:
-        item.variantId,
-
+      product_id: item.productId,
+      variant_id: item.variantId,
       sku: item.sku,
-
-      product_name:
-        item.productName,
-
-      variant_title:
-        item.variantTitle,
-
-      quantity:
-        item.quantity,
-
-      unit_price:
-        item.unitPrice,
+      product_name: item.productName,
+      variant_title: item.variantTitle,
+      quantity: item.quantity,
+      unit_price: item.unitPrice,
     }));
 
   const {
@@ -108,8 +75,53 @@ export async function createOrder(
     .from("order_items")
     .insert(orderItems);
 
+
   if (itemsError) {
     throw itemsError;
+  }
+
+  for (const item of input.items) {
+    const {
+      data: inventory,
+      error: inventoryError,
+    } = await supabase
+      .from("inventory")
+      .select("quantity")
+      .eq(
+        "variant_id",
+        item.variantId,
+      )
+      .maybeSingle();
+
+    if (inventoryError) {
+      throw inventoryError;
+    }
+
+    const currentQuantity =
+      inventory?.quantity ?? 0;
+
+    const newQuantity =
+      Math.max(
+        0,
+        currentQuantity -
+        item.quantity,
+      );
+
+    const {
+      error: updateError,
+    } = await supabase
+      .from("inventory")
+      .upsert({
+        variant_id:
+          item.variantId,
+
+        quantity:
+          newQuantity,
+      });
+
+    if (updateError) {
+      throw updateError;
+    }
   }
 
   return order;
@@ -205,7 +217,7 @@ export async function getOrderMetrics() {
     totalOrders === 0
       ? 0
       : revenue /
-        totalOrders;
+      totalOrders;
 
   return {
     totalOrders,
