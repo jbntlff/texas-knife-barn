@@ -30,6 +30,13 @@ export type CreateOrderInput = {
 export async function createOrder(
   input: CreateOrderInput,
 ) {
+
+  if (input.items.length === 0) {
+    throw new Error(
+      "Cannot create an order with no items.",
+    );
+  }
+
   const supabase = createAdminClient();
 
   const taxTotal = input.taxTotal ?? 0;
@@ -150,17 +157,36 @@ export async function getOrder(
   return data;
 }
 
-export async function getOrders() {
-  const supabase =
-    createAdminClient();
+export async function getOrders(
+  search?: string,
+  status?: string,
+) {
+  const supabase = createAdminClient();
+
+  let query = supabase
+    .from("orders")
+    .select("*");
+
+  if (status) {
+    query = query.eq("status",status,);
+  }
+  
+  if (search) {
+    query = query.or(
+      [
+      `order_number.ilike.%${search}%`,
+      `customer_email.ilike.%${search}%`,
+      ].join(","),
+    );
+  }
 
   const { data, error } =
-    await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", {
-        ascending: false,
-      });
+  await query.order(
+    "created_at",
+    {
+      ascending: false,
+    },
+  );
 
   if (error) {
     throw error;
@@ -225,4 +251,34 @@ export async function getOrderMetrics() {
     revenue,
     averageOrderValue,
   };
+}
+
+export async function updateShipment(
+  orderId: string,
+  carrier: string,
+  trackingNumber: string,
+) {
+  const supabase =
+    createAdminClient();
+
+  const { error } =
+    await supabase
+      .from("orders")
+      .update({
+        carrier,
+        tracking_number:
+          trackingNumber,
+        shipped_at:
+          new Date()
+            .toISOString(),
+        status: "shipped",
+      })
+      .eq(
+        "id",
+        orderId,
+      );
+
+  if (error) {
+    throw error;
+  }
 }

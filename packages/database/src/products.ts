@@ -377,20 +377,23 @@ export async function getInventoryAlerts() {
   }
 
   return (
-    data?.filter((variant) => {
-      const quantity =
-        variant.inventory
-          ?.quantity ?? 0;
+    data
+      ?.filter((variant) => {
+        const quantity = variant.inventory ?.quantity ?? 0;
 
-      const threshold =
-        variant.inventory
-          ?.low_stock_threshold ?? 2;
+        const threshold = variant.inventory ?.low_stock_threshold ?? 2;
 
-      return (
-        quantity === 0 ||
-        quantity <= threshold
-      );
-    }) ?? []
+        return (
+          quantity === 0 ||
+          quantity <= threshold
+        );
+      })
+      .sort((a, b) => {
+        const aQty = a.inventory?.quantity ?? 0;
+        const bQty = b.inventory?.quantity ?? 0;
+        return aQty - bQty;
+
+      }) ?? []
   );
 }
 
@@ -435,6 +438,100 @@ export async function deleteProduct(
       .from("products")
       .delete()
       .eq("id", productId);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function variantHasOrders(
+  variantId: string,
+) {
+  const supabase =
+    createAdminClient();
+
+  const { count, error } =
+    await supabase
+      .from("order_items")
+      .select("*", {
+        count: "exact",
+        head: true,
+      })
+      .eq(
+        "variant_id",
+        variantId,
+      );
+
+  if (error) {
+    throw error;
+  }
+
+  return (count ?? 0) > 0;
+}
+
+
+export async function deleteVariant(
+  variantId: string,
+) {
+  const supabase =
+    createAdminClient();
+
+  const hasOrders =
+    await variantHasOrders(
+      variantId,
+    );
+
+  if (hasOrders) {
+    throw new Error(
+      "This variant has been ordered and cannot be deleted.",
+    );
+  }
+
+  const {
+    data: variant,
+    error: variantError,
+  } = await supabase
+    .from("product_variants")
+    .select("id, product_id")
+    .eq("id", variantId)
+    .single();
+
+  if (variantError) {
+    throw variantError;
+  }
+
+  const {
+    count,
+    error: countError,
+  } = await supabase
+    .from("product_variants")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq(
+      "product_id",
+      variant.product_id,
+    );
+
+  if (countError) {
+    throw countError;
+  }
+
+  if ((count ?? 0) <= 1) {
+    throw new Error(
+      "A product must have at least one variant.",
+    );
+  }
+
+  const { error } =
+    await supabase
+      .from("product_variants")
+      .delete()
+      .eq(
+        "id",
+        variantId,
+      );
 
   if (error) {
     throw error;

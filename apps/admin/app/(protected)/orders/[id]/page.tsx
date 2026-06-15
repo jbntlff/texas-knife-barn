@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StatusForm, } from "./status-form";
 import { getOrder, } from "@tkb/database";
@@ -28,32 +29,31 @@ export default async function OrderDetailPage({
         <h1 className="text-3xl font-bold">
           {order.order_number}
         </h1>
-
         <p className="text-muted-foreground">
           {order.customer_email}
         </p>
-
         <p className="text-sm text-muted-foreground">
           Created{" "}
           {new Date(
             order.created_at,
           ).toLocaleString()}
         </p>
+        <Link
+          href="/orders"
+          className="inline-flex items-center text-sm text-muted-foreground hover:underline"
+        >
+          ← Back to Orders
+        </Link>
       </div>
 
       <div className="rounded-xl border p-6">
         <h2 className="mb-4 text-xl font-semibold">
           Order Summary
         </h2>
-
         <div className="space-y-2">
           <div className="flex justify-between">
             <span>Status</span>
-
-            <StatusForm
-              orderId={order.id}
-              currentStatus={ order.status }
-            />
+            <StatusForm orderId={order.id} currentStatus={order.status} />
           </div>
 
           <div className="flex justify-between">
@@ -89,27 +89,19 @@ export default async function OrderDetailPage({
               >
                 <div>
                   <div className="font-medium">
-                    {
-                      item.product_name
-                    }
+                    { item.product_name }
                   </div>
-
                   <div className="text-sm text-muted-foreground">
-                    {
-                      item.variant_title
-                    }
+                    { item.variant_title }
                   </div>
-
                   <div className="text-sm text-muted-foreground">
                     Qty:{" "}
-                    {
-                      item.quantity
-                    }
+                    { item.quantity }
                   </div>
                 </div>
 
                 <div>
-                  {formatPrice(item.unit_price * item.quantity )}
+                  {formatPrice(item.unit_price * item.quantity)}
                 </div>
               </div>
             ),
@@ -120,14 +112,3 @@ export default async function OrderDetailPage({
   )
 }
 
-/*
-
-                  $
-                  {(
-                    Number(
-                      item.unit_price,
-                    ) *
-                    item.quantity
-                  ).toFixed(2)}
-
-*/

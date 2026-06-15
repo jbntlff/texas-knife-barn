@@ -37,10 +37,9 @@ export function StatusForm({
       />
 
       <select
+        key={currentStatus}
         name="status"
-        defaultValue={
-          currentStatus
-        }
+        defaultValue={ currentStatus }
         className="rounded border px-3 py-2"
       >
         <option value="pending">

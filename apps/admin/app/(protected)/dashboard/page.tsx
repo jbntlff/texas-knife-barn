@@ -246,9 +246,7 @@ export default async function DashboardPage() {
             <div className="divide-y">
               {inventoryAlerts.map(
                 (variant) => {
-                  const quantity =
-                    variant.inventory
-                      ?.quantity ?? 0;
+                  const quantity = variant.inventory ?.quantity ?? 0;
                   const threshold = variant.inventory ?.low_stock_threshold ?? 2;
                   const outOfStock = quantity === 0;
 

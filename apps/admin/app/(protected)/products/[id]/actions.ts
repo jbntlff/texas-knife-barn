@@ -14,25 +14,10 @@ export async function updateInventory(
 ) {
   await requireAdmin();
 
-  const variantId =
-    formData.get(
-      "variantId",
-    ) as string;
-
-  const productId =
-    formData.get(
-      "productId",
-    ) as string;
-
-  const quantity =
-    Number(
-      formData.get(
-        "quantity",
-      ),
-    );
-
-  const supabase =
-    createAdminClient();
+  const variantId = formData.get( "variantId",) as string;
+  const productId = formData.get( "productId",) as string;
+  const quantity = Number( formData.get( "quantity",),);
+  const supabase = createAdminClient();
 
   const { error } =
     await supabase
@@ -65,53 +50,25 @@ export async function updateProduct(
 ) {
   await requireAdmin();
 
-  const productId =
-    formData.get(
-      "productId",
-    ) as string;
+  const productId = formData.get( "productId",) as string;
 
-  const name =
-    formData.get(
-      "name",
-    ) as string;
+  const name = formData.get( "name",) as string;
 
-  const slug =
-    formData.get(
-      "slug",
-    ) as string;
+  const slug = formData.get( "slug",) as string;
 
-  const brandId =
-    formData.get(
-      "brandId",
-    ) as string;
+  const brandId = formData.get( "brandId",) as string;
 
-  const categoryId =
-    formData.get(
-      "categoryId",
-    ) as string;
+  const categoryId = formData.get( "categoryId",) as string;
 
-  const shortDescription =
-    formData.get(
-      "shortDescription",
-    ) as string;
+  const shortDescription = formData.get( "shortDescription",) as string;
 
-  const description =
-    formData.get(
-      "description",
-    ) as string;
+  const description = formData.get( "description",) as string;
 
-  const status =
-    formData.get(
-      "status",
-    ) as string;
+  const status = formData.get( "status",) as string;
 
-  const featured =
-    formData.get(
-      "featured",
-    ) === "on";
+  const featured = formData.get( "featured",) === "on";
 
-  const supabase =
-    createAdminClient();
+  const supabase = createAdminClient();
 
   const { error } =
     await supabase
@@ -158,33 +115,21 @@ export async function createVariant(
   await requireAdmin();
 
   const productId = formData.get("productId",) as string;
-
-  const sku =
-    formData.get(
-      "sku",
-    ) as string;
-
-  const title =
-    formData.get(
-      "title",
-    ) as string;
-
-  const price =
-    Number(
-      formData.get(
-        "price",
-      ),
-    );
-
-  const compareAtPrice =
-    Number(
-      formData.get(
-        "compareAtPrice",
-      ),
-    );
-
+  const sku = formData.get( "sku",) as string;
+  const title = formData.get( "title",) as string;
+  const price = Number( formData.get( "price",),);
+  const compareAtPrice = Number( formData.get( "compareAtPrice",),);
   const active = formData.get("active",) === "on";
+  const lowStockThreshold = 
+      Number( 
+        formData.get(
+          "lowStockThreshold",
+        ),
+      ) || 2;
+
+
   const supabase = createAdminClient();
+
 
   const {
     data: variant,
@@ -215,7 +160,7 @@ export async function createVariant(
     .insert({
       variant_id: variant.id,
       quantity: 0,
-      low_stock_threshold: 2,
+      low_stock_threshold: lowStockThreshold,
     });
 
   if (inventoryError) {
@@ -238,28 +183,11 @@ export async function createVariantOption(
 ) {
   await requireAdmin();
 
-  const productId =
-    formData.get(
-      "productId",
-    ) as string;
-
-  const variantId =
-    formData.get(
-      "variantId",
-    ) as string;
-
-  const optionName =
-    formData.get(
-      "optionName",
-    ) as string;
-
-  const optionValue =
-    formData.get(
-      "optionValue",
-    ) as string;
-
-  const supabase =
-    createAdminClient();
+  const productId = formData.get( "productId",) as string;
+  const variantId = formData.get( "variantId",) as string;
+  const optionName = formData.get( "optionName",) as string;
+  const optionValue = formData.get( "optionValue",) as string;
+  const supabase = createAdminClient();
 
   const { error } =
     await supabase

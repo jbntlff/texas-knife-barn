@@ -17,12 +17,24 @@ export async function POST(
     const body =
       (await request.json()) as RequestBody;
 
+    if (body.items.length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Cart is empty",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
     const subtotal =
       body.items.reduce(
         (sum, item) =>
           sum +
           item.unitPrice *
-            item.quantity,
+          item.quantity,
         0,
       );
 

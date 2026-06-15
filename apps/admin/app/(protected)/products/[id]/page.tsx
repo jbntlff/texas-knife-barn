@@ -29,6 +29,7 @@ export default async function ProductDetailPage({
   const brands = await getBrands();
   const categories = await getCategories();
 
+
   if (!product) {
     notFound();
   }
@@ -132,7 +133,7 @@ export default async function ProductDetailPage({
             <textarea
               name="shortDescription"
               defaultValue={
-                product.short_description ??  ""
+                product.short_description ?? ""
               }
               rows={3}
               className="w-full rounded border px-3 py-2"
@@ -147,7 +148,7 @@ export default async function ProductDetailPage({
             <textarea
               name="description"
               defaultValue={
-                product.description ??  ""
+                product.description ?? ""
               }
               rows={6}
               className="w-full rounded border px-3 py-2"
@@ -493,6 +494,23 @@ export default async function ProductDetailPage({
             />
           </div>
 
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Low Stock Threshold
+            </label>
+
+            <input
+              type="number"
+              name="lowStockThreshold"
+              defaultValue={2}
+              min="0"
+              className="w-full rounded border px-3 py-2"
+            />
+          </div>
+
+
+
+
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -551,6 +569,8 @@ export default async function ProductDetailPage({
             {product.product_variants?.map(
               (variant) => {
                 const quantity = variant.inventory?.quantity ?? 0;
+                const threshold = variant.inventory?.low_stock_threshold ?? 2;
+
                 return (
                   <tr
                     key={variant.id}
@@ -677,7 +697,7 @@ export default async function ProductDetailPage({
                         <span className="font-medium text-red-500">
                           Out of Stock
                         </span>
-                      ) : quantity <= 5 ? (
+                      ) : quantity <= threshold ? (
                         <span className="font-medium text-yellow-500">
                           Low Stock
                         </span>
@@ -694,13 +714,11 @@ export default async function ProductDetailPage({
                           name="variantId"
                           value={variant.id}
                         />
-
                         <input
                           type="hidden"
                           name="productId"
                           value={product.id}
                         />
-
                         <button
                           type="submit"
                           className="rounded border px-2 py-1 text-xs text-red-600 hover:bg-muted"
