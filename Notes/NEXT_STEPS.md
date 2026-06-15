@@ -1,3 +1,56 @@
+
+
+Texas Knife Barn continuation.
+
+Current stack:
+- Next.js 16 monorepo
+- apps/admin
+- apps/storefront
+- Local Supabase
+
+Completed:
+- Products CRUD
+- Product Images Upload/Delete/Reorder
+- Product Gallery
+- Brands pages
+- Categories pages
+- Search
+- Cart
+- Checkout
+- Orders
+- Inventory Management
+- Inventory Alerts Dashboard
+- Variant Management
+- Variant Options CRUD
+
+Current work:
+- Brand Management UI
+
+Completed:
+- packages/database/src/brands.ts
+  - getBrands()
+  - getBrandById()
+
+- /brands page
+- createBrand()
+- updateBrand()
+
+Next task:
+- apps/admin/app/(protected)/brands/[id]/page.tsx
+
+
+✓ Image Upload/Reorder/Delete
+✓ Inventory Dashboard
+✓ Variant Options CRUD
+✓ Brand CRUD (in progress)
+
+
+
+
+
+
+
+
 chat: Texas Knife Barn - Storefront
 
 goals:

@@ -2,3 +2,5 @@ export * from "./admin-client";
 export * from "./products";
 export * from "./search";
 export * from "./orders";
+export * from "./brands";
+export * from "./categories"

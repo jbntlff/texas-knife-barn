@@ -1,8 +1,11 @@
-import {
-  createProduct,
-} from "./actions";
+import { createProduct, } from "./actions";
+import { getBrands, getCategories } from "@tkb/database";
 
-export default function NewProductPage() {
+
+export default async function NewProductPage() {
+  const brands = await getBrands();
+  const categories = await getCategories();
+
   return (
     <div className="space-y-6">
       <div>
@@ -42,6 +45,56 @@ export default function NewProductPage() {
               required
               className="w-full rounded border px-3 py-2"
             />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Brand
+            </label>
+
+            <select
+              name="brandId"
+              defaultValue=""
+              className="w-full rounded border px-3 py-2"
+            >
+              <option value="">
+                Select Brand
+              </option>
+
+              {brands.map((brand) => (
+                <option
+                  key={brand.id}
+                  value={brand.id}
+                >
+                  {brand.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Category
+            </label>
+
+            <select
+              name="categoryId"
+              defaultValue=""
+              className="w-full rounded border px-3 py-2"
+            >
+              <option value="">
+                Select Category
+              </option>
+
+              {categories.map((category) => (
+                <option
+                  key={category.id}
+                  value={category.id}
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

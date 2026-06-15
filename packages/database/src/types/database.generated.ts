@@ -37,18 +37,21 @@ export type Database = {
       brands: {
         Row: {
           created_at: string
+          description: string | null
           id: string
           name: string
           slug: string
         }
         Insert: {
           created_at?: string
+          description?: string | null
           id?: string
           name: string
           slug: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: string
           name?: string
           slug?: string
@@ -58,18 +61,21 @@ export type Database = {
       categories: {
         Row: {
           created_at: string
+          description: string | null
           id: string
           name: string
           slug: string
         }
         Insert: {
           created_at?: string
+          description?: string | null
           id?: string
           name: string
           slug: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: string
           name?: string
           slug?: string

@@ -1,9 +1,10 @@
 import Link from "next/link";
 
 import {
-  getInventoryMetrics,
   getOrderMetrics,
   getOrders,
+  getInventoryMetrics,
+  getInventoryAlerts,
 } from "@tkb/database";
 import { formatPrice } from "@tkb/ui";
 
@@ -50,8 +51,9 @@ function StatCard({
 export default async function DashboardPage() {
 
   const metrics = await getOrderMetrics();
-  const orders = await getOrders();
   const inventoryMetrics = await getInventoryMetrics();
+  const inventoryAlerts = await getInventoryAlerts();
+  const orders = await getOrders();
   const recentOrders = orders.slice(0, 10);
 
   return (
@@ -72,7 +74,7 @@ export default async function DashboardPage() {
             Orders
           </h2>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-6">
             <StatCard
               title="Total Orders"
               value={metrics.totalOrders}
@@ -91,6 +93,15 @@ export default async function DashboardPage() {
             <StatCard
               title="Average Order Value"
               value={formatPrice(metrics.averageOrderValue)}
+            />
+            <StatCard
+              title="Low Stock"
+              value={inventoryMetrics.lowStockCount}
+            />
+
+            <StatCard
+              title="Out Of Stock"
+              value={inventoryMetrics.outOfStockCount}
             />
           </div>
         </div>
@@ -193,7 +204,7 @@ export default async function DashboardPage() {
                         href={`/orders/${order.id}`}
                         className="block font-medium hover:underline"
                       >
-                        { order.order_number }
+                        {order.order_number}
                       </Link>
                     </td>
 
@@ -215,8 +226,76 @@ export default async function DashboardPage() {
                   </tr>
                 ),
               )}
+
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">
+          Inventory Alerts
+        </h2>
+
+        <div className="rounded-xl border">
+          {inventoryAlerts.length === 0 ? (
+            <div className="p-4 text-sm text-muted-foreground">
+              No inventory alerts.
+            </div>
+          ) : (
+            <div className="divide-y">
+              {inventoryAlerts.map(
+                (variant) => {
+                  const quantity =
+                    variant.inventory
+                      ?.quantity ?? 0;
+                  const threshold = variant.inventory ?.low_stock_threshold ?? 2;
+                  const outOfStock = quantity === 0;
+
+                  return (
+                    <Link
+                      key={variant.id}
+                      href={`/products/${variant.products?.id}`}
+                      className="flex items-center justify-between p-4 hover:bg-muted"
+                    >
+                      <div>
+                        <div className="font-medium">
+                          { variant.products ?.name }
+                        </div>
+
+                        <div className="text-sm text-muted-foreground">
+                          { variant.title }
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div
+                          className={
+                            outOfStock
+                              ? "font-medium text-red-500"
+                              : "font-medium text-yellow-500"
+                          }
+                        >
+                          {outOfStock
+                            ? "Out of Stock"
+                            : "Low Stock"}
+                        </div>
+
+                        <div className="text-sm text-muted-foreground">
+                          Qty: {
+                            quantity
+                          }
+                          {" / "}
+                          Threshold: {
+                            threshold
+                          }
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                },
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

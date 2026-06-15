@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProductById, } from "@tkb/database";
+import { getProductById, getBrands, getCategories } from "@tkb/database";
 import { formatPrice } from "@tkb/ui";
 
 import {
@@ -12,6 +12,7 @@ import {
   deleteVariantOption,
   moveImageDown,
   moveImageUp,
+  deleteVariant,
 } from "./actions";
 
 type PageProps = {
@@ -23,11 +24,10 @@ type PageProps = {
 export default async function ProductDetailPage({
   params,
 }: PageProps) {
-  const { id } =
-    await params;
-
-  const product =
-    await getProductById(id);
+  const { id } = await params;
+  const product = await getProductById(id);
+  const brands = await getBrands();
+  const categories = await getCategories();
 
   if (!product) {
     notFound();
@@ -132,8 +132,7 @@ export default async function ProductDetailPage({
             <textarea
               name="shortDescription"
               defaultValue={
-                product.short_description ??
-                ""
+                product.short_description ??  ""
               }
               rows={3}
               className="w-full rounded border px-3 py-2"
@@ -148,12 +147,66 @@ export default async function ProductDetailPage({
             <textarea
               name="description"
               defaultValue={
-                product.description ??
-                ""
+                product.description ??  ""
               }
               rows={6}
               className="w-full rounded border px-3 py-2"
             />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-sm font-medium">
+                Brand
+              </label>
+
+              <select
+                name="brandId"
+                defaultValue={
+                  product.brand_id ?? ""
+                }
+                className="w-full rounded border px-3 py-2"
+              >
+                <option value="">
+                  Select Brand
+                </option>
+
+                {brands.map((brand) => (
+                  <option
+                    key={brand.id}
+                    value={brand.id}
+                  >
+                    {brand.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-1 block text-sm font-medium">
+                Category
+              </label>
+
+              <select
+                name="categoryId"
+                defaultValue={
+                  product.category_id ?? ""
+                }
+                className="w-full rounded border px-3 py-2"
+              >
+                <option value="">
+                  Select Category
+                </option>
+                {categories.map((category) => (
+                  <option
+                    key={category.id}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -272,7 +325,7 @@ export default async function ProductDetailPage({
                   >
                     {index === 0 && (
                       <div className="bg-green-600 px-2 py-1 text-center text-xs font-medium text-white ">
-                        PRIMARY 
+                        PRIMARY
                       </div>
                     )}
                     <img
@@ -488,6 +541,9 @@ export default async function ProductDetailPage({
               <th className="p-4 text-center">
                 Status
               </th>
+              <th className="p-4 text-center">
+                Actions
+              </th>
             </tr>
           </thead>
 
@@ -630,6 +686,31 @@ export default async function ProductDetailPage({
                           In Stock
                         </span>
                       )}
+                    </td>
+                    <td className="p-4 text-center">
+                      <form action={deleteVariant}>
+                        <input
+                          type="hidden"
+                          name="variantId"
+                          value={variant.id}
+                        />
+
+                        <input
+                          type="hidden"
+                          name="productId"
+                          value={product.id}
+                        />
+
+                        <button
+                          type="submit"
+                          className="rounded border px-2 py-1 text-xs text-red-600 hover:bg-muted"
+                          disabled={
+                            product.product_variants.length <= 1
+                          }
+                        >
+                          Delete
+                        </button>
+                      </form>
                     </td>
 
                   </tr>

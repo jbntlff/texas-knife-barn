@@ -1,6 +1,35 @@
 
 import { createAdminClient } from "./admin-client";
 
+export async function getAllProducts() {
+  const supabase = createAdminClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      brands (*),
+      categories (*),
+      product_attributes(*),
+      product_images(*),
+      product_variants(
+        *,
+        inventory(*),
+        variant_options(*)
+      )
+    `)
+    .order("name");
+
+  if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
+    throw error;
+  }
+  return data;
+}
+
 export async function getProducts() {
   const supabase = createAdminClient();
 
@@ -18,7 +47,8 @@ export async function getProducts() {
         variant_options(*)
       )
     `)
-    .eq("status", "active");
+    .eq("status", "active")
+    .order("name");
 
   if (error) {
     console.error(
@@ -223,10 +253,8 @@ export async function getProductsByCategoryId(categoryId: string) {
       "SUPABASE ERROR:",
       JSON.stringify(error, null, 2)
     );
-
     throw error;
   }
-
   return data;
 }
 
@@ -364,4 +392,51 @@ export async function getInventoryAlerts() {
       );
     }) ?? []
   );
+}
+
+
+export async function productHasOrders(
+  productId: string,
+) {
+  const supabase = createAdminClient();
+
+  const { count, error } = await supabase
+    .from("order_items")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq("product_id", productId);
+
+  if (error) throw error;
+
+  return (count ?? 0) > 0;
+}
+
+export async function deleteProduct(
+  productId: string,
+) {
+  const hasOrders =
+    await productHasOrders(
+      productId,
+    );
+
+  if (hasOrders) {
+    throw new Error(
+      "This product has been ordered and cannot be deleted.",
+    );
+  }
+
+  const supabase =
+    createAdminClient();
+
+  const { error } =
+    await supabase
+      .from("products")
+      .delete()
+      .eq("id", productId);
+
+  if (error) {
+    throw error;
+  }
 }

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { StatusForm, } from "./status-form";
 import { getOrder, } from "@tkb/database";
+import { formatPrice } from "@tkb/ui";
 
 type PageProps = {
   params: Promise<{
@@ -57,46 +58,19 @@ export default async function OrderDetailPage({
 
           <div className="flex justify-between">
             <span>Subtotal</span>
-
-            <span>
-              $
-              {Number(
-                order.subtotal,
-              ).toFixed(2)}
-            </span>
+            <span> {formatPrice(order.subtotal)} </span>
           </div>
-
           <div className="flex justify-between">
             <span>Tax</span>
-
-            <span>
-              $
-              {Number(
-                order.tax_total,
-              ).toFixed(2)}
-            </span>
+            <span> {formatPrice(order.tax_total)} </span>
           </div>
-
           <div className="flex justify-between">
             <span>Shipping</span>
-
-            <span>
-              $
-              {Number(
-                order.shipping_total,
-              ).toFixed(2)}
-            </span>
+            <span> {formatPrice(order.shipping_total)} </span>
           </div>
-
           <div className="flex justify-between border-t pt-2 font-semibold">
             <span>Total</span>
-
-            <span>
-              $
-              {Number(
-                order.grand_total,
-              ).toFixed(2)}
-            </span>
+            <span> {formatPrice(order.grand_total)} </span>
           </div>
         </div>
       </div>
@@ -135,13 +109,7 @@ export default async function OrderDetailPage({
                 </div>
 
                 <div>
-                  $
-                  {(
-                    Number(
-                      item.unit_price,
-                    ) *
-                    item.quantity
-                  ).toFixed(2)}
+                  {formatPrice(item.unit_price * item.quantity )}
                 </div>
               </div>
             ),
@@ -151,3 +119,15 @@ export default async function OrderDetailPage({
     </div>
   )
 }
+
+/*
+
+                  $
+                  {(
+                    Number(
+                      item.unit_price,
+                    ) *
+                    item.quantity
+                  ).toFixed(2)}
+
+*/

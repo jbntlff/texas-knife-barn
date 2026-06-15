@@ -6,10 +6,16 @@ import {
   LayoutDashboard,
   ShoppingBag,
   Package,
+  ShoppingCart,
   Receipt,
   ClipboardList,
   Users,
   Settings,
+  Factory,
+  Award,
+  FolderTree,
+  BadgeInfo,
+  Boxes,
 } from "lucide-react";
 
 const navigation = [
@@ -22,19 +28,27 @@ const navigation = [
   {
     name: "Products",
     href: "/products",
-    icon: ShoppingBag,
-
-  },
-  {
-    name: "Inventory",
-    href: "/inventory",
     icon: Package,
   },
   {
     name: "Orders",
     href: "/orders",
-    icon: Receipt,
-
+    icon: ShoppingCart,
+  },
+  {
+    name: "Brands",
+    href: "/brands",
+    icon: BadgeInfo,
+  },
+  {
+    name: "Categories",
+    href: "/categories",
+    icon: FolderTree,
+  },
+  {
+    name: "Inventory",
+    href: "/inventory",
+    icon: Boxes,
   },
   {
     name: "Customers",

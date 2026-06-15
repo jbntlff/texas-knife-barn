@@ -2,8 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-import { requireAdmin }
-  from "@tkb/auth/server";
+import { requireAdmin } from "@tkb/auth/server";
 
 import {
   createAdminClient,
@@ -14,21 +13,13 @@ export async function createProduct(
 ) {
   await requireAdmin();
 
-  const name =
-    formData.get("name") as string;
-
-  const slug =
-    formData.get("slug") as string;
-
-  const status =
-    formData.get("status") as string;
-
-  const featured =
-    formData.get("featured") ===
-    "on";
-
-  const supabase =
-    createAdminClient();
+  const name = formData.get("name") as string;
+  const slug = formData.get("slug") as string;
+  const brandId = formData.get("brandId",) as string;
+  const categoryId = formData.get("categoryId",) as string;
+  const status = formData.get("status") as string;
+  const featured = formData.get("featured") === "on";
+  const supabase = createAdminClient();
 
   const {
     data,
@@ -38,6 +29,8 @@ export async function createProduct(
     .insert({
       name,
       slug,
+      brand_id: brandId || null,
+      category_id: categoryId || null,
       status,
       featured,
     })

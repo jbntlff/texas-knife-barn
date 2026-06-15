@@ -80,6 +80,16 @@ export async function updateProduct(
       "slug",
     ) as string;
 
+  const brandId =
+    formData.get(
+      "brandId",
+    ) as string;
+
+  const categoryId =
+    formData.get(
+      "categoryId",
+    ) as string;
+
   const shortDescription =
     formData.get(
       "shortDescription",
@@ -109,6 +119,8 @@ export async function updateProduct(
       .update({
         name,
         slug,
+        brand_id: brandId,
+        category_id: categoryId,
         short_description:
           shortDescription,
         description,
@@ -145,7 +157,7 @@ export async function createVariant(
 ) {
   await requireAdmin();
 
-  const productId = formData.get( "productId",) as string;
+  const productId = formData.get("productId",) as string;
 
   const sku =
     formData.get(
@@ -365,9 +377,25 @@ export async function uploadProductImage(
       },
     );
 
+
+  if (uploadError) {
+    console.error(
+      "IMAGE UPLOAD ERROR:",
+      JSON.stringify(
+        uploadError,
+        null,
+        2,
+      ),
+    );
+
+    throw uploadError;
+  }
+
+  /*
   if (uploadError) {
     throw uploadError;
   }
+   */
 
   const {
     data: publicUrlData,
@@ -395,13 +423,24 @@ export async function uploadProductImage(
   }
 
   const nextSortOrder =
-  Math.max(
-    ...(existingImages?.map(
-      (image) =>
-        image.sort_order,
-    ) ?? [-1]),
-  ) + 1;
+    existingImages?.length
+      ? Math.max(
+        ...existingImages.map(
+          (image) =>
+            image.sort_order,
+        ),
+      ) + 1
+      : 0;
 
+  console.log(
+    "EXISTING IMAGES:",
+    existingImages,
+  );
+
+  console.log(
+    "NEXT SORT ORDER:",
+    nextSortOrder,
+  );
   const {
     error: imageError,
   } = await supabase
@@ -421,9 +460,46 @@ export async function uploadProductImage(
     });
 
   if (imageError) {
+    console.error(
+      "IMAGE INSERT ERROR",
+    );
+
+    console.error(
+      "CODE:",
+      imageError.code,
+    );
+
+    console.error(
+      "MESSAGE:",
+      imageError.message,
+    );
+
+    console.error(
+      "DETAILS:",
+      imageError.details,
+    );
+
+    console.error(
+      "HINT:",
+      imageError.hint,
+    );
+
     throw imageError;
   }
+  /*
+  if (imageError) {
+    console.error(
+      "IMAGE INSERT ERROR:",
+      JSON.stringify(
+        imageError,
+        null,
+        2,
+      ),
+    );
 
+    throw imageError;
+  }
+  */
   revalidatePath(
     `/products/${productId}`,
   );
@@ -645,5 +721,73 @@ export async function moveImageDown(
 
   revalidatePath(
     `/products/${productId}`,
+  );
+}
+export async function deleteVariant(
+  formData: FormData,
+) {
+  await requireAdmin();
+
+  const variantId =
+    formData.get(
+      "variantId",
+    ) as string;
+
+  const productId =
+    formData.get(
+      "productId",
+    ) as string;
+
+  const supabase =
+    createAdminClient();
+
+  const {
+    error: optionsError,
+  } = await supabase
+    .from("variant_options")
+    .delete()
+    .eq(
+      "variant_id",
+      variantId,
+    );
+
+  if (optionsError) {
+    throw optionsError;
+  }
+
+  const {
+    error: inventoryError,
+  } = await supabase
+    .from("inventory")
+    .delete()
+    .eq(
+      "variant_id",
+      variantId,
+    );
+
+  if (inventoryError) {
+    throw inventoryError;
+  }
+
+  const {
+    error: variantError,
+  } = await supabase
+    .from("product_variants")
+    .delete()
+    .eq(
+      "id",
+      variantId,
+    );
+
+  if (variantError) {
+    throw variantError;
+  }
+
+  revalidatePath(
+    `/products/${productId}`,
+  );
+
+  revalidatePath(
+    "/products",
   );
 }
