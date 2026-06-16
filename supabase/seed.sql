@@ -436,9 +436,6 @@ INSERT INTO "public"."variant_options" ("id", "variant_id", "option_name", "opti
 -- Data for Name: buckets; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
 --
 
-INSERT INTO "storage"."buckets" ("id", "name", "owner", "created_at", "updated_at", "public", "avif_autodetection", "file_size_limit", "allowed_mime_types", "owner_id", "type") VALUES
-	('product-images', 'product-images', NULL, '2026-06-13 10:58:19.679885+00', '2026-06-13 10:58:19.679885+00', true, false, NULL, NULL, NULL, 'STANDARD');
-
 
 --
 -- Data for Name: buckets_analytics; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
