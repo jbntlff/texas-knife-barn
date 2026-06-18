@@ -32,3 +32,11 @@ from storage.buckets;
 
 # returns:
 product-images | true
+
+
+
+after supabase db reset
+
+supabase gen types typescript \
+  --local \
+  > packages/database/src/types/database.generated.ts

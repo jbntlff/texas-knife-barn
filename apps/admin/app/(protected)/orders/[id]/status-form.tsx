@@ -11,14 +11,14 @@ import {
 type Props = {
   orderId: string;
   currentStatus: string;
+  canShip: boolean;
 };
 
 export function StatusForm({
   orderId,
   currentStatus,
 }: Props) {
-  const [pending, start] =
-    useTransition();
+  const [pending, start] = useTransition();
 
   return (
     <form
@@ -35,34 +35,17 @@ export function StatusForm({
         name="orderId"
         value={orderId}
       />
-
       <select
         key={currentStatus}
         name="status"
-        defaultValue={ currentStatus }
+        defaultValue={currentStatus}
         className="rounded border px-3 py-2"
       >
-        <option value="pending">
-          Pending
-        </option>
-
-        <option value="paid">
-          Paid
-        </option>
-
-        <option value="shipped">
-          Shipped
-        </option>
-
-        <option value="delivered">
-          Delivered
-        </option>
-
-        <option value="cancelled">
-          Cancelled
-        </option>
+        <option value="pending"> Pending </option>
+        <option value="paid"> Paid </option>
+        <option value="delivered"> Delivered </option>
+        <option value="cancelled"> Cancelled </option>
       </select>
-
       <button
         type="submit"
         disabled={pending}

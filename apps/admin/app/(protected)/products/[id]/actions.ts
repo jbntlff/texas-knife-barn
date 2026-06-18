@@ -51,23 +51,14 @@ export async function updateProduct(
   await requireAdmin();
 
   const productId = formData.get( "productId",) as string;
-
   const name = formData.get( "name",) as string;
-
   const slug = formData.get( "slug",) as string;
-
   const brandId = formData.get( "brandId",) as string;
-
   const categoryId = formData.get( "categoryId",) as string;
-
   const shortDescription = formData.get( "shortDescription",) as string;
-
   const description = formData.get( "description",) as string;
-
   const status = formData.get( "status",) as string;
-
   const featured = formData.get( "featured",) === "on";
-
   const supabase = createAdminClient();
 
   const { error } =
@@ -95,15 +86,12 @@ export async function updateProduct(
   if (error) {
     throw error;
   }
-
   revalidatePath(
     `/products/${productId}`,
   );
-
   revalidatePath(
     "/products",
   );
-
   revalidatePath(
     "/dashboard",
   );

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StatusForm, } from "./status-form";
+import { ShippingForm } from "./shipping-form";
 import { getOrder, } from "@tkb/database";
 import { formatPrice } from "@tkb/ui";
 
@@ -9,6 +10,34 @@ type PageProps = {
     id: string;
   }>;
 };
+
+function getTrackingUrl(
+  carrier: string | null,
+  trackingNumber:
+    string | null,
+) {
+  if (
+    !carrier ||
+    !trackingNumber
+  ) {
+    return null;
+  }
+
+  switch (carrier) {
+    case "UPS":
+      return `https://www.ups.com/track?tracknum=${trackingNumber}`;
+
+    case "USPS":
+      return `https://tools.usps.com/go/TrackConfirmAction?tLabels=${trackingNumber}`;
+
+    case "FedEx":
+      return `https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}`;
+
+    default:
+      return null;
+  }
+}
+
 
 export default async function OrderDetailPage({
   params,
@@ -22,6 +51,8 @@ export default async function OrderDetailPage({
   if (!order) {
     notFound();
   }
+
+  const trackingUrl = getTrackingUrl(order.carrier, order.tracking_number,);
 
   return (
     <div className="space-y-6">
@@ -46,6 +77,8 @@ export default async function OrderDetailPage({
         </Link>
       </div>
 
+      {/*  Order Summary */}
+
       <div className="rounded-xl border p-6">
         <h2 className="mb-4 text-xl font-semibold">
           Order Summary
@@ -53,7 +86,16 @@ export default async function OrderDetailPage({
         <div className="space-y-2">
           <div className="flex justify-between">
             <span>Status</span>
-            <StatusForm orderId={order.id} currentStatus={order.status} />
+            <StatusForm
+              orderId={order.id}
+              currentStatus={order.status}
+              canShip={
+                Boolean(
+                  order.carrier &&
+                  order.tracking_number
+                )
+              }
+            />
           </div>
 
           <div className="flex justify-between">
@@ -75,6 +117,56 @@ export default async function OrderDetailPage({
         </div>
       </div>
 
+      {/* Shipping Card  */}
+      <div className="rounded-xl border p-6">
+        <h2 className="mb-4 text-xl font-semibold">
+          Shipping
+        </h2>
+        {order.carrier && (
+          <div className="mb-4 text-sm">
+            <div>
+              Carrier: {order.carrier}
+            </div>
+
+            <div>
+              Tracking:
+              {" "}
+              {order.tracking_number}
+            </div>
+          </div>
+        )}
+         {order.shipped_at && (
+          <div className="mt-4 text-sm text-muted-foreground">
+            Shipped{" "}
+            {new Date(
+              order.shipped_at,
+            ).toLocaleString()}
+          </div>
+        )}
+        {trackingUrl && (
+          <div className="mt-2 mb-4">
+            <a
+              href={trackingUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm font-medium underline"
+            >
+              Track Package
+            </a>
+          </div>
+        )}
+
+        <ShippingForm
+          orderId={order.id}
+          carrier={order.carrier}
+          trackingNumber={
+            order.tracking_number
+          }
+        />
+
+      </div>
+
+
       <div className="rounded-xl border p-6">
         <h2 className="mb-4 text-xl font-semibold">
           Items
@@ -89,14 +181,14 @@ export default async function OrderDetailPage({
               >
                 <div>
                   <div className="font-medium">
-                    { item.product_name }
+                    {item.product_name}
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    { item.variant_title }
+                    {item.variant_title}
                   </div>
                   <div className="text-sm text-muted-foreground">
                     Qty:{" "}
-                    { item.quantity }
+                    {item.quantity}
                   </div>
                 </div>
 

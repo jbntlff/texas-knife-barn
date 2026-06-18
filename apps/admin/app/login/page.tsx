@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@tkb/auth"
 
 export default function LoginPage() {
+
   const router = useRouter()
 
   const [email, setEmail] = useState("")
@@ -25,7 +26,6 @@ export default function LoginPage() {
         email,
         password,
       })
-
 
     if (error) {
       setError(error.message)

@@ -202,6 +202,14 @@ export async function updateOrderStatus(
   const supabase =
     createAdminClient();
 
+  if (status === "shipped") {
+    const order = await getOrder(orderId)
+    if (!order?.carrier || !order.tracking_number) {
+      throw new Error(
+        "Carrier and tracking number are required before marking an order as shipped",
+      )
+    }
+  }
   const { error } =
     await supabase
       .from("orders")

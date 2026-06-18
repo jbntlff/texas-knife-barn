@@ -174,37 +174,46 @@ export type Database = {
       }
       orders: {
         Row: {
+          carrier: string | null
           created_at: string
           customer_email: string
           grand_total: number
           id: string
           order_number: string
+          shipped_at: string | null
           shipping_total: number
           status: string
           subtotal: number
           tax_total: number
+          tracking_number: string | null
         }
         Insert: {
+          carrier?: string | null
           created_at?: string
           customer_email: string
           grand_total: number
           id?: string
           order_number: string
+          shipped_at?: string | null
           shipping_total?: number
           status?: string
           subtotal: number
           tax_total?: number
+          tracking_number?: string | null
         }
         Update: {
+          carrier?: string | null
           created_at?: string
           customer_email?: string
           grand_total?: number
           id?: string
           order_number?: string
+          shipped_at?: string | null
           shipping_total?: number
           status?: string
           subtotal?: number
           tax_total?: number
+          tracking_number?: string | null
         }
         Relationships: []
       }
