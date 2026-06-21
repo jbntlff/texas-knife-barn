@@ -111,6 +111,38 @@ export type Database = {
           },
         ]
       }
+      order_events: {
+        Row: {
+          created_at: string
+          event_description: string | null
+          event_type: string
+          id: string
+          order_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_description?: string | null
+          event_type: string
+          id?: string
+          order_id: string
+        }
+        Update: {
+          created_at?: string
+          event_description?: string | null
+          event_type?: string
+          id?: string
+          order_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_events_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
@@ -177,6 +209,7 @@ export type Database = {
           carrier: string | null
           created_at: string
           customer_email: string
+          customer_id: string | null
           grand_total: number
           id: string
           order_number: string
@@ -191,6 +224,7 @@ export type Database = {
           carrier?: string | null
           created_at?: string
           customer_email: string
+          customer_id?: string | null
           grand_total: number
           id?: string
           order_number: string
@@ -205,6 +239,7 @@ export type Database = {
           carrier?: string | null
           created_at?: string
           customer_email?: string
+          customer_id?: string | null
           grand_total?: number
           id?: string
           order_number?: string
@@ -392,19 +427,28 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          first_name: string | null
           id: string
+          last_name: string | null
+          marketing_opt_in: boolean
           role: string
         }
         Insert: {
           created_at?: string
           email: string
+          first_name?: string | null
           id: string
+          last_name?: string | null
+          marketing_opt_in?: boolean
           role?: string
         }
         Update: {
           created_at?: string
           email?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
+          marketing_opt_in?: boolean
           role?: string
         }
         Relationships: []

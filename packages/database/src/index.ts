@@ -4,3 +4,4 @@ export * from "./search";
 export * from "./orders";
 export * from "./brands";
 export * from "./categories"
+export * from "./order-events";

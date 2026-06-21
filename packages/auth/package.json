@@ -4,11 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-  	"typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": "./src/index.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./get-profile": "./src/get-profile.ts",
+    "./require-admin": "./src/require-admin.ts",
+    "./require-user": "./src/require-user.ts",
+    "./is-admin": "./src/is-admin.ts",
+    "./roles": "./src/roles.ts",
+    "./permissions": "./src/permissions.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StatusForm, } from "./status-form";
 import { ShippingForm } from "./shipping-form";
-import { getOrder, } from "@tkb/database";
+import { getOrder, getOrderEvents } from "@tkb/database";
 import { formatPrice } from "@tkb/ui";
+import { OrderTimeline }
+  from "@/components/orders/order-timeline";
 
 type PageProps = {
   params: Promise<{
@@ -45,12 +47,13 @@ export default async function OrderDetailPage({
   const { id } =
     await params;
 
-  const order =
-    await getOrder(id);
+  const order = await getOrder(id);
+  const events = await getOrderEvents(id);
 
   if (!order) {
     notFound();
   }
+
 
   const trackingUrl = getTrackingUrl(order.carrier, order.tracking_number,);
 
@@ -89,12 +92,6 @@ export default async function OrderDetailPage({
             <StatusForm
               orderId={order.id}
               currentStatus={order.status}
-              canShip={
-                Boolean(
-                  order.carrier &&
-                  order.tracking_number
-                )
-              }
             />
           </div>
 
@@ -166,7 +163,9 @@ export default async function OrderDetailPage({
 
       </div>
 
+      <OrderTimeline events={events} />
 
+      {/* Items Card */}
       <div className="rounded-xl border p-6">
         <h2 className="mb-4 text-xl font-semibold">
           Items

@@ -1,29 +1,22 @@
-import { createAdminClient }
-  from "./admin-client";
+import { createAdminClient } from "./admin-client";
+import { createOrderEvent } from "./order-events";
 
 export type CreateOrderItem = {
   productId: string;
   variantId: string;
-
   sku: string;
-
   productName: string;
   variantTitle: string;
-
   quantity: number;
-
   unitPrice: number;
 };
 
 export type CreateOrderInput = {
   customerEmail: string;
-
+  customerId?: string | null;
   subtotal: number;
-
   taxTotal?: number;
-
   shippingTotal?: number;
-
   items: CreateOrderItem[];
 };
 
@@ -52,6 +45,7 @@ export async function createOrder(
     .insert({
       order_number: orderNumber,
       customer_email: input.customerEmail,
+      customer_id: input.customerId ?? null,
       subtotal: input.subtotal,
       tax_total: taxTotal,
       shipping_total: shippingTotal,
@@ -87,6 +81,8 @@ export async function createOrder(
     throw itemsError;
   }
 
+
+
   for (const item of input.items) {
     const {
       data: inventory,
@@ -104,8 +100,7 @@ export async function createOrder(
       throw inventoryError;
     }
 
-    const currentQuantity =
-      inventory?.quantity ?? 0;
+    const currentQuantity = inventory?.quantity ?? 0;
 
     const newQuantity =
       Math.max(
@@ -130,6 +125,12 @@ export async function createOrder(
       throw updateError;
     }
   }
+
+  await createOrderEvent(
+    order.id,
+    "ORDER_CREATED",
+    `Order ${order.order_number} was created`,
+  );
 
   return order;
 }
@@ -168,25 +169,25 @@ export async function getOrders(
     .select("*");
 
   if (status) {
-    query = query.eq("status",status,);
+    query = query.eq("status", status,);
   }
-  
+
   if (search) {
     query = query.or(
       [
-      `order_number.ilike.%${search}%`,
-      `customer_email.ilike.%${search}%`,
+        `order_number.ilike.%${search}%`,
+        `customer_email.ilike.%${search}%`,
       ].join(","),
     );
   }
 
   const { data, error } =
-  await query.order(
-    "created_at",
-    {
-      ascending: false,
-    },
-  );
+    await query.order(
+      "created_at",
+      {
+        ascending: false,
+      },
+    );
 
   if (error) {
     throw error;
@@ -194,6 +195,37 @@ export async function getOrders(
 
   return data;
 }
+
+
+
+export async function getOrdersByCustomerId(
+  customerId: string,
+) {
+  const supabase =
+    createAdminClient();
+
+  const {
+    data,
+    error,
+  } = await supabase
+    .from("orders")
+    .select(`
+      *,
+      order_items(*)
+    `)
+    .eq("customer_id", customerId)
+    .order("created_at", {
+      ascending: false,
+    });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+
 
 export async function updateOrderStatus(
   orderId: string,
@@ -221,6 +253,13 @@ export async function updateOrderStatus(
   if (error) {
     throw error;
   }
+
+  await createOrderEvent(
+    orderId,
+    "STATUS_CHANGED",
+    `Order marked as ${status}`,
+  );
+
 }
 
 export async function getOrderMetrics() {
@@ -289,4 +328,12 @@ export async function updateShipment(
   if (error) {
     throw error;
   }
+
+
+  await createOrderEvent(
+    orderId,
+    "SHIPMENT_ADDED",
+    `${carrier} • ${trackingNumber}`,
+  );
+
 }

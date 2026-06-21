@@ -1,24 +1,45 @@
 import {
   createServerClient,
-} from "@supabase/ssr"
+} from "@supabase/ssr";
 
 import type { User }
-  from "@supabase/supabase-js"
+  from "@supabase/supabase-js";
 
 import {
   NextResponse,
   type NextRequest,
-} from "next/server"
+} from "next/server";
+
+function clearSupabaseAuthCookies(
+  request: NextRequest,
+  response: NextResponse,
+) {
+  const cookies =
+    request.cookies.getAll();
+
+  for (const cookie of cookies) {
+    if (cookie.name.startsWith("sb-")) {
+      response.cookies.set(
+        cookie.name,
+        "",
+        {
+          path: "/",
+          maxAge: 0,
+        },
+      );
+    }
+  }
+}
 
 export async function updateSession(
-  request: NextRequest
+  request: NextRequest,
 ): Promise<{
-  user: User | null
-  response: NextResponse
+  user: User | null;
+  response: NextResponse;
 }> {
   let response = NextResponse.next({
     request,
-  })
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,7 +47,7 @@ export async function updateSession(
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          return request.cookies.getAll();
         },
 
         setAll(cookiesToSet) {
@@ -34,36 +55,56 @@ export async function updateSession(
             ({ name, value }) => {
               request.cookies.set(
                 name,
-                value
-              )
-            }
-          )
+                value,
+              );
+            },
+          );
 
           response = NextResponse.next({
             request,
-          })
+          });
 
           cookiesToSet.forEach(
-            ({ name, value, options }) => {
+            ({
+              name,
+              value,
+              options,
+            }) => {
               response.cookies.set(
                 name,
                 value,
-                options
-              )
-            }
-          )
+                options,
+              );
+            },
+          );
         },
       },
-    }
-  )
+    },
+  );
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser()
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  return {
-    user,
-    response,
+    return {
+      user,
+      response,
+    };
+  } catch (error) {
+    console.error(
+      "updateSession auth error",
+      error,
+    );
+
+    clearSupabaseAuthCookies(
+      request,
+      response,
+    );
+
+    return {
+      user: null,
+      response,
+    };
   }
 }

@@ -7,7 +7,7 @@ export async function requireAdmin() {
   const profile = await getProfile()
 
   if (!profile) {
-    redirect("/login")
+    redirect("/")
   }
 
   if (!isAdmin(profile.role)) {

@@ -7,10 +7,10 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   const publicRoutes = [
+    "/",
     "/login",
     "/unauthorized",
   ]
-
 
   if (publicRoutes.includes(pathname)) {
     return NextResponse.next()
@@ -30,6 +30,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|\\.well-known).*)",
+    "/((?!_next/static|_next/image|.*\\..*).*)",
   ]
-}
+};

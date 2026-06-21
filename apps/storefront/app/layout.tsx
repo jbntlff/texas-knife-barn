@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from '@/components/cart/cart-provider'
 import { CartLink } from "@/components/cart/cart-link"
+import { AccountLink } from "@/components/auth/account-link";
 
 import "./globals.css";
 
@@ -64,12 +65,16 @@ export default function RootLayout({
                 </form>
 
                 <nav className="flex items-center gap-6">
-                  <Link href="/" className="text-sm text-muted-foreground hover:text-foreground" >
+                  <Link
+                    href="/"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
                     Home
                   </Link>
-
+                  <AccountLink />
                   <CartLink />
                 </nav>
+
               </div>
             </div>
           </header>

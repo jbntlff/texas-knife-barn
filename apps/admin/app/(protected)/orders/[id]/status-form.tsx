@@ -11,7 +11,6 @@ import {
 type Props = {
   orderId: string;
   currentStatus: string;
-  canShip: boolean;
 };
 
 export function StatusForm({

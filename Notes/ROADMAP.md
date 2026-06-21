@@ -1,6 +1,39 @@
 
 # Texas Knife Barn Roadmap
 
+06/18/2026
+
+1. Shipment Emails
+2. Order Timeline
+3. Customer Table + Marketing Opt-In
+4. Stripe Payments
+5. Customer Accounts
+6. Inventory Management
+7. Mobile Audit
+8. Mailing List Integration
+
+
+The nice thing about Step 3 is that it is relatively small and sets you up for:
+
+✓ Customer Accounts
+✓ Repeat Customers
+✓ Mailing Lists
+✓ Marketing Campaigns
+✓ Customer History
+
+without needing to redesign your database later.
+
+So while we're working on shipment emails, I would already be thinking about introducing a proper customers table as the next database enhancement rather than waiting until customer accounts are implemented.
+
+
+
+
+
+
+
+
+
+
 ## Phase 1
 - [x] Monorepo
 - [x] Docker
