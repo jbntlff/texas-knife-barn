@@ -1,3 +1,5 @@
+import { appConfig } from "@tkb/config";
+
 import { sendEmail } from "./send-email";
 
 type OrderConfirmationItem = {
@@ -65,6 +67,9 @@ export async function sendOrderConfirmationEmail({
       customerEmail,
     );
 
+  const brandName =
+    appConfig.brandName;
+
   const itemsHtml = items
     .map(
       (item) => `
@@ -109,7 +114,7 @@ export async function sendOrderConfirmationEmail({
   await sendEmail({
     to: customerEmail,
     subject:
-      "Your Texas Knife Barn Order Confirmation",
+      `Your ${brandName} Order Confirmation`,
     html: `
       <div
         style="
@@ -138,7 +143,7 @@ export async function sendOrderConfirmationEmail({
               line-height: 1.2;
             "
           >
-            Texas Knife Barn
+            ${brandName}
           </h1>
 
           <p
@@ -183,7 +188,7 @@ export async function sendOrderConfirmationEmail({
               color: #374151;
             "
           >
-            Thank you for shopping with Texas Knife Barn.
+            Thank you for shopping with ${brandName}.
             We’ve received your order and will begin
             processing it shortly.
           </p>

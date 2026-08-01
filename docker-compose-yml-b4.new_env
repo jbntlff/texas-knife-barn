@@ -34,6 +34,13 @@ services:
 
       DATABASE_URL: postgres://postgres:postgres@host.docker.internal:5432/knifestore
 
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      SUPABASE_URL: ${SUPABASE_URL}
+
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+
     volumes:
       - ./:/workspace
       - pnpm_store:/pnpm/store
@@ -42,9 +49,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.ssh:/root/.ssh:ro
 
+
     tty: true
     stdin_open: true
 
 volumes:
   pnpm_store:
   pnpm_home:
+

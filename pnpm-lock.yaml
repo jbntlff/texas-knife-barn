@@ -85,9 +85,15 @@ importers:
       '@tkb/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@tkb/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@tkb/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@tkb/email':
+        specifier: workspace:*
+        version: link:../../packages/email
       '@tkb/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -134,17 +140,32 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.106.1
         version: 2.106.1
+      '@tkb/config':
+        specifier: workspace:*
+        version: link:../config
       next:
         specifier: ^16.2.6
         version: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+
+  packages/config: {}
 
   packages/database:
     dependencies:
       '@supabase/supabase-js':
         specifier: ^2.106.1
         version: 2.106.1
+      '@tkb/config':
+        specifier: workspace:*
+        version: link:../config
 
-  packages/email: {}
+  packages/email:
+    dependencies:
+      '@tkb/config':
+        specifier: workspace:*
+        version: link:../config
+      nodemailer:
+        specifier: ^7.0.5
+        version: 7.0.13
 
   packages/types: {}
 
@@ -1800,6 +1821,10 @@ packages:
 
   node-releases@2.0.44:
     resolution: {integrity: sha512-5WUyunoPMsvvEhS8AxHtRzP+oA8UCkJ7YRxatWKjngndhDGLiqEVAQKWjFAiAiuL8zMRGzGSJxFnLetoa43qGQ==}
+
+  nodemailer@7.0.13:
+    resolution: {integrity: sha512-PNDFSJdP+KFgdsG3ZzMXCgquO7I6McjY2vlqILjtJd0hy8wEvtugS9xKRF2NWlPNGxvLCXlTNIae4serI7dinw==}
+    engines: {node: '>=6.0.0'}
 
   nodemailer@9.0.1:
     resolution: {integrity: sha512-Gwv8SQewT616ZM/URn0H54b8PWo/Wum7md3EW2aWy1lO27+WZCX+Xyak3J+NlmHUjDh5ME+uesJUDRbR3Ye8Bw==}
@@ -3894,6 +3919,8 @@ snapshots:
       semver: 6.3.1
 
   node-releases@2.0.44: {}
+
+  nodemailer@7.0.13: {}
 
   nodemailer@9.0.1: {}
 

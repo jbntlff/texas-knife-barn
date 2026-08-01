@@ -1,3 +1,11 @@
+I’m going to keep this in the same format you prefer:
+
+exact files to replace
+exact cleanup steps
+exact commands to run
+
+
+
 
 # Texas Knife Barn Roadmap
 

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { createServerSupabaseClient } from "@tkb/auth/server";
+import { env } from "@tkb/config";
 import {
   createOrder,
+  getOrder,
   type CreateOrderItem,
 } from "@tkb/database";
 import {
@@ -38,94 +39,60 @@ export async function POST(
         (sum, item) =>
           sum +
           item.unitPrice *
-          item.quantity,
+            item.quantity,
         0,
       );
 
-    const supabase =
-      await createServerSupabaseClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    let customerId: string | null =
-      null;
-
-    if (user) {
-      const {
-        data: profile,
-        error: profileError,
-      } = await supabase
-        .from("profiles")
-        .select("id, role")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        throw profileError;
-      }
-
-      if (
-        profile &&
-        profile.role === "customer"
-      ) {
-        customerId = profile.id;
-      }
-    }
-
-    const order =
+    const createdOrder =
       await createOrder({
         customerEmail:
           body.email,
-
-        customerId,
-
         subtotal,
-
-        items:
-          body.items,
+        items: body.items,
       });
+
+    const order =
+      await getOrder(
+        createdOrder.id,
+      );
+
+    if (!order) {
+      throw new Error(
+        "Unable to load created order for confirmation email.",
+      );
+    }
 
     await sendOrderConfirmationEmail({
       customerEmail:
         order.customer_email,
-
       customerName:
         order.customer_email,
-
       orderNumber:
         order.order_number,
-
       orderUrl:
-        `${process.env.NEXT_PUBLIC_STOREFRONT_URL}/orders/${order.id}`,
-
+        `${env.storefrontUrl}/orders/${order.id}`,
       subtotal:
-        Number(order.subtotal),
-
+        Number(order.subtotal ?? 0),
       taxTotal:
-        Number(order.tax_total),
-
+        Number(order.tax_total ?? 0),
       shippingTotal:
-        Number(order.shipping_total),
-
+        Number(
+          order.shipping_total ?? 0,
+        ),
       grandTotal:
-        Number(order.grand_total),
-
-      items:
-        body.items.map((item) => ({
+        Number(order.grand_total ?? 0),
+      items: order.order_items.map(
+        (item) => ({
           productName:
-            item.productName,
-
+            item.product_name,
           variantTitle:
-            item.variantTitle,
-
+            item.variant_title,
           quantity:
             item.quantity,
-
           unitPrice:
-            item.unitPrice,
-        })),
+            Number(item.unit_price),
+        }),
+      ),
     });
 
     return NextResponse.json({
@@ -138,6 +105,8 @@ export async function POST(
     return NextResponse.json(
       {
         success: false,
+        error:
+          "Unable to create order.",
       },
       {
         status: 500,

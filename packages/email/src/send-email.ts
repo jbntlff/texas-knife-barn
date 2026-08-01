@@ -1,9 +1,14 @@
 import nodemailer from "nodemailer";
 
+import {
+  appConfig,
+  env,
+} from "@tkb/config";
+
 const transporter =
   nodemailer.createTransport({
-    host: "host.docker.internal",
-    port: 54325,
+    host: env.mailpitHost,
+    port: env.mailpitPort,
     secure: false,
   });
 
@@ -17,8 +22,7 @@ export async function sendEmail({
   html: string;
 }) {
   await transporter.sendMail({
-    from:
-  '"Texas Knife Barn" <orders@texasknifebarn.local>',
+    from: `"${appConfig.brandName}" <orders@texasknifebarn.local>`,
     to,
     subject,
     html,

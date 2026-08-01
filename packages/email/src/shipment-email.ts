@@ -1,5 +1,6 @@
-import { sendEmail }
-  from "./send-email";
+import { appConfig } from "@tkb/config";
+
+import { sendEmail } from "./send-email";
 
 export async function sendShipmentEmail({
   customerEmail,
@@ -16,10 +17,13 @@ export async function sendShipmentEmail({
   trackingNumber: string;
   trackingUrl: string;
 }) {
+  const brandName =
+    appConfig.brandName;
+
   await sendEmail({
     to: customerEmail,
     subject:
-      "Your Texas Knife Barn Order Has Shipped",
+      `Your ${brandName} Order Has Shipped`,
     html: `
 <div
   style="
@@ -40,7 +44,7 @@ export async function sendShipmentEmail({
     "
   >
     <h1 style="margin:0;">
-      Texas Knife Barn
+      ${brandName}
     </h1>
 
     <p style="margin-top:8px;">
@@ -109,7 +113,7 @@ export async function sendShipmentEmail({
 
     <p>
       Thank you for shopping with
-      Texas Knife Barn.
+      ${brandName}.
     </p>
 
   </div>

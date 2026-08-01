@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -30,10 +29,10 @@
 
     "paths": {
       "@tkb/auth": ["packages/auth/src"],
+      "@tkb/config": ["packages/config/src"],
       "@tkb/database": ["packages/database/src"],
       "@tkb/types": ["packages/types/src"],
       "@/*": ["./*"]
     }
   }
 }
-

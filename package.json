@@ -10,7 +10,8 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "sync:env": "node scripts/sync-env.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

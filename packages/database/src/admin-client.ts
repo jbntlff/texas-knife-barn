@@ -1,10 +1,12 @@
-
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "./types/database";
+
+import { env } from "@tkb/config";
+
+import type { Database } from "./types/database.generated";
 
 export function createAdminClient() {
   return createClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    env.supabaseUrl,
+    env.supabaseServiceRoleKey,
   );
 }

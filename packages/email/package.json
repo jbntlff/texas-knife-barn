@@ -3,5 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "main": "./src/index.ts",
-  "types": "./src/index.ts"
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@tkb/config": "workspace:*",
+    "nodemailer": "^7.0.5"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
 }

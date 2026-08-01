@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
 	  allowedDevOrigins:[
       'tkb.local',
-      '192.168.1.248',
+      '192.168.0.252',
       
     ],
     experimental: {

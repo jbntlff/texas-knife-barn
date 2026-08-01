@@ -10,8 +10,9 @@ export type AuthFormState = {
 };
 
 export async function signUpCustomerAction(
+  _prevState: AuthFormState,
   formData: FormData,
-) {
+): Promise<AuthFormState> {
   const firstName =
     formData.get("firstName")?.toString().trim() ?? "";
 
@@ -33,9 +34,10 @@ export async function signUpCustomerAction(
     !email ||
     !password
   ) {
-    throw new Error(
-      "First name, last name, email, and password are required.",
-    );
+    return {
+      error:
+        "First name, last name, email, and password are required.",
+    };
   }
 
   const supabase =
@@ -50,15 +52,30 @@ export async function signUpCustomerAction(
   });
 
   if (error) {
-    throw error;
+    if (
+      error.message
+        .toLowerCase()
+        .includes("already registered")
+    ) {
+      return {
+        error:
+          "An account with this email already exists.",
+      };
+    }
+
+    return {
+      error:
+        "Unable to create your account.",
+    };
   }
 
   const user = data.user;
 
   if (!user) {
-    throw new Error(
-      "Signup did not return a user.",
-    );
+    return {
+      error:
+        "Signup did not return a user.",
+    };
   }
 
   const adminSupabase =
@@ -78,7 +95,12 @@ export async function signUpCustomerAction(
       });
 
   if (profileError) {
-    throw profileError;
+    await supabase.auth.signOut();
+
+    return {
+      error:
+        "Unable to create your customer profile.",
+    };
   }
 
   redirect("/account");

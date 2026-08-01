@@ -1,14 +1,13 @@
-import {
-  createServerClient,
-} from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 
-import type { User }
-  from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 
 import {
   NextResponse,
   type NextRequest,
 } from "next/server";
+
+import { env } from "@tkb/config";
 
 function clearSupabaseAuthCookies(
   request: NextRequest,
@@ -42,8 +41,8 @@ export async function updateSession(
   });
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    env.publicSupabaseUrl,
+    env.publicSupabaseAnonKey,
     {
       cookies: {
         getAll() {

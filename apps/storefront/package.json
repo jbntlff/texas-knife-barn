@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@tkb/auth": "workspace:*",
+    "@tkb/config": "workspace:*",
     "@tkb/database": "workspace:*",
+    "@tkb/email": "workspace:*",
     "@tkb/ui": "workspace:*",
     "next": "16.2.6",
     "react": "19.2.4",
