@@ -39,6 +39,9 @@ docker-data
 # vscode
 .vscode
 
+# claude code (local permission cache; launch.json is shared/committed)
+.claude/settings.local.json
+
 # coverage
 coverage
 
