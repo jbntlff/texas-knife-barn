@@ -24,6 +24,12 @@ const targets = [
     "admin",
     ".env.local",
   ),
+  path.join(
+    rootDir,
+    "apps",
+    "brochure",
+    ".env.local",
+  ),
 ];
 
 if (!fs.existsSync(sourcePath)) {
