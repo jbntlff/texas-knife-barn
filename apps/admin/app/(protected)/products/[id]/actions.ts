@@ -9,6 +9,10 @@ import {
   createAdminClient,
 } from "@tkb/database";
 
+import {
+  extractStorageImagePath,
+} from "@tkb/ui";
+
 export async function updateInventory(
   formData: FormData,
 ) {
@@ -59,6 +63,7 @@ export async function updateProduct(
   const description = formData.get( "description",) as string;
   const status = formData.get( "status",) as string;
   const featured = formData.get( "featured",) === "on";
+  const showInGallery = formData.get( "showInGallery",) === "on";
   const supabase = createAdminClient();
 
   const { error } =
@@ -74,6 +79,8 @@ export async function updateProduct(
         description,
         status,
         featured,
+        show_in_gallery:
+          showInGallery,
         updated_at:
           new Date()
             .toISOString(),
@@ -314,16 +321,6 @@ export async function uploadProductImage(
    */
 
   const {
-    data: publicUrlData,
-  } = supabase.storage
-    .from("product-images")
-    .getPublicUrl(
-      storagePath,
-    );
-
-  const imageUrl = publicUrlData.publicUrl;
-
-  const {
     data: existingImages,
     error: existingImagesError,
   } = await supabase
@@ -366,7 +363,7 @@ export async function uploadProductImage(
         productId,
 
       image_url:
-        imageUrl,
+        storagePath,
 
       alt_text:
         altText || null,
@@ -446,16 +443,10 @@ export async function deleteProductImage(
   const supabase =
     createAdminClient();
 
-  if (
-    imageUrl.includes(
-      "/storage/v1/object/public/product-images/",
-    )
-  ) {
-    const storagePath =
-      imageUrl.split(
-        "/storage/v1/object/public/product-images/",
-      )[1];
+  const storagePath =
+    extractStorageImagePath(imageUrl);
 
+  if (storagePath) {
     const {
       error: storageError,
     } = await supabase.storage

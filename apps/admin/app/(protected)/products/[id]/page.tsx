@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import { getProductById, getBrands, getCategories } from "@tkb/database";
-import { formatPrice } from "@tkb/ui";
+import {
+  formatPrice,
+  resolveProductImageUrl,
+} from "@tkb/ui";
 
 import {
   updateInventory,
@@ -252,6 +255,20 @@ export default async function ProductDetailPage({
             </div>
           </div>
 
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="showInGallery"
+              defaultChecked={
+                product.show_in_gallery
+              }
+            />
+
+            <label>
+              Show in Gallery
+            </label>
+          </div>
+
           <button
             type="submit"
             className=" rounded border px-4 py-2 "
@@ -315,9 +332,9 @@ export default async function ProductDetailPage({
             {images.map(
               (image, index,) => {
                 const imageSrc =
-                  image.image_url.startsWith("http")
-                    ? image.image_url
-                    : `${process.env.NEXT_PUBLIC_STOREFRONT_URL}${image.image_url}`;
+                  resolveProductImageUrl(
+                    image.image_url,
+                  );
 
                 return (
                   <div

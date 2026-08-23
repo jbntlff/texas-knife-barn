@@ -132,6 +132,17 @@ export default async function NewProductPage() {
             </label>
           </div>
 
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="showInGallery"
+            />
+
+            <label>
+              Show in Gallery
+            </label>
+          </div>
+
           <button
             type="submit"
             className="

@@ -399,7 +399,7 @@ INSERT INTO "public"."product_images" ("id", "product_id", "image_url", "alt_tex
 	('ea7eccb2-cd1a-4d21-b240-f9a773d6476b', '55555555-5555-5555-5555-555555555558', '/images/products/spyderco-para-3-1.jpg', 'Spyderco Para 3 Open', 0, '2026-06-04 23:50:28.935065+00'),
 	('9e8ecd64-a1c1-4494-a069-4fcffee5a5d7', '55555555-5555-5555-5555-555555555558', '/images/products/spyderco-para-3-2.jpg', 'Spyderco Para 3 Closed', 1, '2026-06-04 23:50:28.935065+00'),
 	('9df008be-0127-47a5-966c-4095827d18be', '55555555-5555-5555-5555-555555555558', '/images/products/spyderco-para-3-3.jpg', 'Spyderco Para 3 Closed', 1, '2026-06-04 23:50:28.935065+00'),
-	('2d166213-0bb5-4a05-9fba-5a522065f112', '34da3765-5d6d-4f8c-a0ad-4b5dd90dad77', 'http://tkb.local:54321/storage/v1/object/public/product-images/34da3765-5d6d-4f8c-a0ad-4b5dd90dad77/fe60519f-c6d2-4f2c-8c8a-b2449f04e41a.jpg', 'TKB-Skinner', 0, '2026-06-13 23:33:11.759389+00');
+	('2d166213-0bb5-4a05-9fba-5a522065f112', '34da3765-5d6d-4f8c-a0ad-4b5dd90dad77', '34da3765-5d6d-4f8c-a0ad-4b5dd90dad77/fe60519f-c6d2-4f2c-8c8a-b2449f04e41a.jpg', 'TKB-Skinner', 0, '2026-06-13 23:33:11.759389+00');
 
 
 --

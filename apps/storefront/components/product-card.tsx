@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { resolveProductImageUrl } from "@tkb/ui";
+
 type ProductCardProps = {
   product: any;
 };
@@ -11,11 +13,13 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="block rounded-lg border p-4 transition hover:bg-muted/50"
+      className="block rounded-lg border bg-muted p-4 transition hover:bg-background"
     >
       {image && (
         <img
-          src={image.image_url}
+          src={resolveProductImageUrl(
+            image.image_url,
+          )}
           alt={product.name}
           className="mb-4 aspect-square w-full rounded object-cover"
         />

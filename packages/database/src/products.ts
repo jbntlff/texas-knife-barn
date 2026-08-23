@@ -60,6 +60,30 @@ export async function getProducts() {
   return data;
 }
 
+export async function getGalleryProducts() {
+  const supabase = createAdminClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      brands (*),
+      product_images(*)
+    `)
+    .eq("status", "active")
+    .eq("show_in_gallery", true)
+    .order("name");
+
+  if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
+    throw error;
+  }
+  return data;
+}
+
 export async function getProductById(
   productId: string,
 ) {
