@@ -255,6 +255,36 @@ export default async function ProductDetailPage({
             </div>
           </div>
 
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Series
+            </label>
+
+            <select
+              name="series"
+              defaultValue={
+                product.series ?? ""
+              }
+              className="w-full rounded border px-3 py-2"
+            >
+              <option value="">
+                Select Series
+              </option>
+
+              <option value="handcrafted">
+                Handcrafted
+              </option>
+
+              <option value="midtech">
+                MidTech
+              </option>
+
+              <option value="signature_series">
+                Signature Series
+              </option>
+            </select>
+          </div>
+
           <div className="flex items-center gap-2">
             <input
               type="checkbox"

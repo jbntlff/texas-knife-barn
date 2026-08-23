@@ -62,6 +62,7 @@ export async function updateProduct(
   const shortDescription = formData.get( "shortDescription",) as string;
   const description = formData.get( "description",) as string;
   const status = formData.get( "status",) as string;
+  const series = formData.get( "series",) as string;
   const featured = formData.get( "featured",) === "on";
   const showInGallery = formData.get( "showInGallery",) === "on";
   const supabase = createAdminClient();
@@ -78,6 +79,8 @@ export async function updateProduct(
           shortDescription,
         description,
         status,
+        series:
+          series || null,
         featured,
         show_in_gallery:
           showInGallery,

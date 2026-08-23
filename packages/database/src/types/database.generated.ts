@@ -407,6 +407,7 @@ export type Database = {
           name: string
           short_description: string | null
           show_in_gallery: boolean
+          series: string | null
           slug: string
           status: string
           updated_at: string
@@ -421,6 +422,7 @@ export type Database = {
           name: string
           short_description?: string | null
           show_in_gallery?: boolean
+          series?: string | null
           slug: string
           status?: string
           updated_at?: string
@@ -435,6 +437,7 @@ export type Database = {
           name?: string
           short_description?: string | null
           show_in_gallery?: boolean
+          series?: string | null
           slug?: string
           status?: string
           updated_at?: string
