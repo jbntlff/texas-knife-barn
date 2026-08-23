@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import { appConfig } from "@tkb/config";
+import { appConfig, env } from "@tkb/config";
 import { getGalleryProducts } from "@tkb/database";
 import { resolveProductImageUrl } from "@tkb/ui";
 
@@ -41,9 +41,10 @@ export default async function GalleryPage() {
             );
 
             return (
-              <div
+              <a
                 key={product.id}
-                className="overflow-hidden rounded-2xl border"
+                href={`${env.storefrontUrl}/products/${product.slug}`}
+                className="group overflow-hidden rounded-2xl border transition hover:shadow-md"
               >
                 {image ? (
                   <div className="relative aspect-square bg-muted/30">
@@ -56,7 +57,7 @@ export default async function GalleryPage() {
                         product.name
                       }
                       fill
-                      className="object-cover"
+                      className="object-cover transition duration-300 group-hover:scale-105"
                     />
                   </div>
                 ) : (
@@ -76,7 +77,7 @@ export default async function GalleryPage() {
                     </p>
                   ) : null}
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
