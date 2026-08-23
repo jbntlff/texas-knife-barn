@@ -6,6 +6,10 @@ import type { NextConfig } from "next";
 const lanHost = process.env.LAN_HOST;
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: [
+    "tkb.local",
+    ...(lanHost ? [lanHost] : []),
+  ],
   images: {
     unoptimized: true,
     remotePatterns: [
