@@ -5,7 +5,7 @@ import { RegisterForm } from "@/components/auth/register-form";
 export default function RegisterPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
-      <div className="rounded-2xl border bg-background p-8 shadow-sm">
+      <div className="rounded-2xl border bg-muted p-8 shadow-sm">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold tracking-tight">
             Create your account

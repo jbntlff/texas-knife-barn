@@ -81,7 +81,7 @@ export default async function OrderPage({
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-12">
-      <div className="mb-10 rounded-2xl border bg-background p-8 shadow-sm">
+      <div className="mb-10 rounded-2xl border bg-muted p-8 shadow-sm">
         <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
           Order Received
         </p>
@@ -126,7 +126,7 @@ export default async function OrderPage({
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-6">
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-muted p-6">
             <h2 className="mb-4 text-xl font-semibold">
               Order Items
             </h2>
@@ -164,7 +164,7 @@ export default async function OrderPage({
             </div>
           </div>
 
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-muted p-6">
             <h2 className="mb-4 text-xl font-semibold">
               What happens next
             </h2>
@@ -195,7 +195,7 @@ export default async function OrderPage({
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-muted p-6">
             <h2 className="mb-4 text-xl font-semibold">
               Order Summary
             </h2>
@@ -243,7 +243,7 @@ export default async function OrderPage({
             </div>
           </div>
 
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-muted p-6">
             <h2 className="mb-4 text-xl font-semibold">
               Totals
             </h2>
@@ -293,7 +293,7 @@ export default async function OrderPage({
             </div>
           </div>
 
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-muted p-6">
             <h2 className="mb-4 text-xl font-semibold">
               Shipping
             </h2>

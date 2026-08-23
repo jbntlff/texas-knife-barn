@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from '@/components/cart/cart-provider'
 import { CartLink } from "@/components/cart/cart-link"
 import { AccountLink } from "@/components/auth/account-link";
+
+import { env } from "@tkb/config";
 
 import "./globals.css";
 
@@ -37,12 +40,23 @@ export default function RootLayout({
         <CartProvider>
           <header className="border-b">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-              <Link
-                href="/"
-                className="text-xl font-bold tracking-tight"
+              <a
+                href={env.brochureUrl}
+                className="flex items-center gap-3"
               >
-                Texas Knife Barn
-              </Link>
+                <Image
+                  src="/images/tkb-logo.png"
+                  alt="Texas Knife Barn"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 shrink-0 object-contain"
+                  priority
+                />
+
+                <span className="text-xl font-bold tracking-tight">
+                  Texas Knife Barn
+                </span>
+              </a>
 
               <div className="flex items-center gap-6">
                 <form

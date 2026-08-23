@@ -19,7 +19,7 @@ export function CartItem({
   } = useCart();
 
   return (
-    <div className="rounded-xl border p-4">
+    <div className="rounded-xl border bg-muted p-4">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="font-semibold">
