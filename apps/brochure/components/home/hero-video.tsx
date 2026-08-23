@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { env } from "@tkb/config";
+import { appConfig, env } from "@tkb/config";
 
 export function HeroVideo() {
   return (
@@ -28,26 +28,38 @@ export function HeroVideo() {
         aria-hidden="true"
       />
 
+      <div
+        className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent sm:h-40"
+        aria-hidden="true"
+      />
+
       <div className="relative z-10 flex min-h-[calc(100svh-4rem)] items-center">
         <div className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
           <div className="max-w-2xl">
             <p className="mb-5 text-sm font-semibold uppercase tracking-[0.3em] text-white/90">
-              Texas Knife Barn
+              {appConfig.brandName}
             </p>
 
-            <h1 className="max-w-xl text-5xl font-semibold uppercase tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Forged for the field.
+            <h1 className="max-w-xl text-4xl font-semibold uppercase tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Built with purpose. Crafted with character.
             </h1>
 
-            <p className="mt-6 max-w-lg text-lg leading-8 text-white/85 sm:text-xl">
-              Handcrafted hunting knives built with purpose, premium materials,
-              and Texas craftsmanship.
+            <p className="mt-6 max-w-xl text-lg leading-8 text-white/85 sm:text-xl">
+              At {appConfig.brandName}, we believe a great knife is more than
+              a tool—it&rsquo;s a reflection of craftsmanship, character, and
+              the people who carry it. Discover handcrafted, MidTech, and
+              Signature Series knives built for the outdoors, everyday use,
+              and those who appreciate a knife made right.
+            </p>
+
+            <p className="mt-4 max-w-xl text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+              Quality craftsmanship. Texas spirit. Knives built to last.
             </p>
 
             <div className="mt-9">
               <Link
                 href={env.storefrontUrl}
-                className="inline-flex items-center justify-center bg-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-black transition hover:bg-white/90"
+                className="inline-flex items-center justify-center rounded-md bg-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-black transition hover:bg-white/90"
               >
                 Shop Knives
               </Link>

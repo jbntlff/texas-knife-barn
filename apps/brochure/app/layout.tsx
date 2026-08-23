@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { appConfig, env } from "@tkb/config";
 
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 import "./globals.css";
 
@@ -43,11 +44,10 @@ export default function RootLayout({
           {children}
         </div>
 
-        <footer className="mt-16 border-t">
-          <div className="mx-auto max-w-7xl px-6 py-8 text-sm text-muted-foreground">
-            © 2026 {appConfig.brandName}
-          </div>
-        </footer>
+        <SiteFooter
+          brandName={appConfig.brandName}
+          storefrontUrl={env.storefrontUrl}
+        />
       </body>
     </html>
   );
