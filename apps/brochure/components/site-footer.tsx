@@ -58,7 +58,11 @@ export function SiteFooter({
   const showFriends = pathname === "/";
 
   return (
-    <footer className="mt-16 border-t">
+    <footer className="mt-16">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="border-t" />
+      </div>
+
       {showFriends ? (
         <div className="mx-auto max-w-7xl px-6 py-12">
           <div className="rounded-2xl border bg-muted p-8 shadow-sm">
@@ -104,8 +108,8 @@ export function SiteFooter({
         </div>
       ) : null}
 
-      <div className="border-t px-6 py-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-sm text-muted-foreground sm:flex-row sm:justify-between">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex flex-col items-center gap-4 border-t py-8 text-sm text-muted-foreground sm:flex-row sm:justify-between">
           <div>© 2026 {brandName}</div>
 
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
