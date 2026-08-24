@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getProductBySlug } from "@tkb/database";
 
+import { BackLink } from "@/components/back-link";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductDetail } from "@/components/product/product-detail";
 
@@ -37,12 +38,10 @@ export default async function ProductPage({
         </div>
 
         <div>
-          <Link
-            href="/"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            ← Back to Products
-          </Link>
+          <BackLink
+            fallbackHref="/"
+            fallbackLabel="Back to Products"
+          />
 
           <h1 className="text-4xl font-bold">
             {product.name}
