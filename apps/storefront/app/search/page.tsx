@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/product-card";
 import { getSearchProducts } from "@tkb/database";
 
 export const metadata: Metadata = {
-  title: "Search | Texas Knife Barn",
+  title: "Search | Texas Knife Outfitters",
 };
 
 type SearchPageProps = {

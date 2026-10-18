@@ -171,7 +171,7 @@ export async function signInCustomerAction(
 
     return {
       error:
-        "This account is not a Texas Knife Barn customer account.",
+        "This account is not a Texas Knife Outfitters customer account.",
     };
   }
 

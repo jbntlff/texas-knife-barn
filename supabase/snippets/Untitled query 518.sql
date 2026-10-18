@@ -5,6 +5,6 @@ insert into profiles (
 )
 values (
   '4ac91215-8dca-49a5-88cb-1d64bd2882a3',
-  'joel@texasknifebarn.com',
+  'joel@txknife.com',
   'admin'
 );

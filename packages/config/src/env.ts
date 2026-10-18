@@ -63,7 +63,7 @@ export const env = {
   inquiryRecipientEmail:
     process.env
       .INQUIRY_RECIPIENT_EMAIL ??
-    "orders@texasknifebarn.local",
+    "orders@txknife.local",
 
   mailpitHost:
     process.env.MAILPIT_HOST ??

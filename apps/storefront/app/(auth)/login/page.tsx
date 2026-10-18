@@ -12,7 +12,7 @@ export default function LoginPage() {
           </h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            Access your orders and manage your Texas Knife Barn account.
+            Access your orders and manage your Texas Knife Outfitters account.
           </p>
         </div>
 

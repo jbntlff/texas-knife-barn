@@ -1,4 +1,4 @@
-# Texas Knife Barn Domain Model
+# Texas Knife Outfitters Domain Model
 
 **Status:** Approved
 **Version:** 1.0
@@ -9,7 +9,7 @@
 
 # Purpose
 
-This document defines the core business concepts of the Texas Knife Barn platform.
+This document defines the core business concepts of the Texas Knife Outfitters platform.
 
 It describes **what the business is**, not how the software is implemented.
 
@@ -17,7 +17,7 @@ Every architectural decision, database schema, API, user interface, and workflow
 
 Whenever a design question arises, ask:
 
-> **Does this match the Texas Knife Barn domain model?**
+> **Does this match the Texas Knife Outfitters domain model?**
 
 If the answer is **No**, the implementation should be reconsidered.
 
@@ -25,7 +25,7 @@ If the answer is **No**, the implementation should be reconsidered.
 
 # Vision
 
-Texas Knife Barn is being designed as a platform for custom knife makers.
+Texas Knife Outfitters is being designed as a platform for custom knife makers.
 
 It begins as the online storefront for:
 
@@ -40,7 +40,7 @@ The architecture should naturally support this evolution.
 
 # Domain Philosophy
 
-Texas Knife Barn is **not** a generic e-commerce application.
+Texas Knife Outfitters is **not** a generic e-commerce application.
 
 It is software designed to model how custom knife makers create, manage, and sell handcrafted knives.
 
@@ -194,7 +194,7 @@ Initially:
 * Joel Bintliff
 * Brian Milinski
 
-Future versions of Texas Knife Barn should support additional makers without changing the overall architecture.
+Future versions of Texas Knife Outfitters should support additional makers without changing the overall architecture.
 
 ---
 
@@ -268,7 +268,7 @@ Inventory is responsible for:
 
 # Product Categories
 
-Texas Knife Barn initially supports three product categories.
+Texas Knife Outfitters initially supports three product categories.
 
 ## Handcrafted
 
@@ -336,7 +336,7 @@ If the answer to any question is **No**, reconsider the design.
 
 # Closing Statement
 
-Texas Knife Barn exists to celebrate craftsmanship.
+Texas Knife Outfitters exists to celebrate craftsmanship.
 
 The platform should present every handcrafted knife as an individual work created by a maker—not as an interchangeable retail product.
 

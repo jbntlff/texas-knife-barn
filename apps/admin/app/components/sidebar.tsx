@@ -81,13 +81,13 @@ export default function Sidebar({
         <div className="flex flex-col items-center gap-3">
           <img
             src="/images/tkb-logo.png"
-            alt="Texas Knife Barn"
+            alt="Texas Knife Outfitters"
             className="h-24 w-24 object-contain"
           />
 
           <div className="text-center">
             <h1 className="text-lg font-bold">
-              Texas Knife Barn
+              Texas Knife Outfitters
             </h1>
 
             <p className="text-sm text-muted-foreground">

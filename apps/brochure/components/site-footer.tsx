@@ -30,7 +30,7 @@ const friends: Friend[] = [
     href: "https://www.phenixknives.com",
   },
   {
-    name: "Texas Knife Makers Guild",
+    name: "Texas Knifemakers' Guild",
     href: "https://www.texasknifemakersguild.com",
   },
   {
@@ -38,14 +38,61 @@ const friends: Friend[] = [
     href: "https://www.mrknives.com",
   },
   {
-    name: "Baker Forge & Tool",
-    href: "https://bakerforge.com",
-  },
-  {
     name: "Brodbeck Ironworks",
     href: "https://brodbeckironworks.com",
   },
 ];
+
+function FriendCard({ friend }: { friend: Friend }) {
+  const content = (
+    <div className="flex items-start justify-between gap-4 p-5">
+      <div>
+        <h3 className="text-base font-semibold tracking-tight text-foreground">
+          {friend.name}
+        </h3>
+        {friend.detail ? (
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {friend.detail}
+          </p>
+        ) : null}
+
+        {friend.href ? (
+          <p className="mt-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground transition-colors group-hover:text-foreground">
+            Visit Website
+          </p>
+        ) : null}
+      </div>
+
+      {friend.href ? (
+        <span
+          aria-hidden="true"
+          className="shrink-0 text-lg text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground"
+        >
+          →
+        </span>
+      ) : null}
+    </div>
+  );
+
+  if (friend.href) {
+    return (
+      <a
+        href={friend.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block overflow-hidden rounded-2xl border bg-background shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div className="group block overflow-hidden rounded-2xl border bg-background shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+      {content}
+    </div>
+  );
+}
 
 export function SiteFooter({
   brandName,
@@ -64,48 +111,28 @@ export function SiteFooter({
       </div>
 
       {showFriends ? (
-        <div className="mx-auto max-w-7xl px-6 py-12">
-          <div className="rounded-2xl border bg-muted p-8 shadow-sm">
-            <h2 className="text-center text-xl font-semibold">
-              Friends of {brandName}
+        <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              Our Community
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Friends &amp; Makers
             </h2>
-
-            <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {friends.map((friend) => {
-                const content = (
-                  <>
-                    <span className="font-medium text-foreground">
-                      {friend.name}
-                    </span>
-
-                    {friend.detail ? (
-                      <span className="mt-1 block text-sm text-muted-foreground">
-                        {friend.detail}
-                      </span>
-                    ) : null}
-                  </>
-                );
-
-                return (
-                  <li key={friend.name} className="text-sm">
-                    {friend.href ? (
-                      <a
-                        href={friend.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline"
-                      >
-                        {content}
-                      </a>
-                    ) : (
-                      <div>{content}</div>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
+              The people and makers behind the craft. Texas Knife Outfitters is proud
+              to know and support fellow craftsmen, organizations, and businesses
+              that share our appreciation for quality knives and the traditions
+              behind them.
+            </p>
           </div>
-        </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {friends.map((friend) => (
+              <FriendCard key={friend.name} friend={friend} />
+            ))}
+          </div>
+        </section>
       ) : null}
 
       <div className="mx-auto max-w-7xl px-6">
@@ -123,17 +150,11 @@ export function SiteFooter({
               </Link>
             ))}
 
-            <a
-              href={`${storefrontUrl}/search`}
-              className="hover:text-foreground"
-            >
+            <a href={`${storefrontUrl}/search`} className="hover:text-foreground">
               Search
             </a>
 
-            <a
-              href={storefrontUrl}
-              className="hover:text-foreground"
-            >
+            <a href={storefrontUrl} className="hover:text-foreground">
               Shop
             </a>
           </nav>

@@ -27,7 +27,7 @@ export default async function ContactPage({
 
         <p className="mt-2 text-muted-foreground">
           Have a question, need assistance, or just want to learn more
-          about Texas Knife Barn? Send us a message and we&rsquo;ll be
+          about Texas Knife Outfitters? Send us a message and we&rsquo;ll be
           happy to help. Whether it&rsquo;s about a specific knife,
           materials, custom options, or something else, we&rsquo;re here
           to answer your questions.
@@ -125,7 +125,7 @@ export default async function ContactPage({
 
       <div className="mt-8 max-w-2xl rounded-2xl border bg-muted p-8 shadow-sm">
         <address className="not-italic leading-relaxed">
-          Texas Knife Barn
+          Texas Knife Outfitters
           <br />
           1100 Michalke Rd.
           <br />
@@ -139,10 +139,10 @@ export default async function ContactPage({
           </a>
           <br />
           <a
-            href="mailto:howdy@texasknifebarn.com"
+            href="mailto:howdy@txknife.com"
             className="hover:underline"
           >
-            howdy@texasknifebarn.com
+            howdy@txknife.com
           </a>
         </address>
       </div>

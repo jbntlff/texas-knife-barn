@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: appConfig.brandName,
   description:
-    "Handcrafted knives from Texas Knife Barn — browse the gallery, learn how custom orders work, and get in touch.",
+    "Handcrafted knives from Texas Knife Outfitters — browse the gallery, learn how custom orders work, and get in touch.",
 };
 
 export default function RootLayout({

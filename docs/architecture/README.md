@@ -1,10 +1,10 @@
 
-# Texas Knife Barn Architecture
+# Texas Knife Outfitters Architecture
 
 **Status:** Approved
 **Version:** 1.0
 **Last Updated:** 2026-06-27
-**Project:** Texas Knife Barn
+**Project:** Texas Knife Outfitters
 
 ---
 
@@ -12,7 +12,7 @@
 
 This file serves as the **README.md for the **``** directory**.
 
-The `docs/architecture` directory contains the architectural documentation for the Texas Knife Barn platform.
+The `docs/architecture` directory contains the architectural documentation for the Texas Knife Outfitters platform.
 
 These documents describe **why** the system is designed the way it is—not simply **how** it is implemented.
 
@@ -41,7 +41,7 @@ When future development raises questions such as:
 
 Every significant architectural decision should answer one question:
 
-> **Does this match the Texas Knife Barn domain model?**
+> **Does this match the Texas Knife Outfitters domain model?**
 
 If the answer is **No**, the implementation should be reconsidered before code is written.
 
@@ -77,7 +77,7 @@ Introduces the architecture documentation and explains its purpose.
 
 ## domain-model.md
 
-Defines the business concepts that drive Texas Knife Barn.
+Defines the business concepts that drive Texas Knife Outfitters.
 
 Examples include:
 
@@ -217,7 +217,7 @@ Documentation should never become an afterthought.
 
 # Long-Term Vision
 
-Texas Knife Barn begins as an online storefront for handcrafted knives created by Joel Bintliff and Brian Milinski.
+Texas Knife Outfitters begins as an online storefront for handcrafted knives created by Joel Bintliff and Brian Milinski.
 
 The long-term vision is to become a platform that enables custom knife makers to present, manage, and sell their work online while remaining faithful to the craft of knife making.
 

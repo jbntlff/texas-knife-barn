@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Texas Knife Barn",
+  title: "Texas Knife Outfitters",
   description:
     "Premium knives for everyday carry, hunting, and collection.",
 };
@@ -47,7 +47,7 @@ export default function RootLayout({
                 >
                   <Image
                     src="/images/tkb-logo.png"
-                    alt="Texas Knife Barn"
+                    alt="Texas Knife Outfitters"
                     width={40}
                     height={40}
                     className="h-10 w-10 shrink-0 object-contain"
@@ -55,7 +55,7 @@ export default function RootLayout({
                   />
 
                   <span className="text-xl font-bold tracking-tight">
-                    Texas Knife Barn
+                    Texas Knife Outfitters
                   </span>
                 </a>
 
@@ -102,7 +102,7 @@ export default function RootLayout({
           <footer className="mt-16">
             <div className="mx-auto max-w-7xl px-6">
               <div className="border-t py-8 text-sm text-muted-foreground">
-                © 2026 Texas Knife Barn
+                © 2026 Texas Knife Outfitters
               </div>
             </div>
           </footer>

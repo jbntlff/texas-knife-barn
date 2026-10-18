@@ -9,7 +9,7 @@ import { resolveProductImageUrl } from "@tkb/ui";
 export const metadata: Metadata = {
   title: `Gallery | ${appConfig.brandName}`,
   description:
-    "Explore the Handcrafted, MidTech, and Signature Series collections from Texas Knife Barn.",
+    "Explore the Handcrafted, MidTech, and Signature Series collections from Texas Knife Outfitters.",
 };
 
 const series = [

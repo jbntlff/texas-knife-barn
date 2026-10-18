@@ -12,7 +12,7 @@ export default function RegisterPage() {
           </h1>
 
           <p className="mt-2 text-sm text-muted-foreground">
-            Save your order history and manage your Texas Knife Barn account.
+            Save your order history and manage your Texas Knife Outfitters account.
           </p>
         </div>
 

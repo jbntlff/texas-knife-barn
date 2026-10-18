@@ -5,4 +5,4 @@ select
   created_at
 from profiles
 where email =
-  'admin@texasknifebarn.local';
+  'admin@txknife.local';

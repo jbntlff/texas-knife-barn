@@ -8,4 +8,4 @@ select
   email,
   'admin'
 from auth.users
-where email = 'joel@texasknifebarn.com';
+where email = 'joel@txknife.com';

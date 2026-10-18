@@ -22,7 +22,7 @@ export async function sendEmail({
   html: string;
 }) {
   await transporter.sendMail({
-    from: `"${appConfig.brandName}" <orders@texasknifebarn.local>`,
+    from: `"${appConfig.brandName}" <orders@txknife.local>`,
     to,
     subject,
     html,

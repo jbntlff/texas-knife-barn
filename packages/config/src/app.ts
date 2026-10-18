@@ -1,10 +1,10 @@
 export const appConfig = {
   brandName:
-    "Texas Knife Barn",
+    "Texas Knife Outfitters",
 
   storefrontName:
-    "Texas Knife Barn",
+    "Texas Knife Outfitters",
 
   adminAppName:
-    "Texas Knife Barn Admin",
+    "Texas Knife Outfitters Admin",
 };
