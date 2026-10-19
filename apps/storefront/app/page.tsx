@@ -1,7 +1,23 @@
+import { redirect } from "next/navigation";
+
 import { ProductCard } from "@/components/product-card";
 import { getProducts } from "@tkb/database";
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  // Local Supabase auth doesn't honor the redirectTo passed to
+  // resetPasswordForEmail and always lands recovery links here with a
+  // PKCE `code` param. Hand it to the route handler that can exchange it
+  // for a session (needs to set cookies, which a page component can't do).
+  const { code } = await searchParams;
+
+  if (code) {
+    redirect(`/auth/confirm?code=${code}`);
+  }
+
   const products = await getProducts();
 
   return (

@@ -4,9 +4,15 @@ import { redirect } from "next/navigation";
 
 import { createServerActionSupabaseClient } from "@tkb/auth/server";
 import { createAdminClient } from "@tkb/database";
+import { env } from "@tkb/config";
 
 export type AuthFormState = {
   error: string | null;
+};
+
+export type RequestPasswordResetState = {
+  error: string | null;
+  submitted: boolean;
 };
 
 export async function signUpCustomerAction(
@@ -176,6 +182,38 @@ export async function signInCustomerAction(
   }
 
   redirect("/account");
+}
+
+export async function requestPasswordResetAction(
+  _prevState: RequestPasswordResetState,
+  formData: FormData,
+): Promise<RequestPasswordResetState> {
+  const email =
+    formData.get("email")?.toString().trim() ?? "";
+
+  if (!email) {
+    return {
+      error: "Email is required.",
+      submitted: false,
+    };
+  }
+
+  const supabase =
+    await createServerActionSupabaseClient();
+
+  await supabase.auth.resetPasswordForEmail(
+    email,
+    {
+      redirectTo: `${env.storefrontUrl}/reset-password`,
+    },
+  );
+
+  // Always report success, whether or not the email matches an
+  // account, so this form can't be used to enumerate customers.
+  return {
+    error: null,
+    submitted: true,
+  };
 }
 
 export async function signOutCustomerAction() {
