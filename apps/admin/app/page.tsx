@@ -13,7 +13,7 @@ export default function HomePage() {
 
             <div className="mb-6">
               <img
-                src="/images/tkb-logo.png"
+                src="/images/tko-icon.png"
                 alt="Texas Knife Outfitters"
                 width={250}
                 height={250}

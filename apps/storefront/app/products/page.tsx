@@ -4,14 +4,39 @@ import Image from "next/image";
 import { getProducts } from "@tkb/database";
 import { resolveProductImageUrl } from "@tkb/ui";
 
-export default async function HomePage() {
-  const products = await getProducts();
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { seriesLabels } from "@/lib/series";
+
+type Props = {
+  searchParams: Promise<{
+    series?: string;
+  }>;
+};
+
+export default async function HomePage({ searchParams }: Props) {
+  const { series } = await searchParams;
+
+  const allProducts = await getProducts();
+  const products = series
+    ? allProducts?.filter((product) => product.series === series)
+    : allProducts;
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          {
+            label: series
+              ? seriesLabels[series] ?? "Products"
+              : "Products",
+          },
+        ]}
+      />
+
       <div className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight">
-          Texas Knife Outfitters
+          {series ? seriesLabels[series] ?? "Texas Knife Outfitters" : "Texas Knife Outfitters"}
         </h1>
 
         <p className="mt-3 text-muted-foreground">

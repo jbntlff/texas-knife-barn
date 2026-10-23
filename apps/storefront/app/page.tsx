@@ -1,7 +1,27 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 
-import { ProductCard } from "@/components/product-card";
+import { resolveProductImageUrl } from "@tkb/ui";
 import { getProducts } from "@tkb/database";
+
+const classes = [
+  {
+    key: "legacy",
+    title: "Legacy",
+    description: "Handcrafted knives rooted in tradition",
+  },
+  {
+    key: "performance",
+    title: "Performance",
+    description: "Precision-crafted knives built to perform",
+  },
+  {
+    key: "signature_series",
+    title: "Signature Series",
+    description: "Our most distinctive and exclusive work",
+  },
+] as const;
 
 export default async function HomePage({
   searchParams,
@@ -19,6 +39,26 @@ export default async function HomePage({
   }
 
   const products = await getProducts();
+
+  const classCards = classes.map((item) => {
+    const classProducts = products?.filter(
+      (product) => product.series === item.key,
+    );
+
+    const featured =
+      classProducts?.find((product) => product.featured) ??
+      classProducts?.[0];
+
+    const image = featured?.product_images?.[0];
+
+    return {
+      ...item,
+      imageUrl: image
+        ? resolveProductImageUrl(image.image_url)
+        : null,
+      imageAlt: image?.alt_text ?? featured?.name ?? item.title,
+    };
+  });
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">
@@ -62,9 +102,45 @@ export default async function HomePage({
         </p>
       </section>
 
-      <div id="products" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" >
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+      <div id="products" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {classCards.map((item) => (
+          <div
+            key={item.key}
+            className="group overflow-hidden rounded-lg border bg-muted shadow-sm transition hover:shadow-md"
+          >
+            <div className="relative aspect-square overflow-hidden bg-muted">
+              {item.imageUrl ? (
+                <Image
+                  src={item.imageUrl}
+                  alt={item.imageAlt}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  No Image
+                </div>
+              )}
+            </div>
+
+            <div className="p-6">
+              <h3 className="text-xl font-bold tracking-tight">
+                {item.title}
+              </h3>
+
+              <p className="mt-2 text-sm text-muted-foreground">
+                {item.description}
+              </p>
+
+              <Link
+                href={`/products?series=${item.key}`}
+                className="mt-6 inline-block rounded-md border px-4 py-2 text-sm font-semibold transition hover:bg-background"
+              >
+                View Gallery
+              </Link>
+            </div>
+          </div>
         ))}
       </div>
     </main >

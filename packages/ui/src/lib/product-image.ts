@@ -7,22 +7,31 @@ const STORAGE_PATH_PREFIX =
  * Uploads store bare Supabase Storage object paths (e.g.
  * "{productId}/{filename}.jpg") instead of full URLs, so a reference never
  * goes stale when the dev machine's LAN IP changes — the URL is built from
- * whatever NEXT_PUBLIC_SUPABASE_URL currently is. Absolute URLs
- * (http/https) and app-relative static paths (starting with "/") are
- * passed through unchanged, for local assets and any legacy rows.
+ * whatever NEXT_PUBLIC_SUPABASE_URL currently is. Absolute URLs (http/https)
+ * are passed through unchanged.
  *
- * Depends only on NEXT_PUBLIC_SUPABASE_URL (not @tkb/config's `env`), so
- * it's safe to call from client components — importing the full `env`
- * object there would try to validate server-only secrets in the browser.
+ * App-relative static paths (starting with "/") are resolved against the
+ * storefront's origin, since that's the only app whose public/ folder
+ * actually holds the seeded product photos — rendered as-is, they'd 404 on
+ * any other app (e.g. the brochure Gallery) that doesn't have the file.
+ *
+ * Depends only on NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_STOREFRONT_URL (not
+ * @tkb/config's `env`), so it's safe to call from client components —
+ * importing the full `env` object there would try to validate server-only
+ * secrets in the browser.
  */
 export function resolveProductImageUrl(
   imageRef: string,
 ) {
-  if (
-    /^https?:\/\//.test(imageRef) ||
-    imageRef.startsWith("/")
-  ) {
+  if (/^https?:\/\//.test(imageRef)) {
     return imageRef;
+  }
+
+  if (imageRef.startsWith("/")) {
+    const storefrontUrl =
+      process.env.NEXT_PUBLIC_STOREFRONT_URL ?? "";
+
+    return `${storefrontUrl}${imageRef}`;
   }
 
   const supabaseUrl =

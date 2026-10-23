@@ -80,7 +80,7 @@ export default function Sidebar({
       <div className="border-b p-6">
         <div className="flex flex-col items-center gap-3">
           <img
-            src="/images/tkb-logo.png"
+            src="/images/tko-icon.png"
             alt="Texas Knife Outfitters"
             className="h-24 w-24 object-contain"
           />

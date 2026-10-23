@@ -32,7 +32,7 @@ export function SiteHeader({ brandName, storefrontUrl }: SiteHeaderProps) {
             className="flex items-center gap-3"
           >
             <Image
-              src="/images/tkb-logo.png"
+              src="/images/tko-icon.png"
               alt={brandName}
               width={40}
               height={40}

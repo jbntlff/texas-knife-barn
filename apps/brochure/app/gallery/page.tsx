@@ -9,13 +9,13 @@ import { resolveProductImageUrl } from "@tkb/ui";
 export const metadata: Metadata = {
   title: `Gallery | ${appConfig.brandName}`,
   description:
-    "Explore the Handcrafted, MidTech, and Signature Series collections from Texas Knife Outfitters.",
+    "Explore the Legacy, Performance, and Signature Series collections from Texas Knife Outfitters.",
 };
 
 const series = [
   {
-    key: "handcrafted",
-    label: "Handcrafted",
+    key: "legacy",
+    label: "Legacy",
     eyebrow: "The Craft",
     description:
       "Where traditional craftsmanship, distinctive materials, and individual character come together.",
@@ -23,8 +23,8 @@ const series = [
     alt: "Knife making and handcrafted knife work at a workshop",
   },
   {
-    key: "midtech",
-    label: "MidTech",
+    key: "performance",
+    label: "Performance",
     eyebrow: "Precision Meets Performance",
     description:
       "Modern manufacturing combined with careful finishing and the attention to detail serious knife enthusiasts expect.",

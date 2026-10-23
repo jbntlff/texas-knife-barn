@@ -135,12 +135,12 @@ export default async function NewProductPage() {
                 Select Series
               </option>
 
-              <option value="handcrafted">
-                Handcrafted
+              <option value="legacy">
+                Legacy
               </option>
 
-              <option value="midtech">
-                MidTech
+              <option value="performance">
+                Performance
               </option>
 
               <option value="signature_series">

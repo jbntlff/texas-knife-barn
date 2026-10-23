@@ -271,12 +271,12 @@ export default async function ProductDetailPage({
                 Select Series
               </option>
 
-              <option value="handcrafted">
-                Handcrafted
+              <option value="legacy">
+                Legacy
               </option>
 
-              <option value="midtech">
-                MidTech
+              <option value="performance">
+                Performance
               </option>
 
               <option value="signature_series">
@@ -301,7 +301,7 @@ export default async function ProductDetailPage({
 
           <button
             type="submit"
-            className=" rounded border px-4 py-2 "
+            className="cursor-pointer rounded border px-4 py-2"
           >
             Save Product
           </button>

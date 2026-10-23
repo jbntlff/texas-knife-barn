@@ -48,7 +48,7 @@ export default function RootLayout({
                   className="flex items-center gap-3"
                 >
                   <Image
-                    src="/images/tkb-logo.png"
+                    src="/images/tko-icon.png"
                     alt="Texas Knife Outfitters"
                     width={40}
                     height={40}
