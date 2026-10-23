@@ -204,7 +204,14 @@ export async function requestPasswordResetAction(
   await supabase.auth.resetPasswordForEmail(
     email,
     {
-      redirectTo: `${env.storefrontUrl}/reset-password`,
+      // Route through /auth/confirm rather than straight to
+      // /reset-password: it exchanges the code server-side (no
+      // locally-stored PKCE verifier needed), which is reliable
+      // regardless of browser state — landing directly on
+      // /reset-password depends on the browser's own exchange, which
+      // needs state that isn't always still there (new tab, private
+      // window, cleared storage) by the time the link is clicked.
+      redirectTo: `${env.storefrontUrl}/auth/confirm`,
     },
   );
 

@@ -5,7 +5,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from '@/components/cart/cart-provider'
 import { CartLink } from "@/components/cart/cart-link"
 import { AccountLink } from "@/components/auth/account-link";
-import { PasswordRecoveryListener } from "@/components/auth/password-recovery-listener";
 
 import { env } from "@tkb/config";
 
@@ -38,7 +37,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
-        <PasswordRecoveryListener />
         <CartProvider>
           <header>
             <div className="mx-auto max-w-7xl px-6">

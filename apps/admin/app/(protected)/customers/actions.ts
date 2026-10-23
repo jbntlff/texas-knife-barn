@@ -95,7 +95,40 @@ export async function updateCustomer(
   const marketingOptIn =
     formData.get("marketingOptIn") === "on";
 
+  const email =
+    (formData.get("email") as string)
+      ?.trim()
+      .toLowerCase();
+
   const supabase = createAdminClient();
+
+  if (email) {
+    // Updates the real login email directly, bypassing the normal
+    // double confirmation flow — for when a customer has lost access
+    // to their old inbox and can't confirm from it themselves.
+    const { error: authError } =
+      await supabase.auth.admin.updateUserById(
+        customerId,
+        {
+          email,
+          email_confirm: true,
+        },
+      );
+
+    if (authError) {
+      if (
+        authError.message
+          .toLowerCase()
+          .includes("already")
+      ) {
+        throw new Error(
+          "An account with this email already exists.",
+        );
+      }
+
+      throw authError;
+    }
+  }
 
   const { error } =
     await supabase
@@ -105,6 +138,7 @@ export async function updateCustomer(
         last_name: lastName,
         role,
         marketing_opt_in: marketingOptIn,
+        ...(email && { email }),
       })
       .eq("id", customerId);
 
@@ -114,6 +148,42 @@ export async function updateCustomer(
 
   revalidatePath("/customers");
   revalidatePath(`/customers/${customerId}`);
+}
+
+export async function sendPasswordReset(
+  formData: FormData,
+) {
+  await requireAdmin();
+
+  const email =
+    formData.get("email") as string;
+
+  const supabase = createAdminClient();
+
+  const storefrontUrl =
+    process.env.NEXT_PUBLIC_STOREFRONT_URL;
+
+  const { error } =
+    await supabase.auth.resetPasswordForEmail(
+      email,
+      storefrontUrl
+        ? {
+            // Route through /auth/confirm rather than straight to
+            // /reset-password: that route exchanges the code
+            // server-side (no locally-stored PKCE verifier needed),
+            // which works no matter who triggered the reset or which
+            // device opens the link. Landing directly on
+            // /reset-password relies on the *browser's own* exchange,
+            // which only succeeds in the exact browser that requested
+            // the reset — never true for one an admin sends.
+            redirectTo: `${storefrontUrl}/auth/confirm`,
+          }
+        : undefined,
+    );
+
+  if (error) {
+    throw error;
+  }
 }
 
 export async function deleteCustomer(

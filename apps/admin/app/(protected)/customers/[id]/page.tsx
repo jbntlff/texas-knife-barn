@@ -9,6 +9,7 @@ import { formatPrice, Button } from "@tkb/ui";
 
 import { updateCustomer } from "../actions";
 import { DeleteCustomerButton } from "./delete-customer-button";
+import { SendResetButton } from "./send-reset-button";
 
 type PageProps = {
   params: Promise<{
@@ -98,6 +99,27 @@ export default async function CustomerDetailPage({
 
           <div>
             <label className="mb-1 block text-sm font-medium">
+              Email
+            </label>
+
+            <input
+              name="email"
+              type="email"
+              defaultValue={customer.email}
+              required
+              className="w-full rounded border px-3 py-2"
+            />
+
+            <p className="mt-1 text-xs text-muted-foreground">
+              Updates their login immediately —
+              no confirmation email required. Use
+              this if the customer has lost
+              access to their old inbox.
+            </p>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">
               Role
             </label>
 
@@ -134,6 +156,16 @@ export default async function CustomerDetailPage({
             Save Changes
           </Button>
         </form>
+
+        <div className="mt-6 border-t pt-6">
+          <p className="mb-2 text-sm font-medium">
+            Account Access
+          </p>
+
+          <SendResetButton
+            email={customer.email}
+          />
+        </div>
       </div>
 
       <div className="rounded-xl border p-6">
