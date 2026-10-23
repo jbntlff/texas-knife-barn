@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getOrdersByCustomerId } from "@tkb/database";
 import { getCustomerProfile } from "@/lib/get-customer-profile";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { ChangeEmailForm } from "@/components/account/change-email-form";
 
 function formatPrice(
   value: number | string | null,
@@ -106,6 +107,16 @@ export default async function AccountPage() {
           </div>
 
           <div className="rounded-xl border bg-background p-6">
+            <h2 className="mb-4 text-lg font-semibold">
+              Change Email
+            </h2>
+
+            <ChangeEmailForm
+              currentEmail={profile.email}
+            />
+          </div>
+
+          <div className="rounded-xl border bg-background p-6 lg:col-span-2">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">
                 Orders

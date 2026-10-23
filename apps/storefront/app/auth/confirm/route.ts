@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { createServerActionSupabaseClient } from "@tkb/auth/server";
+import { createAdminClient } from "@tkb/database";
 
 export async function GET(request: NextRequest) {
   const code =
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
     const supabase =
       await createServerActionSupabaseClient();
 
-    const { error } =
+    const { data, error } =
       await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
@@ -19,6 +20,15 @@ export async function GET(request: NextRequest) {
         "exchangeCodeForSession failed",
         error,
       );
+    } else if (data.user?.email) {
+      // Keeps profiles.email in sync once an email-change
+      // confirmation completes (double_confirm_changes means
+      // this is a no-op until both the old and new address have
+      // confirmed, since auth.users.email only updates then).
+      await createAdminClient()
+        .from("profiles")
+        .update({ email: data.user.email })
+        .eq("id", data.user.id);
     }
   }
 
