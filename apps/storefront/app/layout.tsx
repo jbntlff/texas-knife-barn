@@ -46,17 +46,13 @@ export default function RootLayout({
                   className="flex items-center gap-3"
                 >
                   <Image
-                    src="/images/tko-icon.png"
+                    src="/images/TKO-web-logo.png"
                     alt="Texas Knife Outfitters"
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 shrink-0 object-contain"
+                    width={1435}
+                    height={1003}
+                    className="h-12 w-auto shrink-0 object-contain"
                     priority
                   />
-
-                  <span className="text-xl font-bold tracking-tight">
-                    Texas Knife Outfitters
-                  </span>
                 </a>
 
                 <div className="flex items-center gap-6">
