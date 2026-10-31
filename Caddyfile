@@ -1,0 +1,11 @@
+{$STOREFRONT_DOMAIN} {
+	reverse_proxy storefront:3000
+}
+
+{$ADMIN_DOMAIN} {
+	reverse_proxy admin:3000
+}
+
+{$BROCHURE_DOMAIN} {
+	reverse_proxy brochure:3000
+}

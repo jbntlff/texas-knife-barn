@@ -13,15 +13,15 @@ export default function HomePage() {
 
             <div className="mb-6">
               <img
-                src="/images/tkb-logo.png"
-                alt="Texas Knife Barn"
+                src="/images/tko-icon.png"
+                alt="Texas Knife Outfitters"
                 width={250}
                 height={250}
               />
             </div>
 
             <h1 className="mt-6 text-5xl font-bold">
-              Texas Knife Barn
+              Texas Knife Outfitters
             </h1>
 
             <p className="mt-4 text-xl text-muted-foreground">

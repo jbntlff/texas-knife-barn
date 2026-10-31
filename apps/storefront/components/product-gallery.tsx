@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import { resolveProductImageUrl } from "@tkb/ui";
+
 type ProductImage = {
   id: string;
   image_url: string;
@@ -34,7 +36,9 @@ export function ProductGallery({
     <div className="space-y-4">
       <div className="overflow-hidden rounded-lg border">
         <Image
-          src={selectedImage.image_url}
+          src={resolveProductImageUrl(
+            selectedImage.image_url,
+          )}
           unoptimized
           alt={selectedImage.alt_text ?? productName}
           width={800}
@@ -58,7 +62,9 @@ export function ProductGallery({
               }`}
             >
               <Image
-                src={image.image_url}
+                src={resolveProductImageUrl(
+                  image.image_url,
+                )}
                 unoptimized
                 alt={image.alt_text ?? productName}
                 width={150}

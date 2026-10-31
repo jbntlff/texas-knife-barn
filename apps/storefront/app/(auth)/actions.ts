@@ -4,9 +4,15 @@ import { redirect } from "next/navigation";
 
 import { createServerActionSupabaseClient } from "@tkb/auth/server";
 import { createAdminClient } from "@tkb/database";
+import { env } from "@tkb/config";
 
 export type AuthFormState = {
   error: string | null;
+};
+
+export type RequestPasswordResetState = {
+  error: string | null;
+  submitted: boolean;
 };
 
 export async function signUpCustomerAction(
@@ -171,11 +177,50 @@ export async function signInCustomerAction(
 
     return {
       error:
-        "This account is not a Texas Knife Barn customer account.",
+        "This account is not a Texas Knife Outfitters customer account.",
     };
   }
 
   redirect("/account");
+}
+
+export async function requestPasswordResetAction(
+  _prevState: RequestPasswordResetState,
+  formData: FormData,
+): Promise<RequestPasswordResetState> {
+  const email =
+    formData.get("email")?.toString().trim() ?? "";
+
+  if (!email) {
+    return {
+      error: "Email is required.",
+      submitted: false,
+    };
+  }
+
+  const supabase =
+    await createServerActionSupabaseClient();
+
+  await supabase.auth.resetPasswordForEmail(
+    email,
+    {
+      // Route through /auth/confirm rather than straight to
+      // /reset-password: it exchanges the code server-side (no
+      // locally-stored PKCE verifier needed), which is reliable
+      // regardless of browser state — landing directly on
+      // /reset-password depends on the browser's own exchange, which
+      // needs state that isn't always still there (new tab, private
+      // window, cleared storage) by the time the link is clicked.
+      redirectTo: `${env.storefrontUrl}/auth/confirm`,
+    },
+  );
+
+  // Always report success, whether or not the email matches an
+  // account, so this form can't be used to enumerate customers.
+  return {
+    error: null,
+    submitted: true,
+  };
 }
 
 export async function signOutCustomerAction() {

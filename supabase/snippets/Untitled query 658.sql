@@ -4,4 +4,4 @@ select
   created_at
 from auth.users
 where email =
-  'admin@texasknifebarn.local';
+  'admin@txknife.local';

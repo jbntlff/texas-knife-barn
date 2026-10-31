@@ -18,7 +18,9 @@ export async function createProduct(
   const brandId = formData.get("brandId",) as string;
   const categoryId = formData.get("categoryId",) as string;
   const status = formData.get("status") as string;
+  const series = formData.get("series") as string;
   const featured = formData.get("featured") === "on";
+  const showInGallery = formData.get("showInGallery") === "on";
   const supabase = createAdminClient();
 
   const {
@@ -32,7 +34,9 @@ export async function createProduct(
       brand_id: brandId || null,
       category_id: categoryId || null,
       status,
+      series: series || null,
       featured,
+      show_in_gallery: showInGallery,
     })
     .select()
     .single();

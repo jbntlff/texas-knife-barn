@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from '@/components/cart/cart-provider'
 import { CartLink } from "@/components/cart/cart-link"
 import { AccountLink } from "@/components/auth/account-link";
+
+import { env } from "@tkb/config";
+import { createServerSupabaseClient } from "@tkb/auth/server";
 
 import "./globals.css";
 
@@ -18,63 +22,78 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Texas Knife Barn",
+  title: "Texas Knife Outfitters",
   description:
     "Premium knives for everyday carry, hunting, and collection.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
-        <CartProvider>
-          <header className="border-b">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-              <Link
-                href="/"
-                className="text-xl font-bold tracking-tight"
-              >
-                Texas Knife Barn
-              </Link>
-
-              <div className="flex items-center gap-6">
-                <form
-                  action="/search"
-                  className="hidden md:flex items-center gap-2"
+        <CartProvider userId={user?.id ?? null}>
+          <header>
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="flex items-center justify-between border-b py-4">
+                <a
+                  href={env.brochureUrl}
+                  className="flex items-center gap-3"
                 >
-                  <input
-                    type="search"
-                    name="q"
-                    placeholder="Search knives..."
-                    className="w-64 rounded-md border px-3 py-2 text-sm"
+                  <Image
+                    src="/images/TKO-web-logo.png"
+                    alt="Texas Knife Outfitters"
+                    width={1435}
+                    height={1003}
+                    className="h-12 w-auto shrink-0 object-contain"
+                    priority
                   />
+                </a>
 
-                  <button
-                    type="submit"
-                    className="rounded-md border px-3 py-2 text-sm hover:bg-muted"
+                <div className="flex items-center gap-6">
+                  <form
+                    action="/search"
+                    className="hidden md:flex items-center gap-2"
                   >
-                    Search
-                  </button>
-                </form>
+                    <input
+                      type="search"
+                      name="q"
+                      placeholder="Search knives..."
+                      className="w-64 rounded-md border px-3 py-2 text-sm"
+                    />
 
-                <nav className="flex items-center gap-6">
-                  <Link
-                    href="/"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Home
-                  </Link>
-                  <AccountLink />
-                  <CartLink />
-                </nav>
+                    <button
+                      type="submit"
+                      className="rounded-md border px-3 py-2 text-sm hover:bg-muted"
+                    >
+                      Search
+                    </button>
+                  </form>
 
+                  <nav className="flex items-center gap-6">
+                    <Link
+                      href="/"
+                      className="text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      Home
+                    </Link>
+                    <AccountLink />
+                    <CartLink />
+                  </nav>
+
+                </div>
               </div>
             </div>
           </header>
@@ -83,9 +102,11 @@ export default function RootLayout({
             {children}
           </div>
 
-          <footer className="mt-16 border-t">
-            <div className="mx-auto max-w-7xl px-6 py-8 text-sm text-muted-foreground">
-              © 2026 Texas Knife Barn
+          <footer className="mt-16">
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="border-t py-8 text-sm text-muted-foreground">
+                © 2026 Texas Knife Outfitters
+              </div>
             </div>
           </footer>
         </CartProvider>

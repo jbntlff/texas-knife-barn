@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/product-card";
 import { getSearchProducts } from "@tkb/database";
 
 export const metadata: Metadata = {
-  title: "Search | Texas Knife Barn",
+  title: "Search | Texas Knife Outfitters",
 };
 
 type SearchPageProps = {
@@ -42,7 +42,7 @@ export default async function SearchPage({
       </div>
 
       {products.length === 0 ? (
-        <div className="rounded-xl border p-8 text-center">
+        <div className="rounded-xl border bg-muted p-8 text-center">
           <div className="space-y-3">
             <p className="font-medium">
               {q

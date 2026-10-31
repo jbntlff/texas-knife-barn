@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function CheckoutSuccessPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <div className="rounded-xl border p-8 text-center">
+      <div className="rounded-xl border bg-muted p-8 text-center">
         <h1 className="text-3xl font-bold">
           Order Received
         </h1>

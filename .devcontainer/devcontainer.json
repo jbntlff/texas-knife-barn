@@ -1,6 +1,6 @@
 
 {
-  "name": "Texas Knife Barn",
+  "name": "Texas Knife Outfitters",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "tkb-dev",
   "workspaceFolder": "/workspace"

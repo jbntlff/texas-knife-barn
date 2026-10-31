@@ -44,7 +44,7 @@ export default async function CheckoutPage() {
       </h1>
 
       {initialEmail && (
-        <div className="mb-8 rounded-2xl border bg-background p-6 shadow-sm">
+        <div className="mb-8 rounded-2xl border bg-muted p-6 shadow-sm">
           <p className="text-sm uppercase tracking-wide text-muted-foreground">
             Signed In
           </p>

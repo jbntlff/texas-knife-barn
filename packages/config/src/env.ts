@@ -55,10 +55,15 @@ export const env = {
       "NEXT_PUBLIC_STOREFRONT_URL",
     ),
 
+  brochureUrl:
+    requireEnv(
+      "NEXT_PUBLIC_BROCHURE_URL",
+    ),
+
   inquiryRecipientEmail:
     process.env
       .INQUIRY_RECIPIENT_EMAIL ??
-    "orders@texasknifebarn.local",
+    "orders@txknife.local",
 
   mailpitHost:
     process.env.MAILPIT_HOST ??

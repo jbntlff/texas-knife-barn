@@ -9,6 +9,24 @@
         "source ~/.nvm/nvm.sh && nvm use 22 && pnpm --filter brochure dev"
       ],
       "port": 3002
+    },
+    {
+      "name": "storefront",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-lc",
+        "source ~/.nvm/nvm.sh && nvm use 22 && pnpm --filter storefront dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "admin",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-lc",
+        "source ~/.nvm/nvm.sh && nvm use 22 && pnpm --filter admin dev"
+      ],
+      "port": 3001
     }
   ]
 }

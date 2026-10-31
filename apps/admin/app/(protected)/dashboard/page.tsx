@@ -64,7 +64,7 @@ export default async function DashboardPage() {
         </h1>
 
         <p className="text-muted-foreground">
-          Texas Knife Barn Admin
+          Texas Knife Outfitters Admin
         </p>
       </div>
 

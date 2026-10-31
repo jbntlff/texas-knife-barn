@@ -136,6 +136,7 @@ export function ProductDetail({
           variantTitle={selectedVariant.title}
           sku={selectedVariant.sku}
           price={selectedVariant.price}
+          attributes={product.product_attributes}
         />
       </div>
 

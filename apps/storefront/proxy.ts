@@ -13,9 +13,13 @@ export async function proxy(
     "/",
     "/login",
     "/register",
+    "/forgot-password",
+    "/reset-password",
+    "/auth/confirm",
     "/products",
     "/brands",
     "/categories",
+    "/search",
     "/cart",
     "/checkout",
   ];

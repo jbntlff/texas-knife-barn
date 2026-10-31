@@ -150,12 +150,29 @@ max_indexes = 5
 [auth]
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
-# in emails.
-site_url = "http://127.0.0.1:3000"
+# in emails. GoTrue doesn't honor a custom redirectTo passed to
+# resetPasswordForEmail/etc. here (known local/self-hosted quirk) and
+# always falls back to this value — so whatever's here is where every
+# auth email link actually ends up, regardless of what the app requests.
+# It must be a host each app's allowedDevOrigins (next.config.ts) actually
+# accepts, or the page silently fails to hydrate with no visible error:
+# React just never attaches, so every button/form on it quietly does
+# nothing. 127.0.0.1 isn't allow-listed there and isn't treated the same
+# as "localhost" despite resolving the same — "localhost" is, implicitly,
+# with no config needed, so it's the reliable choice for local dev email
+# links (there's no real path to opening a local Mailpit-caught test email
+# from another device anyway, so LAN_HOST doesn't help here).
+site_url = "http://localhost:3000"
 # The public URL that Auth serves on. Defaults to the API external URL with `/auth/v1` appended.
 # external_url = ""
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["https://127.0.0.1:3000"]
+# Includes the storefront's password-reset page for both 127.0.0.1 and the current dev LAN_HOST
+# (config/env.shared.local) — update the LAN entry when LAN_HOST changes, same as that file.
+additional_redirect_urls = [
+  "https://127.0.0.1:3000",
+  "http://127.0.0.1:3000/**",
+  "http://192.168.0.101:3000/**",
+]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # JWT issuer URL. If not set, defaults to auth.external_url.
@@ -242,6 +259,20 @@ otp_expiry = 3600
 # [auth.email.template.invite]
 # subject = "You have been invited"
 # content_path = "./supabase/templates/invite.html"
+
+# The stock recovery template's clickable link and the one-time code
+# are the same underlying token — visiting the link (even just to
+# preview it, which some email clients do automatically) silently
+# invalidates the code, so a customer who clicks it first then tries
+# the code gets "invalid or expired" with no way to tell why. Since
+# the link also can't complete a session exchange for a reset an
+# admin triggers on someone else's behalf anyway (that needs browser
+# state only the original requester has), this template leads with
+# the code and links to a plain, tokenless /reset-password URL that's
+# safe to open without consuming anything.
+[auth.email.template.recovery]
+subject = "Your password reset code"
+content_path = "./supabase/templates/recovery.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]

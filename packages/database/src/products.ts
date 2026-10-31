@@ -60,6 +60,61 @@ export async function getProducts() {
   return data;
 }
 
+export async function getProductsBySeries(series: string) {
+  const supabase = createAdminClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      brands (*),
+      categories (*),
+      product_attributes(*),
+      product_images(*),
+      product_variants(
+        *,
+        inventory(*),
+        variant_options(*)
+      )
+    `)
+    .eq("status", "active")
+    .eq("series", series)
+    .order("name");
+
+  if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
+    throw error;
+  }
+  return data;
+}
+
+export async function getGalleryProducts() {
+  const supabase = createAdminClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      brands (*),
+      product_images(*)
+    `)
+    .eq("status", "active")
+    .eq("show_in_gallery", true)
+    .order("name");
+
+  if (error) {
+    console.error(
+      "SUPABASE ERROR:",
+      JSON.stringify(error, null, 2)
+    );
+    throw error;
+  }
+  return data;
+}
+
 export async function getProductById(
   productId: string,
 ) {
@@ -74,6 +129,7 @@ export async function getProductById(
         brands(*),
         categories(*),
         product_images(*),
+        product_attributes(*),
         product_variants(
           *,
           inventory(*),

@@ -6,10 +6,34 @@ import type { NextConfig } from "next";
 const lanHost = process.env.LAN_HOST;
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   allowedDevOrigins: [
     "tkb.local",
     ...(lanHost ? [lanHost] : []),
   ],
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "tkb.local",
+        port: "54321",
+        pathname:
+          "/storage/v1/object/public/**",
+      },
+      ...(lanHost
+        ? [
+            {
+              protocol: "http" as const,
+              hostname: lanHost,
+              port: "54321",
+              pathname:
+                "/storage/v1/object/public/**",
+            },
+          ]
+        : []),
+    ],
+  },
 };
 
 export default nextConfig;

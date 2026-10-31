@@ -1,7 +1,7 @@
 {
   "name": "admin",
   "version": "1.0.0",
-  "description": "Texas Knife Barn Website",
+  "description": "Texas Knife Outfitters Website",
   "main": "index.js",
   "scripts": {
     "dev": "next dev -p 3001",

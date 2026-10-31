@@ -121,6 +121,34 @@ export default async function NewProductPage() {
             </select>
           </div>
 
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Series
+            </label>
+
+            <select
+              name="series"
+              defaultValue=""
+              className="w-full rounded border px-3 py-2"
+            >
+              <option value="">
+                Select Series
+              </option>
+
+              <option value="legacy">
+                Legacy Series
+              </option>
+
+              <option value="performance">
+                Performance Series
+              </option>
+
+              <option value="signature_series">
+                Signature Series
+              </option>
+            </select>
+          </div>
+
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -129,6 +157,17 @@ export default async function NewProductPage() {
 
             <label>
               Featured Product
+            </label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="showInGallery"
+            />
+
+            <label>
+              Show in Gallery
             </label>
           </div>
 

@@ -42,7 +42,7 @@ export default function HowToOrderPage() {
         {steps.map((step, index) => (
           <li
             key={step.title}
-            className="rounded-2xl border p-6"
+            className="rounded-2xl border bg-muted p-6 shadow-xl"
           >
             <span className="text-sm text-muted-foreground">
               Step {index + 1}

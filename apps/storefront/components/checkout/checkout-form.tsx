@@ -175,7 +175,7 @@ export function CheckoutForm({
         />
       </div>
 
-      <div className="rounded-2xl border bg-background p-6 shadow-sm">
+      <div className="rounded-2xl border bg-muted p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">
             Order Summary

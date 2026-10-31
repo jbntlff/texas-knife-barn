@@ -26,7 +26,7 @@ export function CartPageContent() {
     cart.items.length === 0
   ) {
     return (
-      <div className="rounded-xl border p-8 text-center">
+      <div className="rounded-xl border bg-muted p-8 text-center">
         <p className="font-medium">
           Your cart is empty.
         </p>
@@ -55,7 +55,7 @@ export function CartPageContent() {
         ))}
       </div>
 
-      <aside className="rounded-xl border p-6 h-fit">
+      <aside className="rounded-xl border bg-muted p-6 h-fit">
         <h2 className="text-lg font-semibold">
           Order Summary
         </h2>

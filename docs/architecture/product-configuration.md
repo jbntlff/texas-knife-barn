@@ -204,7 +204,7 @@ The same configuration may be produced repeatedly.
 
 # Future Marketplace
 
-As Texas Knife Barn evolves into a marketplace, each Configured Knife will belong to a Maker.
+As Texas Knife Outfitters evolves into a marketplace, each Configured Knife will belong to a Maker.
 
 The Product Configuration System is intentionally independent of the Maker entity so that the same configuration model can be used by every craftsman.
 

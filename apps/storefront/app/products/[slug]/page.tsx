@@ -3,8 +3,11 @@ import { notFound } from "next/navigation";
 
 import { getProductBySlug } from "@tkb/database";
 
+import { BackLink } from "@/components/back-link";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductDetail } from "@/components/product/product-detail";
+import { seriesLabels } from "@/lib/series";
 
 type PageProps = {
   params: Promise<{
@@ -26,8 +29,28 @@ export default async function ProductPage({
 
 
 
+  const seriesLabel = product.series
+    ? seriesLabels[product.series]
+    : undefined;
+
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">
+      <Breadcrumbs
+        className="mb-10"
+        items={[
+          { label: "Home", href: "/" },
+          ...(seriesLabel
+            ? [
+                {
+                  label: seriesLabel,
+                  href: `/products?series=${product.series}`,
+                },
+              ]
+            : [{ label: "Products", href: "/products" }]),
+          { label: product.name },
+        ]}
+      />
+
       <div className="grid gap-10 md:grid-cols-2">
         <div>
           <ProductGallery
@@ -37,12 +60,10 @@ export default async function ProductPage({
         </div>
 
         <div>
-          <Link
-            href="/"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            ← Back to Products
-          </Link>
+          <BackLink
+            fallbackHref="/"
+            fallbackLabel="Back to Products"
+          />
 
           <h1 className="text-4xl font-bold">
             {product.name}

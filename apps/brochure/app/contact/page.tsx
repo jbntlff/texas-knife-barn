@@ -23,11 +23,14 @@ export default async function ContactPage({
   return (
     <main className="mx-auto max-w-7xl px-6 py-12">
       <div className="mb-8 max-w-2xl">
-        <h1 className="text-3xl font-bold">Contact</h1>
+        <h1 className="text-3xl font-bold">Let&rsquo;s Talk Knives</h1>
 
         <p className="mt-2 text-muted-foreground">
-          Have a question, or want to start a custom build inquiry? Send
-          us a message and we&rsquo;ll follow up by email or phone.
+          Have a question, need assistance, or just want to learn more
+          about Texas Knife Outfitters? Send us a message and we&rsquo;ll be
+          happy to help. Whether it&rsquo;s about a specific knife,
+          materials, custom options, or something else, we&rsquo;re here
+          to answer your questions.
         </p>
       </div>
 
@@ -43,80 +46,106 @@ export default async function ContactPage({
         </p>
       ) : null}
 
-      <form
-        action={submitInquiry}
-        className="max-w-2xl space-y-4"
-      >
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium"
-          >
-            Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium"
-          >
-            Phone (optional)
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium"
-          >
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            rows={5}
-            className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="rounded-md bg-foreground px-6 py-3 text-sm text-background transition hover:opacity-90"
+      <div className="max-w-2xl rounded-2xl border bg-muted p-8 shadow-xl">
+        <form
+          action={submitInquiry}
+          className="space-y-4"
         >
-          Send Message
-        </button>
-      </form>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium"
+            >
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium"
+            >
+              Phone (optional)
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium"
+            >
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows={5}
+              className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="rounded-md bg-foreground px-6 py-3 text-sm text-background transition hover:opacity-90"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <div className="mt-8 max-w-2xl rounded-2xl border bg-muted p-8 shadow-sm">
+        <address className="not-italic leading-relaxed">
+          Texas Knife Outfitters
+          <br />
+          1100 Michalke Rd.
+          <br />
+          Schulenburg, TX 78956
+          <br />
+          <a
+            href="tel:+18326170051"
+            className="hover:underline"
+          >
+            832.617.0051
+          </a>
+          <br />
+          <a
+            href="mailto:howdy@txknife.com"
+            className="hover:underline"
+          >
+            howdy@txknife.com
+          </a>
+        </address>
+      </div>
     </main>
   );
 }

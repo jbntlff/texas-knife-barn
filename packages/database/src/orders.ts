@@ -35,7 +35,7 @@ export async function createOrder(
   const taxTotal = input.taxTotal ?? 0;
   const shippingTotal = input.shippingTotal ?? 0;
   const grandTotal = input.subtotal + taxTotal + shippingTotal;
-  const orderNumber = `TKB-${Date.now()}`;
+  const orderNumber = `TKO-${Date.now()}`;
 
   const {
     data: order,

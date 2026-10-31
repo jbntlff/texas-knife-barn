@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getOrdersByCustomerId } from "@tkb/database";
 import { getCustomerProfile } from "@/lib/get-customer-profile";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { ChangeEmailForm } from "@/components/account/change-email-form";
 
 function formatPrice(
   value: number | string | null,
@@ -44,7 +45,7 @@ export default async function AccountPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <div className="rounded-2xl border bg-background p-8 shadow-sm">
+      <div className="rounded-2xl border bg-muted p-8 shadow-sm">
 
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -65,7 +66,7 @@ export default async function AccountPage() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-background p-6">
             <h2 className="text-lg font-semibold">
               Profile
             </h2>
@@ -105,7 +106,17 @@ export default async function AccountPage() {
             </dl>
           </div>
 
-          <div className="rounded-xl border p-6">
+          <div className="rounded-xl border bg-background p-6">
+            <h2 className="mb-4 text-lg font-semibold">
+              Change Email
+            </h2>
+
+            <ChangeEmailForm
+              currentEmail={profile.email}
+            />
+          </div>
+
+          <div className="rounded-xl border bg-background p-6 lg:col-span-2">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">
                 Orders
@@ -125,7 +136,7 @@ export default async function AccountPage() {
                 {orders.map((order) => (
                   <div
                     key={order.id}
-                    className="rounded-xl border p-4"
+                    className="rounded-xl border bg-muted p-4"
                   >
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div>

@@ -9,6 +9,10 @@ import {
   createAdminClient,
 } from "@tkb/database";
 
+import {
+  extractStorageImagePath,
+} from "@tkb/ui";
+
 export async function updateInventory(
   formData: FormData,
 ) {
@@ -58,7 +62,9 @@ export async function updateProduct(
   const shortDescription = formData.get( "shortDescription",) as string;
   const description = formData.get( "description",) as string;
   const status = formData.get( "status",) as string;
+  const series = formData.get( "series",) as string;
   const featured = formData.get( "featured",) === "on";
+  const showInGallery = formData.get( "showInGallery",) === "on";
   const supabase = createAdminClient();
 
   const { error } =
@@ -73,7 +79,11 @@ export async function updateProduct(
           shortDescription,
         description,
         status,
+        series:
+          series || null,
         featured,
+        show_in_gallery:
+          showInGallery,
         updated_at:
           new Date()
             .toISOString(),
@@ -200,6 +210,96 @@ export async function createVariantOption(
   );
 }
 
+export async function createProductAttribute(
+  formData: FormData,
+) {
+  await requireAdmin();
+
+  const productId = formData.get( "productId",) as string;
+  const attributeName = formData.get( "attributeName",) as string;
+  const attributeValue = formData.get( "attributeValue",) as string;
+  const supabase = createAdminClient();
+
+  const {
+    data: existingAttributes,
+    error: existingAttributesError,
+  } = await supabase
+    .from("product_attributes")
+    .select("sort_order")
+    .eq("product_id", productId);
+
+  if (existingAttributesError) {
+    throw existingAttributesError;
+  }
+
+  const nextSortOrder =
+    existingAttributes?.length
+      ? Math.max(
+        ...existingAttributes.map(
+          (attribute) => attribute.sort_order,
+        ),
+      ) + 1
+      : 0;
+
+  const { error } =
+    await supabase
+      .from("product_attributes")
+      .insert({
+        product_id:
+          productId,
+
+        attribute_name:
+          attributeName,
+
+        attribute_value:
+          attributeValue,
+
+        sort_order:
+          nextSortOrder,
+      });
+
+  if (error) {
+    throw error;
+  }
+
+  revalidatePath(
+    `/products/${productId}`,
+  );
+}
+
+export async function deleteProductAttribute(
+  formData: FormData,
+) {
+  await requireAdmin();
+
+  const attributeId =
+    formData.get(
+      "attributeId",
+    ) as string;
+
+  const productId =
+    formData.get(
+      "productId",
+    ) as string;
+
+  const supabase =
+    createAdminClient();
+
+  const { error } =
+    await supabase
+      .from("product_attributes")
+      .delete()
+      .eq("id", attributeId);
+
+  if (error) {
+    throw error;
+  }
+
+  revalidatePath(
+    `/products/${productId}`,
+  );
+}
+
 // Delete Variant Option
 export async function deleteVariantOption(
   formData: FormData,
@@ -314,16 +414,6 @@ export async function uploadProductImage(
    */
 
   const {
-    data: publicUrlData,
-  } = supabase.storage
-    .from("product-images")
-    .getPublicUrl(
-      storagePath,
-    );
-
-  const imageUrl = publicUrlData.publicUrl;
-
-  const {
     data: existingImages,
     error: existingImagesError,
   } = await supabase
@@ -366,7 +456,7 @@ export async function uploadProductImage(
         productId,
 
       image_url:
-        imageUrl,
+        storagePath,
 
       alt_text:
         altText || null,
@@ -446,16 +536,10 @@ export async function deleteProductImage(
   const supabase =
     createAdminClient();
 
-  if (
-    imageUrl.includes(
-      "/storage/v1/object/public/product-images/",
-    )
-  ) {
-    const storagePath =
-      imageUrl.split(
-        "/storage/v1/object/public/product-images/",
-      )[1];
+  const storagePath =
+    extractStorageImagePath(imageUrl);
 
+  if (storagePath) {
     const {
       error: storageError,
     } = await supabase.storage
