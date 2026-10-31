@@ -129,6 +129,7 @@ export async function getProductById(
         brands(*),
         categories(*),
         product_images(*),
+        product_attributes(*),
         product_variants(
           *,
           inventory(*),

@@ -8,12 +8,12 @@ import { getProducts } from "@tkb/database";
 const classes = [
   {
     key: "legacy",
-    title: "Legacy",
+    title: "Legacy Series",
     description: "Handcrafted knives rooted in tradition",
   },
   {
     key: "performance",
-    title: "Performance",
+    title: "Performance Series",
     description: "Precision-crafted knives built to perform",
   },
   {
@@ -110,13 +110,15 @@ export default async function HomePage({
           >
             <div className="relative aspect-square overflow-hidden bg-muted">
               {item.imageUrl ? (
-                <Image
-                  src={item.imageUrl}
-                  alt={item.imageAlt}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition duration-300 group-hover:scale-105"
-                />
+                <Link href={`/products?series=${item.key}`}>
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.imageAlt}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition duration-300 group-hover:scale-105"
+                  />
+                </Link>
               ) : (
                 <div className="flex h-full items-center justify-center">
                   No Image

@@ -6,6 +6,7 @@ import type { NextConfig } from "next";
 const lanHost = process.env.LAN_HOST;
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   allowedDevOrigins: [
     "tkb.local",
     ...(lanHost ? [lanHost] : []),

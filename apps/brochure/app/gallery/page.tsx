@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const series = [
   {
     key: "legacy",
-    label: "Legacy",
+    label: "Legacy Series",
     eyebrow: "The Craft",
     description:
       "Where traditional craftsmanship, distinctive materials, and individual character come together.",
@@ -24,7 +24,7 @@ const series = [
   },
   {
     key: "performance",
-    label: "Performance",
+    label: "Performance Series",
     eyebrow: "Precision Meets Performance",
     description:
       "Modern manufacturing combined with careful finishing and the attention to detail serious knife enthusiasts expect.",

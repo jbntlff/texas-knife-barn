@@ -7,6 +7,7 @@ const lanHost = process.env.LAN_HOST;
 
 const nextConfig: NextConfig = {
   /* config options here */
+	  output: "standalone",
 	  allowedDevOrigins:[
       'tkb.local',
       ...(lanHost ? [lanHost] : []),

@@ -19,12 +19,12 @@ export function HeroVideo() {
       </video>
 
       <div
-        className="absolute inset-0 bg-black/45"
+        className="absolute inset-0 bg-black/25"
         aria-hidden="true"
       />
 
       <div
-        className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent"
         aria-hidden="true"
       />
 

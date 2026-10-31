@@ -1,0 +1,71 @@
+# Production image for one app in this monorepo (storefront, admin, or brochure).
+# Build with: docker build -f Dockerfile.prod --build-arg APP=storefront -t tkb-storefront .
+# NEXT_PUBLIC_* values are inlined at build time, so they must be passed as
+# --build-arg at `docker build` time, not just set at `docker run` time.
+
+ARG APP
+
+FROM node:22-bookworm-slim AS base
+RUN corepack enable
+
+# ---- Prune the monorepo down to just what this app needs ----
+FROM base AS pruner
+ARG APP
+WORKDIR /app
+COPY . .
+RUN npx turbo@2.9.18 prune ${APP} --docker
+
+# ---- Install deps and build ----
+FROM base AS installer
+ARG APP
+WORKDIR /app
+
+# Install deps first for layer caching
+COPY --from=pruner /app/out/json/ .
+RUN pnpm install --frozen-lockfile
+
+# Bring in the pruned source and build
+COPY --from=pruner /app/out/full/ .
+
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG NEXT_PUBLIC_STOREFRONT_URL
+ARG NEXT_PUBLIC_BROCHURE_URL
+ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+ENV NEXT_PUBLIC_STOREFRONT_URL=${NEXT_PUBLIC_STOREFRONT_URL}
+ENV NEXT_PUBLIC_BROCHURE_URL=${NEXT_PUBLIC_BROCHURE_URL}
+
+# Server-only values that happen to be required at build time too
+# (read eagerly by packages/config) — real secrets, so pass as build
+# secrets in CI rather than plain --build-arg where possible.
+ARG SUPABASE_URL
+ARG SUPABASE_SERVICE_ROLE_KEY
+ENV SUPABASE_URL=${SUPABASE_URL}
+ENV SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+
+RUN pnpm turbo build --filter=${APP}...
+
+# ---- Lean runtime image ----
+FROM base AS runner
+ARG APP
+ENV APP=${APP}
+ENV NODE_ENV=production
+WORKDIR /app
+
+RUN groupadd --system --gid 1001 nodejs \
+  && useradd --system --uid 1001 --gid nodejs nextjs
+
+COPY --from=installer --chown=nextjs:nodejs /app/apps/${APP}/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/${APP}/.next/static ./apps/${APP}/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/${APP}/public ./apps/${APP}/public
+
+USER nextjs
+
+ENV PORT=3000
+EXPOSE 3000
+
+# server.js's own working directory (apps/<app>/) is what it serves
+# relative to, so cd into it rather than hardcoding the app name in CMD.
+WORKDIR /app/apps/${APP}
+CMD ["node", "server.js"]

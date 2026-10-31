@@ -13,6 +13,8 @@ import {
   deleteProductImage,
   createVariantOption,
   deleteVariantOption,
+  createProductAttribute,
+  deleteProductAttribute,
   moveImageDown,
   moveImageUp,
   deleteVariant,
@@ -38,6 +40,14 @@ export default async function ProductDetailPage({
   }
   const images =
     [...(product.product_images ?? [])]
+      .sort(
+        (a, b) =>
+          a.sort_order -
+          b.sort_order,
+      );
+
+  const attributes =
+    [...(product.product_attributes ?? [])]
       .sort(
         (a, b) =>
           a.sort_order -
@@ -272,11 +282,11 @@ export default async function ProductDetailPage({
               </option>
 
               <option value="legacy">
-                Legacy
+                Legacy Series
               </option>
 
               <option value="performance">
-                Performance
+                Performance Series
               </option>
 
               <option value="signature_series">
@@ -471,6 +481,100 @@ export default async function ProductDetailPage({
         ) : (
           <p className="mt-4 text-sm text-muted-foreground">
             No images uploaded.
+          </p>
+        )}
+      </div>
+
+      <div className="rounded-xl border p-6">
+        <h2 className="mb-4 text-xl font-semibold">
+          Specifications
+        </h2>
+
+        <form
+          action={createProductAttribute}
+          className="flex flex-wrap items-end gap-2"
+        >
+          <input
+            type="hidden"
+            name="productId"
+            value={product.id}
+          />
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Name
+            </label>
+
+            <input
+              name="attributeName"
+              placeholder="Blade Length"
+              required
+              className="rounded border px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Value
+            </label>
+
+            <input
+              name="attributeValue"
+              placeholder="3.44&quot;"
+              required
+              className="rounded border px-3 py-2"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="rounded border px-4 py-2"
+          >
+            Add Specification
+          </button>
+        </form>
+
+        {attributes.length ? (
+          <div className="mt-4 overflow-hidden rounded-lg border">
+            {attributes.map((attribute) => (
+              <div
+                key={attribute.id}
+                className="grid grid-cols-[1fr_1fr_auto] items-center gap-2 border-b px-4 py-2 last:border-b-0"
+              >
+                <div className="font-medium">
+                  {attribute.attribute_name}
+                </div>
+
+                <div className="text-sm text-muted-foreground">
+                  {attribute.attribute_value}
+                </div>
+
+                <form action={deleteProductAttribute}>
+                  <input
+                    type="hidden"
+                    name="attributeId"
+                    value={attribute.id}
+                  />
+
+                  <input
+                    type="hidden"
+                    name="productId"
+                    value={product.id}
+                  />
+
+                  <button
+                    type="submit"
+                    className="rounded border px-2 py-1 text-xs hover:bg-muted"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-muted-foreground">
+            No specifications added.
           </p>
         )}
       </div>

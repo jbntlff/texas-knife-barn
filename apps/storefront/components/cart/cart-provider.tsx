@@ -41,21 +41,32 @@ const CartContext =
 
 export function CartProvider({
   children,
+  userId = null,
 }: {
   children: React.ReactNode;
+  userId?: string | null;
 }) {
   const [cart, setCart] =
     useState<Cart>({
       items: [],
     });
 
+  const storageKey =
+    userId
+      ? `${CART_STORAGE_KEY}:${userId}`
+      : `${CART_STORAGE_KEY}:guest`;
+
+  // Each account (and signed-out "guest") gets its own cart, keyed by
+  // userId, so a different customer's leftover cart doesn't bleed into
+  // whoever is currently signed in on this browser.
   useEffect(() => {
     const stored =
       localStorage.getItem(
-        CART_STORAGE_KEY
+        storageKey
       );
 
     if (!stored) {
+      setCart({ items: [] });
       return;
     }
 
@@ -66,14 +77,14 @@ export function CartProvider({
         "Failed to parse cart"
       );
     }
-  }, []);
+  }, [storageKey]);
 
   useEffect(() => {
     localStorage.setItem(
-      CART_STORAGE_KEY,
+      storageKey,
       JSON.stringify(cart)
     );
-  }, [cart]);
+  }, [storageKey, cart]);
 
   function addItem(
     item: Omit<CartItem, "quantity">

@@ -57,9 +57,10 @@ export default function AboutPage() {
             <strong className="font-semibold text-foreground">
               function, craftsmanship, and distinctive design
             </strong>
-            . Our collection includes handcrafted knives, MidTech designs,
-            and Signature Series pieces, giving customers an opportunity to
-            find a knife that fits the way they intend to use it.
+            . Our collection includes Legacy Series knives, Performance Series
+            designs, and Signature Series pieces, giving customers an
+            opportunity to find a knife that fits the way they intend to use
+            it.
           </p>
 
           <p className="mt-4 text-muted-foreground">

@@ -7,6 +7,7 @@ import { CartLink } from "@/components/cart/cart-link"
 import { AccountLink } from "@/components/auth/account-link";
 
 import { env } from "@tkb/config";
+import { createServerSupabaseClient } from "@tkb/auth/server";
 
 import "./globals.css";
 
@@ -26,18 +27,24 @@ export const metadata: Metadata = {
     "Premium knives for everyday carry, hunting, and collection.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
-        <CartProvider>
+        <CartProvider userId={user?.id ?? null}>
           <header>
             <div className="mx-auto max-w-7xl px-6">
               <div className="flex items-center justify-between border-b py-4">

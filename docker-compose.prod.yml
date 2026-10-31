@@ -1,0 +1,109 @@
+# Production deployment. Run from the VPS with:
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# Unlike docker-compose.yml (the local dev container), this builds each app
+# into its own lean standalone image via Dockerfile.prod — no bind mounts,
+# no dev server, no polling.
+
+services:
+  storefront:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        APP: storefront
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
+        NEXT_PUBLIC_BROCHURE_URL: ${NEXT_PUBLIC_BROCHURE_URL}
+        SUPABASE_URL: ${SUPABASE_URL}
+        SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
+      NEXT_PUBLIC_BROCHURE_URL: ${NEXT_PUBLIC_BROCHURE_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      INQUIRY_RECIPIENT_EMAIL: ${INQUIRY_RECIPIENT_EMAIL}
+      MAILPIT_HOST: ${SMTP_HOST}
+      MAILPIT_PORT: ${SMTP_PORT}
+    expose:
+      - "3000"
+
+  admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        APP: admin
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
+        NEXT_PUBLIC_BROCHURE_URL: ${NEXT_PUBLIC_BROCHURE_URL}
+        SUPABASE_URL: ${SUPABASE_URL}
+        SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
+      NEXT_PUBLIC_BROCHURE_URL: ${NEXT_PUBLIC_BROCHURE_URL}
+    expose:
+      - "3000"
+
+  brochure:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        APP: brochure
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
+        NEXT_PUBLIC_BROCHURE_URL: ${NEXT_PUBLIC_BROCHURE_URL}
+        SUPABASE_URL: ${SUPABASE_URL}
+        SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
+      NEXT_PUBLIC_BROCHURE_URL: ${NEXT_PUBLIC_BROCHURE_URL}
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      STOREFRONT_DOMAIN: ${STOREFRONT_DOMAIN}
+      ADMIN_DOMAIN: ${ADMIN_DOMAIN}
+      BROCHURE_DOMAIN: ${BROCHURE_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - storefront
+      - admin
+      - brochure
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -33,6 +33,16 @@ export function CartItem({
           <p className="text-sm text-muted-foreground">
             SKU: {item.sku}
           </p>
+
+          {item.attributes && item.attributes.length > 0 && (
+            <div className="mt-2 space-y-0.5 text-xs text-muted-foreground">
+              {item.attributes.map((attribute) => (
+                <div key={attribute.id}>
+                  {attribute.attribute_name}: {attribute.attribute_value}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <button

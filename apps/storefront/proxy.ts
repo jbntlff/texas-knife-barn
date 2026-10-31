@@ -19,6 +19,7 @@ export async function proxy(
     "/products",
     "/brands",
     "/categories",
+    "/search",
     "/cart",
     "/checkout",
   ];

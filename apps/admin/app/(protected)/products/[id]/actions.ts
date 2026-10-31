@@ -210,6 +210,96 @@ export async function createVariantOption(
   );
 }
 
+export async function createProductAttribute(
+  formData: FormData,
+) {
+  await requireAdmin();
+
+  const productId = formData.get( "productId",) as string;
+  const attributeName = formData.get( "attributeName",) as string;
+  const attributeValue = formData.get( "attributeValue",) as string;
+  const supabase = createAdminClient();
+
+  const {
+    data: existingAttributes,
+    error: existingAttributesError,
+  } = await supabase
+    .from("product_attributes")
+    .select("sort_order")
+    .eq("product_id", productId);
+
+  if (existingAttributesError) {
+    throw existingAttributesError;
+  }
+
+  const nextSortOrder =
+    existingAttributes?.length
+      ? Math.max(
+        ...existingAttributes.map(
+          (attribute) => attribute.sort_order,
+        ),
+      ) + 1
+      : 0;
+
+  const { error } =
+    await supabase
+      .from("product_attributes")
+      .insert({
+        product_id:
+          productId,
+
+        attribute_name:
+          attributeName,
+
+        attribute_value:
+          attributeValue,
+
+        sort_order:
+          nextSortOrder,
+      });
+
+  if (error) {
+    throw error;
+  }
+
+  revalidatePath(
+    `/products/${productId}`,
+  );
+}
+
+export async function deleteProductAttribute(
+  formData: FormData,
+) {
+  await requireAdmin();
+
+  const attributeId =
+    formData.get(
+      "attributeId",
+    ) as string;
+
+  const productId =
+    formData.get(
+      "productId",
+    ) as string;
+
+  const supabase =
+    createAdminClient();
+
+  const { error } =
+    await supabase
+      .from("product_attributes")
+      .delete()
+      .eq("id", attributeId);
+
+  if (error) {
+    throw error;
+  }
+
+  revalidatePath(
+    `/products/${productId}`,
+  );
+}
+
 // Delete Variant Option
 export async function deleteVariantOption(
   formData: FormData,

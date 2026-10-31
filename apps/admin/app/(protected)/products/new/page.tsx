@@ -136,11 +136,11 @@ export default async function NewProductPage() {
               </option>
 
               <option value="legacy">
-                Legacy
+                Legacy Series
               </option>
 
               <option value="performance">
-                Performance
+                Performance Series
               </option>
 
               <option value="signature_series">
