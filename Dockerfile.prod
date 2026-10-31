@@ -27,6 +27,12 @@ RUN pnpm install --frozen-lockfile
 # Bring in the pruned source and build
 COPY --from=pruner /app/out/full/ .
 
+# turbo prune only carries workspace packages + manifest files — root-level
+# config files referenced by relative path (e.g. each app's tsconfig.json
+# extends ../../tsconfig.base.json) aren't part of any workspace package, so
+# copy them in explicitly from the real build context.
+COPY tsconfig.json tsconfig.base.json ./
+
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ARG NEXT_PUBLIC_STOREFRONT_URL
@@ -44,7 +50,12 @@ ARG SUPABASE_SERVICE_ROLE_KEY
 ENV SUPABASE_URL=${SUPABASE_URL}
 ENV SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
 
-RUN pnpm turbo build --filter=${APP}...
+# --env-mode=loose: turbo.json doesn't declare SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY
+# as task env deps, so turbo's default strict mode strips them from the `next build`
+# subprocess (NEXT_PUBLIC_* vars pass through fine via turbo's Next.js framework
+# inference, but these server-only ones don't). Loose mode is scoped to this
+# Docker build only — it doesn't touch turbo.json or local dev behavior.
+RUN pnpm turbo build --filter=${APP}... --env-mode=loose
 
 # ---- Lean runtime image ----
 FROM base AS runner
