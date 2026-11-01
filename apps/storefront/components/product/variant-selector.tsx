@@ -90,7 +90,9 @@ export function VariantSelector({
                         : "rounded-md border px-3 py-2 text-sm hover:bg-muted"
                     }
                   >
-                    {value}
+                    {isSelected
+                      ? `${value} ✓`
+                      : value}
                   </button>
                 );
               })}
