@@ -38,7 +38,14 @@ export async function inviteCustomer(
     await supabase.auth.admin.inviteUserByEmail(
       email,
       storefrontUrl
-        ? { redirectTo: `${storefrontUrl}/` }
+        ? {
+            // Route through /auth/confirm, same as password resets:
+            // it exchanges the invite code for a session server-side
+            // and lands on /reset-password so the customer can set
+            // their password. Landing straight on "/" leaves the
+            // code unexchanged — no session, no password prompt.
+            redirectTo: `${storefrontUrl}/auth/confirm`,
+          }
         : undefined,
     );
 
