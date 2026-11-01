@@ -105,6 +105,8 @@ export function CheckoutForm({
                   item.quantity,
                 unitPrice:
                   item.price,
+                selectedOptions:
+                  item.selectedOptions,
               }),
             ),
           }),
@@ -209,6 +211,20 @@ export function CheckoutForm({
                     <p className="text-sm text-muted-foreground">
                       {item.variantTitle}
                     </p>
+
+                    {item.selectedOptions &&
+                      item.selectedOptions.length > 0 && (
+                        <div className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+                          {item.selectedOptions.map(
+                            (option) => (
+                              <div key={option.optionName}>
+                                {option.optionName}:{" "}
+                                {option.optionValue}
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      )}
 
                     <p className="mt-1 text-sm text-muted-foreground">
                       Qty: {item.quantity}

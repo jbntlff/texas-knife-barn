@@ -138,6 +138,12 @@ export function ProductDetail({
               sku={selectedVariant.sku}
               price={selectedVariant.price}
               attributes={product.product_attributes}
+              selectedOptions={Object.entries(
+                selectedOptions,
+              ).map(([optionName, optionValue]) => ({
+                optionName,
+                optionValue,
+              }))}
             />
           </div>
         </>
