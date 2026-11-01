@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  startTransition,
   useContext,
   useEffect,
   useState,
@@ -66,12 +67,18 @@ export function CartProvider({
       );
 
     if (!stored) {
-      setCart({ items: [] });
+      startTransition(() => {
+        setCart({ items: [] });
+      });
       return;
     }
 
     try {
-      setCart(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+
+      startTransition(() => {
+        setCart(parsed);
+      });
     } catch {
       console.error(
         "Failed to parse cart"

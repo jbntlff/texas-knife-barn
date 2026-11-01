@@ -82,12 +82,12 @@ export default async function HomePage({
               Shop Knives
             </a>
 
-            <a
+            <Link
               href="/"
               className="rounded-md border px-6 py-3 transition hover:bg-muted"
             >
               Learn More
-            </a>
+            </Link>
           </div>
         </div>
       </section>
