@@ -81,10 +81,6 @@ export function ProductDetail({
     firstVariant,
   ]);
 
-  if (!firstVariant || !selectedVariant) {
-    return null;
-  }
-
   return (
     <>
       {product.short_description && (
@@ -93,55 +89,59 @@ export function ProductDetail({
         </p>
       )}
 
-      <div className="mt-6">
-        <div className="flex items-center gap-3">
-          <span className="text-3xl font-bold">
-              {formatPrice( selectedVariant.price)}
-          </span>
+      {firstVariant && selectedVariant && (
+        <>
+          <div className="mt-6">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl font-bold">
+                  {formatPrice( selectedVariant.price)}
+              </span>
 
-          {selectedVariant.compare_at_price && (
-            <span className="text-lg text-muted-foreground line-through">
-              {formatPrice( selectedVariant.compare_at_price)}
-            </span>
-          )}
-        </div>
+              {selectedVariant.compare_at_price && (
+                <span className="text-lg text-muted-foreground line-through">
+                  {formatPrice( selectedVariant.compare_at_price)}
+                </span>
+              )}
+            </div>
 
-        <p className="mt-2 text-sm text-muted-foreground">
-          {selectedVariant.title}
-        </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {selectedVariant.title}
+            </p>
 
-        <p className="text-sm text-muted-foreground">
-          SKU: {selectedVariant.sku}
-        </p>
-      </div>
+            <p className="text-sm text-muted-foreground">
+              SKU: {selectedVariant.sku}
+            </p>
+          </div>
 
-      <div className="mt-6">
-        <VariantSelector
-          variants={product.product_variants}
-          selectedOptions={selectedOptions}
-          onOptionChange={(
-            optionName,
-            optionValue
-          ) =>
-            setSelectedOptions((prev) => ({
-              ...prev,
-              [optionName]: optionValue,
-            }))
-          }
-        />
-      </div>
+          <div className="mt-6">
+            <VariantSelector
+              variants={product.product_variants}
+              selectedOptions={selectedOptions}
+              onOptionChange={(
+                optionName,
+                optionValue
+              ) =>
+                setSelectedOptions((prev) => ({
+                  ...prev,
+                  [optionName]: optionValue,
+                }))
+              }
+            />
+          </div>
 
-      <div className="mt-6">
-        <AddToCartButton
-          productId={product.id}
-          variantId={selectedVariant.id}
-          productName={product.name}
-          variantTitle={selectedVariant.title}
-          sku={selectedVariant.sku}
-          price={selectedVariant.price}
-          attributes={product.product_attributes}
-        />
-      </div>
+          <div className="mt-6">
+            <AddToCartButton
+              productId={product.id}
+              variantId={selectedVariant.id}
+              productName={product.name}
+              variantTitle={selectedVariant.title}
+              sku={selectedVariant.sku}
+              price={selectedVariant.price}
+              attributes={product.product_attributes}
+            />
+          </div>
+        </>
+      )}
 
       {product.description && (
         <div className="mt-8">
