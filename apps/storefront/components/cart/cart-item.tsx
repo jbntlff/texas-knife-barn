@@ -34,6 +34,16 @@ export function CartItem({
             SKU: {item.sku}
           </p>
 
+          {item.selectedOptions && item.selectedOptions.length > 0 && (
+            <div className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+              {item.selectedOptions.map((option) => (
+                <div key={option.optionName}>
+                  {option.optionName}: {option.optionValue}
+                </div>
+              ))}
+            </div>
+          )}
+
           {item.attributes && item.attributes.length > 0 && (
             <div className="mt-2 space-y-0.5 text-xs text-muted-foreground">
               {item.attributes.map((attribute) => (

@@ -147,6 +147,28 @@ export default async function OrderPage({
                         {item.variant_title}
                       </div>
 
+                      {Array.isArray(
+                        item.selected_options,
+                      ) &&
+                        item.selected_options.length >
+                          0 && (
+                          <div className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+                            {(
+                              item.selected_options as {
+                                optionName: string;
+                                optionValue: string;
+                              }[]
+                            ).map((option) => (
+                              <div
+                                key={option.optionName}
+                              >
+                                {option.optionName}:{" "}
+                                {option.optionValue}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
                       <div className="mt-1 text-sm text-muted-foreground">
                         Qty: {item.quantity}
                       </div>

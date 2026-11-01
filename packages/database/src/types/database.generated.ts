@@ -181,6 +181,7 @@ export type Database = {
           product_id: string
           product_name: string
           quantity: number
+          selected_options: Json
           sku: string
           unit_price: number
           variant_id: string
@@ -193,6 +194,7 @@ export type Database = {
           product_id: string
           product_name: string
           quantity: number
+          selected_options?: Json
           sku: string
           unit_price: number
           variant_id: string
@@ -205,6 +207,7 @@ export type Database = {
           product_id?: string
           product_name?: string
           quantity?: number
+          selected_options?: Json
           sku?: string
           unit_price?: number
           variant_id?: string

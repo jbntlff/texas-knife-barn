@@ -4,6 +4,11 @@ export type CartItemAttribute = {
   attribute_value: string;
 };
 
+export type CartItemSelectedOption = {
+  optionName: string;
+  optionValue: string;
+};
+
 export type CartItem = {
   productId: string;
   variantId: string;
@@ -13,6 +18,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   attributes?: CartItemAttribute[];
+  selectedOptions?: CartItemSelectedOption[];
 };
 
 export type Cart = {

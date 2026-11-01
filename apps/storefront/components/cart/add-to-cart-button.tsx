@@ -3,7 +3,10 @@
 import { useState } from "react";
 
 import { useCart } from "./cart-provider";
-import type { CartItemAttribute } from "@/lib/cart";
+import type {
+  CartItemAttribute,
+  CartItemSelectedOption,
+} from "@/lib/cart";
 
 type AddToCartButtonProps = {
   productId: string;
@@ -13,6 +16,7 @@ type AddToCartButtonProps = {
   sku: string;
   price: number;
   attributes?: CartItemAttribute[];
+  selectedOptions?: CartItemSelectedOption[];
 };
 
 export function AddToCartButton({
@@ -23,6 +27,7 @@ export function AddToCartButton({
   sku,
   price,
   attributes,
+  selectedOptions,
 }: AddToCartButtonProps) {
   const { addItem } = useCart();
 
@@ -38,6 +43,7 @@ export function AddToCartButton({
       sku,
       price,
       attributes,
+      selectedOptions,
     });
 
     setAdded(true);

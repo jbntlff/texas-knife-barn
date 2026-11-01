@@ -1,6 +1,11 @@
 import { createAdminClient } from "./admin-client";
 import { createOrderEvent } from "./order-events";
 
+export type SelectedOption = {
+  optionName: string;
+  optionValue: string;
+};
+
 export type CreateOrderItem = {
   productId: string;
   variantId: string;
@@ -9,6 +14,7 @@ export type CreateOrderItem = {
   variantTitle: string;
   quantity: number;
   unitPrice: number;
+  selectedOptions?: SelectedOption[];
 };
 
 export type CreateOrderInput = {
@@ -68,6 +74,7 @@ export async function createOrder(
       variant_title: item.variantTitle,
       quantity: item.quantity,
       unit_price: item.unitPrice,
+      selected_options: item.selectedOptions ?? [],
     }));
 
   const {
