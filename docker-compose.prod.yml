@@ -5,6 +5,13 @@
 # into its own lean standalone image via Dockerfile.prod — no bind mounts,
 # no dev server, no polling.
 
+# Pinned so the Compose project (and therefore container/volume names)
+# stays stable regardless of what the checkout directory on the host is
+# named — Compose otherwise infers it from the directory's basename, and
+# renaming that directory would silently orphan the running containers
+# from the next `docker compose up` instead of updating them in place.
+name: texasknifebarn
+
 services:
   storefront:
     build:
