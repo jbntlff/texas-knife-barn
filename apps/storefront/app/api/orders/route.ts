@@ -76,38 +76,45 @@ export async function POST(
       );
     }
 
-    await sendOrderConfirmationEmail({
-      customerEmail:
-        order.customer_email,
-      customerName:
-        order.customer_email,
-      orderNumber:
-        order.order_number,
-      orderUrl:
-        `${env.storefrontUrl}/orders/${order.id}`,
-      subtotal:
-        Number(order.subtotal ?? 0),
-      taxTotal:
-        Number(order.tax_total ?? 0),
-      shippingTotal:
-        Number(
-          order.shipping_total ?? 0,
+    try {
+      await sendOrderConfirmationEmail({
+        customerEmail:
+          order.customer_email,
+        customerName:
+          order.customer_email,
+        orderNumber:
+          order.order_number,
+        orderUrl:
+          `${env.storefrontUrl}/orders/${order.id}`,
+        subtotal:
+          Number(order.subtotal ?? 0),
+        taxTotal:
+          Number(order.tax_total ?? 0),
+        shippingTotal:
+          Number(
+            order.shipping_total ?? 0,
+          ),
+        grandTotal:
+          Number(order.grand_total ?? 0),
+        items: order.order_items.map(
+          (item) => ({
+            productName:
+              item.product_name,
+            variantTitle:
+              item.variant_title,
+            quantity:
+              item.quantity,
+            unitPrice:
+              Number(item.unit_price),
+          }),
         ),
-      grandTotal:
-        Number(order.grand_total ?? 0),
-      items: order.order_items.map(
-        (item) => ({
-          productName:
-            item.product_name,
-          variantTitle:
-            item.variant_title,
-          quantity:
-            item.quantity,
-          unitPrice:
-            Number(item.unit_price),
-        }),
-      ),
-    });
+      });
+    } catch (error) {
+      console.error(
+        "Failed to send order confirmation email:",
+        error,
+      );
+    }
 
     return NextResponse.json({
       success: true,

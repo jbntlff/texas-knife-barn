@@ -9,7 +9,14 @@ const transporter =
   nodemailer.createTransport({
     host: env.mailpitHost,
     port: env.mailpitPort,
-    secure: false,
+    secure: env.mailpitPort === 465,
+    auth:
+      env.mailpitUser && env.mailpitPass
+        ? {
+            user: env.mailpitUser,
+            pass: env.mailpitPass,
+          }
+        : undefined,
   });
 
 export async function sendEmail({
@@ -22,7 +29,7 @@ export async function sendEmail({
   html: string;
 }) {
   await transporter.sendMail({
-    from: `"${appConfig.brandName}" <orders@txknife.local>`,
+    from: `"${appConfig.brandName}" <${env.emailFrom}>`,
     to,
     subject,
     html,

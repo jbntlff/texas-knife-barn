@@ -24,12 +24,19 @@ export async function submitInquiry(
     message,
   });
 
-  await sendInquiryEmail({
-    name,
-    email,
-    phone: phone || undefined,
-    message,
-  });
+  try {
+    await sendInquiryEmail({
+      name,
+      email,
+      phone: phone || undefined,
+      message,
+    });
+  } catch (error) {
+    console.error(
+      "Failed to send inquiry notification email:",
+      error,
+    );
+  }
 
   redirect("/contact?success=1");
 }
