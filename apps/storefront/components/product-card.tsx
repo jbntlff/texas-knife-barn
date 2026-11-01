@@ -3,7 +3,12 @@ import Link from "next/link";
 import { resolveProductImageUrl } from "@tkb/ui";
 
 type ProductCardProps = {
-  product: any;
+  product: {
+    slug: string;
+    name: string;
+    product_images?: { image_url: string }[] | null;
+    product_variants?: { price: number | string }[] | null;
+  };
 };
 
 export function ProductCard({ product }: ProductCardProps) {

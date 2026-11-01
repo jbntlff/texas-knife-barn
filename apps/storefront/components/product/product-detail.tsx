@@ -46,14 +46,11 @@ export function ProductDetail({
   product,
 }: ProductDetailProps) {
   const firstVariant = product.product_variants[0];
-  if (!firstVariant) {
-    return null
-  }
 
   const [selectedOptions, setSelectedOptions] =
   useState<Record<string, string>>(
     Object.fromEntries(
-      (firstVariant.variant_options ?? []).map(
+      (firstVariant?.variant_options ?? []).map(
         (option) => [
           option.option_name,
           option.option_value,
@@ -62,9 +59,11 @@ export function ProductDetail({
     ),
   );
 
-    
-
   const selectedVariant = useMemo(() => {
+    if (!firstVariant) {
+      return undefined;
+    }
+
     return (
       product.product_variants.find(
         (variant) =>
@@ -81,6 +80,10 @@ export function ProductDetail({
     selectedOptions,
     firstVariant,
   ]);
+
+  if (!firstVariant || !selectedVariant) {
+    return null;
+  }
 
   return (
     <>

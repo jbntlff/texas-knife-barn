@@ -32,7 +32,7 @@ export default async function SearchPage({
           <p className="mt-2 text-muted-foreground">
             {products.length} result
             {products.length === 1 ? "" : "s"}
-            {" "} for "{q}"
+            {" "} for &quot;{q}&quot;
           </p>
         ) : (
           <p className="mt-2 text-muted-foreground">
@@ -46,7 +46,7 @@ export default async function SearchPage({
           <div className="space-y-3">
             <p className="font-medium">
               {q
-                ? <>No products found for "{q}".</>
+                ? <>No products found for &quot;{q}&quot;.</>
                 : <>Use the search box above to find knives by brand, model, or SKU.</>
               }
             </p>
