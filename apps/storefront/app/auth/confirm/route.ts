@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { env } from "@tkb/config";
 import { createServerActionSupabaseClient } from "@tkb/auth/server";
 import { createAdminClient } from "@tkb/database";
 
@@ -32,7 +33,11 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // Build the redirect from the known public URL rather than
+  // request.url — behind the Caddy reverse proxy, the Next.js
+  // standalone server doesn't reliably see the real Host header and
+  // falls back to the container's own Docker hostname.
   return NextResponse.redirect(
-    new URL("/reset-password", request.url),
+    `${env.storefrontUrl}/reset-password`,
   );
 }
