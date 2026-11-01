@@ -75,4 +75,16 @@ export const env = {
           "MAILPIT_PORT",
         )
       : 1025,
+
+  mailpitUser:
+    process.env.MAILPIT_USER ||
+    undefined,
+
+  mailpitPass:
+    process.env.MAILPIT_PASS ||
+    undefined,
+
+  emailFrom:
+    process.env.EMAIL_FROM ??
+    "orders@txknife.local",
 } as const;

@@ -61,26 +61,33 @@ export async function updateShipmentAction(
     carrier &&
     trackingNumber
   ) {
-    await sendShipmentEmail({
-      customerEmail:
-        order.customer_email,
+    try {
+      await sendShipmentEmail({
+        customerEmail:
+          order.customer_email,
 
-      customerName:
-        order.customer_email,
+        customerName:
+          order.customer_email,
 
-      orderNumber:
-        order.order_number,
+        orderNumber:
+          order.order_number,
 
-      carrier,
+        carrier,
 
-      trackingNumber,
+        trackingNumber,
 
-      trackingUrl:
-        getTrackingUrl(
-          carrier,
-          trackingNumber,
-        ),
-    });
+        trackingUrl:
+          getTrackingUrl(
+            carrier,
+            trackingNumber,
+          ),
+      });
+    } catch (error) {
+      console.error(
+        "Failed to send shipment notification email:",
+        error,
+      );
+    }
   }
 
   revalidatePath(
