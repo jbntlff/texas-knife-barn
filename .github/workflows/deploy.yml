@@ -25,7 +25,7 @@ jobs:
 
           ssh -i ~/.ssh/deploy_key root@"$DEPLOY_HOST" '
             set -e
-            cd /srv/texasknifebarn
+            cd /srv/texas-knife-outfitters
             git fetch origin
             git checkout main
             git reset --hard origin/main
