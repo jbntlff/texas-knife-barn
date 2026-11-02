@@ -58,6 +58,51 @@ export function VariantSelector({
     }
   }
 
+  // A value is pickable only if some variant has it alongside every other
+  // option the buyer has already picked — otherwise selecting it would
+  // resolve to no real variant, and product-detail.tsx would silently
+  // fall back to the first variant instead of what's actually checked.
+  function isValueAvailable(
+    optionName: string,
+    value: string
+  ) {
+    return variants.some((variant) => {
+      const hasThisValue =
+        variant.variant_options.some(
+          (option) =>
+            option.option_name ===
+              optionName &&
+            option.option_value === value
+        );
+
+      if (!hasThisValue) {
+        return false;
+      }
+
+      return variant.variant_options.every(
+        (option) => {
+          if (
+            option.option_name ===
+            optionName
+          ) {
+            return true;
+          }
+
+          const selected =
+            selectedOptions[
+              option.option_name
+            ];
+
+          return (
+            selected === undefined ||
+            selected ===
+              option.option_value
+          );
+        }
+      );
+    });
+  }
+
   return (
     <div className="space-y-4">
       {[...groupedOptions.entries()].map(
@@ -74,10 +119,17 @@ export function VariantSelector({
                     optionName
                   ] === value;
 
+                const isAvailable =
+                  isValueAvailable(
+                    optionName,
+                    value
+                  );
+
                 return (
                   <button
                     key={value}
                     type="button"
+                    disabled={!isAvailable}
                     onClick={() =>
                       onOptionChange(
                         optionName,
@@ -85,7 +137,9 @@ export function VariantSelector({
                       )
                     }
                     className={
-                      isSelected
+                      !isAvailable
+                        ? "cursor-not-allowed rounded-md border px-3 py-2 text-sm text-muted-foreground opacity-40"
+                        : isSelected
                         ? "rounded-md border border-primary bg-muted px-3 py-2 text-sm font-medium"
                         : "rounded-md border px-3 py-2 text-sm hover:bg-muted"
                     }
