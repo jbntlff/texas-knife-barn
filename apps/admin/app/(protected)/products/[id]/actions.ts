@@ -729,9 +729,14 @@ export async function moveImageDown(
     `/products/${productId}`,
   );
 }
+export type DeleteVariantState = {
+  error: string | null;
+};
+
 export async function deleteVariant(
+  _prevState: DeleteVariantState,
   formData: FormData,
-) {
+): Promise<DeleteVariantState> {
   await requireAdmin();
 
   const variantId =
@@ -750,8 +755,13 @@ export async function deleteVariant(
   // A variant with existing orders can't be deleted — order_items.variant_id
   // references it with no cascade, by design, so the order record stays
   // accurate. Check up front and fail with a clear message instead of
-  // letting the delete below hit that foreign-key constraint, which
-  // surfaces as an unhandled error and crashes the whole page.
+  // letting the delete below hit that foreign-key constraint.
+  //
+  // This is returned as state rather than thrown: Next.js strips the
+  // message off any error thrown from a Server Action before it reaches
+  // the client in a production build, replacing it with a generic
+  // "Server Components render" message — so a thrown Error here would
+  // look fine in `next dev` but show nothing useful in production.
   const {
     count: orderCount,
     error: orderCountError,
@@ -767,13 +777,17 @@ export async function deleteVariant(
     );
 
   if (orderCountError) {
-    throw orderCountError;
+    return {
+      error:
+        "Couldn't check this variant's order history. Please try again.",
+    };
   }
 
   if (orderCount && orderCount > 0) {
-    throw new Error(
-      "This variant can't be deleted because it has existing orders. Mark it inactive instead.",
-    );
+    return {
+      error:
+        "This variant can't be deleted because it has existing orders. Mark it inactive instead.",
+    };
   }
 
   const {
@@ -787,7 +801,10 @@ export async function deleteVariant(
     );
 
   if (optionsError) {
-    throw optionsError;
+    return {
+      error:
+        "Couldn't delete this variant's options. Please try again.",
+    };
   }
 
   const {
@@ -801,7 +818,10 @@ export async function deleteVariant(
     );
 
   if (inventoryError) {
-    throw inventoryError;
+    return {
+      error:
+        "Couldn't delete this variant's inventory record. Please try again.",
+    };
   }
 
   const {
@@ -815,7 +835,10 @@ export async function deleteVariant(
     );
 
   if (variantError) {
-    throw variantError;
+    return {
+      error:
+        "Couldn't delete this variant. Please try again.",
+    };
   }
 
   revalidatePath(
@@ -825,4 +848,6 @@ export async function deleteVariant(
   revalidatePath(
     "/products",
   );
+
+  return { error: null };
 }
