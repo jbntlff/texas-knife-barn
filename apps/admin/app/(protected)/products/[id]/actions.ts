@@ -190,16 +190,22 @@ export async function createVariantOption(
   const { error } =
     await supabase
       .from("variant_options")
-      .insert({
-        variant_id:
-          variantId,
+      .upsert(
+        {
+          variant_id:
+            variantId,
 
-        option_name:
-          optionName,
+          option_name:
+            optionName,
 
-        option_value:
-          optionValue,
-      });
+          option_value:
+            optionValue,
+        },
+        {
+          onConflict:
+            "variant_id,option_name",
+        },
+      );
 
   if (error) {
     throw error;
