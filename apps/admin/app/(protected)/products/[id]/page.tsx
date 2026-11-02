@@ -17,8 +17,8 @@ import {
   deleteProductAttribute,
   moveImageDown,
   moveImageUp,
-  deleteVariant,
 } from "./actions";
+import { DeleteVariantButton } from "./delete-variant-button";
 
 type PageProps = {
   params: Promise<{
@@ -859,27 +859,13 @@ export default async function ProductDetailPage({
                       )}
                     </td>
                     <td className="p-4 text-center">
-                      <form action={deleteVariant}>
-                        <input
-                          type="hidden"
-                          name="variantId"
-                          value={variant.id}
-                        />
-                        <input
-                          type="hidden"
-                          name="productId"
-                          value={product.id}
-                        />
-                        <button
-                          type="submit"
-                          className="rounded border px-2 py-1 text-xs text-red-600 hover:bg-muted"
-                          disabled={
-                            product.product_variants.length <= 1
-                          }
-                        >
-                          Delete
-                        </button>
-                      </form>
+                      <DeleteVariantButton
+                        variantId={variant.id}
+                        productId={product.id}
+                        disabled={
+                          product.product_variants.length <= 1
+                        }
+                      />
                     </td>
 
                   </tr>
