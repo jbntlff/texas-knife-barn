@@ -747,6 +747,35 @@ export async function deleteVariant(
   const supabase =
     createAdminClient();
 
+  // A variant with existing orders can't be deleted — order_items.variant_id
+  // references it with no cascade, by design, so the order record stays
+  // accurate. Check up front and fail with a clear message instead of
+  // letting the delete below hit that foreign-key constraint, which
+  // surfaces as an unhandled error and crashes the whole page.
+  const {
+    count: orderCount,
+    error: orderCountError,
+  } = await supabase
+    .from("order_items")
+    .select("id", {
+      count: "exact",
+      head: true,
+    })
+    .eq(
+      "variant_id",
+      variantId,
+    );
+
+  if (orderCountError) {
+    throw orderCountError;
+  }
+
+  if (orderCount && orderCount > 0) {
+    throw new Error(
+      "This variant can't be deleted because it has existing orders. Mark it inactive instead.",
+    );
+  }
+
   const {
     error: optionsError,
   } = await supabase
